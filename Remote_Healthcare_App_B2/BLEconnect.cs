@@ -31,53 +31,10 @@ namespace ErgoConnect
         public async void init()
         {
             ConnectToErgoAndHR(ergometerSerialLastFiveNumbers);
-            //BLE bike = new BLE();
-            //await bike.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}");
-            //await bike.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
-            //bike.SubscriptionValueChanged += Bike_SubscriptionValueChanged;
-            //await bike.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
         }
-
-        //private void Bike_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
-        //{
-        //    byte[] rawData = e.Data;
-        //    int messageLength = rawData[1];
-        //    byte[] message = rawData.Skip(5).Take(messageLength).ToArray();
-        //    int pageNumber = message[0];
-        //    byte[] checksum = rawData.Skip(5).Skip(messageLength).ToArray();
-
-        //    if (pageNumber == 16)
-        //    {
-        //        // decode page 16
-        //    }
-
-        //    else if (pageNumber == 25)
-        //    {
-        //        // decode page 25
-        //        byte updateEventCount = message[1];
-        //        byte cadence = message[2];
-        //    }
-        //    CheckXorValue(rawData, checksum);
-        //}
 
         public async Task ConnectToErgoAndHR(String ergometerSerialLastFiveNumbers)
         {
-            //System.Int32 errorCode = 0;
-
-            //BLE ergoMeterBle = new BLE();
-            //BLE heartRateSensorBle = new BLE();
-
-            //Thread.Sleep(1000); // Timeout to detect and list Bluetooth devices upon using constructor "new BLE()".
-
-            //// To list available devices
-            //printDevices(ergoMeterBle);
-
-            ////---Ergometer Bluetooth Low Energy Code---
-            //ConnectToErgoMeter(ergoMeterBle, ergometerSerialLastFiveNumbers, errorCode);
-
-            ////---Heart rate Bluetooth Low Energy code---
-            //ConnectToHeartRateSensor(heartRateSensorBle, errorCode);
-
             BLE ergometerBLE = new BLE();
             BLE heartrateBLE = new BLE();
 
@@ -171,15 +128,36 @@ namespace ErgoConnect
         {
             byte[] rawData = e.Data;
             int messageLength = rawData[1];
-            byte[] message = rawData.Skip(5).Take(messageLength).ToArray();
+            byte[] message = rawData.Skip(4).Take(messageLength).ToArray();
             int pageNumber = message[0];
-            byte[] checksum = rawData.Skip(5).Skip(messageLength).ToArray();
+            byte[] checksum = rawData.Skip(4).Skip(messageLength).ToArray();
+            //Console.WriteLine((int)rawData[4]);
+
             if (pageNumber == 16)
             {
+                Console.WriteLine("test");
                 // decode page 16
+                int elapsedTime = message[2]; //0,25 seconds
+                int distanceTraveled = message[3]; //metres
+
+                byte speedLSB = message[4];
+                byte speedMSB = message[5];
+
+                System.Int32 speed = (speedMSB << 8) | speedLSB;
+
+                int heartRate = message[6]; //bpm
+
+                //int[] dataPage16 = new int[4];
+                //dataPage16[0] = elapsedTime;
+                //dataPage16[1] = distanceTraveled;
+                //dataPage16[2] = speed;
+                //dataPage16[3] = heartRate;
+
+                Console.WriteLine($"Speed: {(double)(speed/1000.0)*3.6}");
             }
             else if (pageNumber == 25)
             {
+                Console.WriteLine("test2");
                 // decode page 25
                 byte updateEventCount = message[1];
                 byte cadence = message[2];
