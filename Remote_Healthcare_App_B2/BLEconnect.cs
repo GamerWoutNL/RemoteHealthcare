@@ -164,25 +164,5 @@ namespace ErgoConnect
             }
             bool isCorrect = CheckXorValue(rawData, checksum);
         }
-
-        //private void Ble_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
-        //{
-        //    byte[] rawBluetoothData = e.Data;
-        //    byte sync = rawBluetoothData[0];
-        //    int messageLength = rawBluetoothData[1];
-        //    byte[] message = rawBluetoothData.Skip(5).Take(messageLength).ToArray();
-        //    int dataPage = message[0];
-       
-        //    System.String serviceName = e.ServiceName;
-        //    //System.String data = BitConverter.ToString(e.Data).Replace("-", String.Empty);
-        //    System.String data = e.Data.ToString();
-        //    System.String UTF8 = Encoding.UTF8.GetString(e.Data);
-        //    Console.WriteLine($"ID:{ergometerSerialLastFiveNumbers} {serviceName} {data}");
-
-        //    System.String path = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/RemoteHealthcare/";
-        //    if (!System.IO.Directory.Exists(path))
-        //        System.IO.Directory.CreateDirectory(path);
-        //    writeToFile($"{path}BLEdata.txt",  $"{ergometerSerialLastFiveNumbers} {data}");
-        //}
     }
 }
