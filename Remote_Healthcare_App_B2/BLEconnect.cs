@@ -14,11 +14,12 @@ namespace ErgoConnect
     class BLEconnect
     {
         public const System.String ergometerSerialLastFiveNumbers = "00472";
+        public const bool printChecksum=true; 
         
 
         public static void Main(string[] args)
         {
-            new BLEconnect();
+            BLEconnect test = new BLEconnect();
             Console.Read();
         }
 
@@ -29,86 +30,112 @@ namespace ErgoConnect
 
         public async void init()
         {
-            BLE bike = new BLE();
-            await bike.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}");
-            await bike.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
-            bike.SubscriptionValueChanged += Bike_SubscriptionValueChanged;
-            await bike.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
+            ConnectToErgoAndHR(ergometerSerialLastFiveNumbers);
+            //BLE bike = new BLE();
+            //await bike.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}");
+            //await bike.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
+            //bike.SubscriptionValueChanged += Bike_SubscriptionValueChanged;
+            //await bike.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
         }
 
-        private void Bike_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
-        {
-            byte[] rawData = e.Data;
-            int messageLength = rawData[1];
-            byte[] message = rawData.Skip(5).Take(messageLength).ToArray();
-            int pageNumber = message[0];
-            byte[] checksum = rawData.Skip(5).Skip(messageLength).ToArray();
-            if (pageNumber == 16)
-            {
-                // decode page 16
-            }
-            else if (pageNumber == 25)
-            {
-                // decode page 25
-                byte updateEventCount = message[1];
-                byte cadence = message[2];
-            }
-            CheckXorValue(rawData, checksum);
-        }
+        //private void Bike_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
+        //{
+        //    byte[] rawData = e.Data;
+        //    int messageLength = rawData[1];
+        //    byte[] message = rawData.Skip(5).Take(messageLength).ToArray();
+        //    int pageNumber = message[0];
+        //    byte[] checksum = rawData.Skip(5).Skip(messageLength).ToArray();
+
+        //    if (pageNumber == 16)
+        //    {
+        //        // decode page 16
+        //    }
+
+        //    else if (pageNumber == 25)
+        //    {
+        //        // decode page 25
+        //        byte updateEventCount = message[1];
+        //        byte cadence = message[2];
+        //    }
+        //    CheckXorValue(rawData, checksum);
+        //}
 
         public async Task ConnectToErgoAndHR(String ergometerSerialLastFiveNumbers)
         {
+            //System.Int32 errorCode = 0;
+
+            //BLE ergoMeterBle = new BLE();
+            //BLE heartRateSensorBle = new BLE();
+
+            //Thread.Sleep(1000); // Timeout to detect and list Bluetooth devices upon using constructor "new BLE()".
+
+            //// To list available devices
+            //printDevices(ergoMeterBle);
+
+            ////---Ergometer Bluetooth Low Energy Code---
+            //ConnectToErgoMeter(ergoMeterBle, ergometerSerialLastFiveNumbers, errorCode);
+
+            ////---Heart rate Bluetooth Low Energy code---
+            //ConnectToHeartRateSensor(heartRateSensorBle, errorCode);
+
+            BLE ergometerBLE = new BLE();
+            BLE heartrateBLE = new BLE();
+
+            Thread.Sleep(1000);
+
+            ScanConnectForErgo(ergometerBLE, ergometerSerialLastFiveNumbers);
+            //ScanConnectForHR(heartrateBLE);
+        }
+
+        public async Task ScanConnectForErgo(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers)
+        {
             System.Int32 errorCode = 0;
 
-            BLE ergoMeterBle = new BLE();
-            BLE heartRateSensorBle = new BLE();
+            // List available device 
+            printDevices(ergometerBLE);
 
-            Thread.Sleep(1000); // Timeout to detect and list Bluetooth devices upon using constructor "new BLE()".
-
-            // To list available devices
-            printDevices(ergoMeterBle);
-
-            //---Ergometer Bluetooth Low Energy Code---
-            ConnectToErgoMeter(ergoMeterBle, ergometerSerialLastFiveNumbers, errorCode);
-
-            //---Heart rate Bluetooth Low Energy code---
-            ConnectToHeartRateSensor(heartRateSensorBle, errorCode);
+            // Ergometer Bluetooth Low Energy Code
+            ConnectToErgoMeter(ergometerBLE, ergometerSerialLastFiveNumbers, errorCode);
         }
 
-        private async void ConnectToErgoMeter(BLE ergoMeterBle, System.String ergometerSerialLastFiveNumbers, System.Int32 errorCode)
+        private async void ConnectToErgoMeter(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers, System.Int32 errorCode)
         {
-
             // Attempt to connect to the Ergometer.
-            errorCode = await ergoMeterBle.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}"); // Example: Tacx Flux 01140
+            errorCode = await ergometerBLE.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}"); // Example: Tacx Flux 01140
 
             // Receive bluetooth services and print afterwards, error check.
-            printServices(ergoMeterBle);
+            printServices(ergometerBLE);
 
             // Set service
-            errorCode = await ergoMeterBle.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
+            errorCode = await ergometerBLE.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
 
             // Subscribe 
-            ergoMeterBle.SubscriptionValueChanged += Ble_SubscriptionValueChanged;
-            errorCode = await ergoMeterBle.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
-
+            ergometerBLE.SubscriptionValueChanged += Ble_SubscriptionValueChanged;
+            errorCode = await ergometerBLE.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
         }
 
-        private static void writeToFile(System.String path, System.String input)
+        public async Task ScanConnectForHR(BLE heartrateBLE)
         {
-            System.IO.File.AppendAllText(path, input + "\n");
-        }
-        private async void ConnectToHeartRateSensor(BLE heartRateSensorBle, System.Int32 errorCode)
-        {
+            System.Int32 errorCode = 0;
 
+            // List available device
+            printDevices(heartrateBLE);
+
+            // Heart rate monitor Bluetooth Low Energy code
+            ConnectToHeartRateSensor(heartrateBLE, errorCode);
+        }
+
+        private async void ConnectToHeartRateSensor(BLE heartrateSensorBLE, System.Int32 errorCode)
+        {
             // Attempt to connect to the heart rate sensor.
-            errorCode = await heartRateSensorBle.OpenDevice("Decathlon Dual HR");
+            errorCode = await heartrateSensorBLE.OpenDevice("Decathlon Dual HR");
 
             // Set service
-            await heartRateSensorBle.SetService("HeartRate");
+            await heartrateSensorBLE.SetService("HeartRate");
 
             // Subscribe
-            heartRateSensorBle.SubscriptionValueChanged += Ble_SubscriptionValueChanged;
-            await heartRateSensorBle.SubscribeToCharacteristic("HeartRateMeasurement");
+            heartrateSensorBLE.SubscriptionValueChanged += Ble_SubscriptionValueChanged;
+            await heartrateSensorBLE.SubscribeToCharacteristic("HeartRateMeasurement");
         }
 
         private static void printServices(BLE ergoMeterBle)
@@ -122,11 +149,11 @@ namespace ErgoConnect
 
         private static bool CheckXorValue(byte[] data, byte[] checksum)
         {
-            Console.WriteLine(data);
             int xorValue = 0;
             for (int i = 0; i < data.Length-1; i++)  
                 xorValue ^= data[i];
-            //Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length-1]}");
+            if (printChecksum)
+                Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length-1]}");
             return xorValue == data[data.Length - 1];  
         }
 
@@ -157,7 +184,7 @@ namespace ErgoConnect
                 byte updateEventCount = message[1];
                 byte cadence = message[2];
             }
-            CheckXorValue(rawData, checksum);
+            bool isCorrect = CheckXorValue(rawData, checksum);
         }
 
         //private void Ble_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
@@ -167,7 +194,7 @@ namespace ErgoConnect
         //    int messageLength = rawBluetoothData[1];
         //    byte[] message = rawBluetoothData.Skip(5).Take(messageLength).ToArray();
         //    int dataPage = message[0];
-
+       
         //    System.String serviceName = e.ServiceName;
         //    //System.String data = BitConverter.ToString(e.Data).Replace("-", String.Empty);
         //    System.String data = e.Data.ToString();
