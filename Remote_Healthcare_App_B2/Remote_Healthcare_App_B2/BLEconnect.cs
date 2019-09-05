@@ -42,8 +42,8 @@ namespace ErgoConnect
             byte[] rawData = e.Data;
             int messageLength = rawData[1];
             byte[] message = rawData.Skip(5).Take(messageLength).ToArray();
-            //byte[] checksum = rawData.Skip(5).Take()
             int pageNumber = message[0];
+            byte[] checksum = rawData.Skip(5).Skip(messageLength).ToArray();
             if (pageNumber == 16)
             {
                 // decode page 16
@@ -56,6 +56,7 @@ namespace ErgoConnect
                 int updateEventCountAsInt = updateEventCount;
                 byte wtvr = (byte)updateEventCountAsInt;
             }
+            GetXorValue(message, checksum);
         }
 
         public async Task ConnectToErgoAndHR(String ergometerSerialLastFiveNumbers)
@@ -131,11 +132,11 @@ namespace ErgoConnect
         {
             Console.WriteLine(data);
             int xorValue = 0;
-            for (int i = 0; i < data.Length; i++)  
+            for (int i = 0; i < data.Length-1; i++)  
             {
                 xorValue ^= data[i]; 
             }
-            Console.WriteLine($"Xorvalue: {xorValue} Checksum: {checksum}");
+            Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length-1]}");
         }
 
         private static void printDevices(BLE ergoMeterBle)
