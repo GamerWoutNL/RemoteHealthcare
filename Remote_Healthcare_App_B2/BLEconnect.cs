@@ -17,13 +17,6 @@ namespace ErgoConnect
         public const bool printChecksum=false;
         private BLEDataHandler dataHandler;
 
-        public static void Main(string[] args)
-        {
-            BLEconnect test = new BLEconnect(ergometerSerialLastFiveNumbers);
-            BLEconnect test1 = new BLEconnect("00457");
-            Console.Read();
-        }
-
         public BLEconnect(System.String ergometerSerialLastFiveNumbers)
         {
             init(ergometerSerialLastFiveNumbers);
