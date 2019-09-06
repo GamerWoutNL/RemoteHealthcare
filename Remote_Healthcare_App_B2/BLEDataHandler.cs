@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-
-    class BLEDataHandler
+    public class BLEDataHandler
     {
         private List<BLEData> _bleData = new List<BLEData>();
 
@@ -30,11 +29,13 @@ namespace ErgoConnect
 
         public void readLastData()
         {
-            if (_bleData[_bleData.Count-1].GetType() == typeof(BLEDataPage16))
+            BLEData data = _bleData[_bleData.Count - 1];
+            data.printData();
+            if (data.GetType() == typeof(BLEDataPage16))
             {
-                
+               
             } 
-            if (_bleData[_bleData.Count-1].GetType() == typeof(BLEDataPage25))
+            if (data.GetType() == typeof(BLEDataPage25))
             {
 
             }
@@ -58,7 +59,7 @@ namespace ErgoConnect
 
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = true)
         {
-            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Append))
+            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Create)) // Was Append
             {
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 binaryFormatter.Serialize(stream, objectToWrite);

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-    class BLEDataPage16 : BLEData
+    [Serializable]
+    public class BLEDataPage16 : BLEData
     {
         private double elapsedTime { get; }
         private double distanceTravelled { get; }
@@ -22,7 +23,7 @@ namespace ErgoConnect
 
         public override void printData()
         {
-            Console.WriteLine();
+            Console.WriteLine($"Elapsed Time: {Math.Round(this.elapsedTime)} sec\t\t Distance: {this.distanceTravelled} m\t\t Speed: {Math.Round(this.speed)} kmph\t\t Heart rate: {this.heartRate} bpm");
         }
     }
 }

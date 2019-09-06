@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-    abstract class BLEData
+    [Serializable]
+    abstract public class BLEData
     {
         private double[] data;
 

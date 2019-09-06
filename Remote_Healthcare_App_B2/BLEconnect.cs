@@ -11,11 +11,11 @@ namespace ErgoConnect
     // Original author:
     // Avans TI
     // Changes in structure made by B2. Also added file writing of data.
-    class BLEconnect
+    public class BLEconnect
     {
         public const System.String ergometerSerialLastFiveNumbers = "00472";
-        public const bool printChecksum=false; 
-        
+        public const bool printChecksum=false;
+        private BLEDataHandler dataHandler;
 
         public static void Main(string[] args)
         {
@@ -26,6 +26,7 @@ namespace ErgoConnect
         public BLEconnect()
         {
             init();
+            this.dataHandler = new BLEDataHandler();
         }
 
         public async void init()
@@ -157,9 +158,8 @@ namespace ErgoConnect
                     int heartRate = message[6]; // bpm
                     double speed = ((speedMSB << 8) | speedLSB) / 1000.0 * 3.6; //kmph
 
-                    double[] data = {elapsedTime, distanceTraveled, speed, heartRate};
-
-                    Console.WriteLine($"Elapsed Time: {Math.Round(data[0])} sec\t\t Distance: {data[1]} m\t\t Speed: {Math.Round(data[2])} kmph\t\t Heart rate: {data[3]} bpm");
+                    double[] data = { elapsedTime, distanceTraveled, speed, heartRate };
+                    this.dataHandler.addBLEDataForDataPage16(data);
                 }
                 else if (pageNumber == 25)
                 {
@@ -174,10 +174,11 @@ namespace ErgoConnect
                     int accumulatedPower = (accumulatedPowerMSB << 8) | accumulatedPowerLSB; //watt
                     int instanteousPower = (((instanteousPowerMSB | 0b11110000) ^ 0b11110000) << 8) | instanteousPowerLSB; //watt
 
-                    double[] data = {updateEventCount, instanteousCadence, accumulatedPower, instanteousPower};
-
-                    //Console.WriteLine($"Count: {Math.Round(data[0])}\t\t Cadence: {data[1]} rpm\t\t Acc power: {Math.Round(data[2])} Watt\t\t Inst power: {data[3]} Watt");
+                    double[] data = { updateEventCount, instanteousCadence, accumulatedPower, instanteousPower };
+                    this.dataHandler.addBLEDataForDataPage25(data);
                 }
+                this.dataHandler.readLastData();
+                this.dataHandler.writeData();
             }
         }
     }

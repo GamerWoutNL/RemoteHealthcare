@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-    class BLEDataPage25 : BLEData
+    [Serializable]
+    public class BLEDataPage25 : BLEData
     {
         private double updateEventCount { get; }
         private double instanteousCadence { get; }
@@ -22,7 +23,7 @@ namespace ErgoConnect
 
         public override void printData()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Count: {Math.Round(this.updateEventCount)}\t\t Cadence: {this.instanteousCadence} rpm\t\t Acc power: {Math.Round(this.accumulatedPower)} Watt\t\t Inst power: {this.instanteousPower} Watt");
         }
     }
 }
