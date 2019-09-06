@@ -178,7 +178,7 @@ namespace ErgoConnect
                     double[] data = { updateEventCount, instanteousCadence, accumulatedPower, instanteousPower };
                     this.dataHandler.addBLEDataForDataPage25(data);
                 }
-                this.dataHandler.readLastData();
+                this.dataHandler.printLastData();
                 this.dataHandler.writeData();
             }
         }

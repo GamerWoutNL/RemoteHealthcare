@@ -28,10 +28,14 @@ namespace ErgoConnect
             _bleData.Add(bLEDataPage25); 
         }
 
+        public void printLastData()
+        {
+            this._bleData[_bleData.Count - 1].printData();
+        }
+
         public void readLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
-            data.printData();
             if (data.GetType() == typeof(BLEDataPage16))
             {
                
