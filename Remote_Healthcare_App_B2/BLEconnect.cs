@@ -17,13 +17,6 @@ namespace ErgoConnect
         public const bool printChecksum=false;
         private BLEDataHandler dataHandler;
 
-        public static void Main(string[] args)
-        {
-            BLEconnect test = new BLEconnect(ergometerSerialLastFiveNumbers);
-            BLEconnect test1 = new BLEconnect("00457");
-            Console.Read();
-        }
-
         public BLEconnect(System.String ergometerSerialLastFiveNumbers)
         {
             init(ergometerSerialLastFiveNumbers);
@@ -178,7 +171,7 @@ namespace ErgoConnect
                     double[] data = { updateEventCount, instanteousCadence, accumulatedPower, instanteousPower };
                     this.dataHandler.addBLEDataForDataPage25(data);
                 }
-                this.dataHandler.readLastData();
+                this.dataHandler.printLastData();
                 this.dataHandler.writeData();
             }
         }

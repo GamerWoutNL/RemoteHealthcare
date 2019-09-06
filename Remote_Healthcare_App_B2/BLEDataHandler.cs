@@ -8,11 +8,12 @@ namespace ErgoConnect
 {
     public class BLEDataHandler
     {
-        private List<BLEData> _bleData = new List<BLEData>();
+        public List<BLEData> _bleData { get; set; }
         private string ergoID;
 
         public BLEDataHandler(System.String ergometerSerialLastFiveNumbers) // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
         {
+            this._bleData = new List<BLEData>();
             ergoID = ergometerSerialLastFiveNumbers;
         }
 
@@ -28,10 +29,25 @@ namespace ErgoConnect
             _bleData.Add(bLEDataPage25); 
         }
 
+        public void printLastData()
+        {
+            this._bleData[_bleData.Count - 1].printData();
+        }
+
+        public void printAllData()
+        {
+            for (int i = 0; i < this._bleData.Count; i++)
+            {
+                this._bleData[i].printData();
+                System.Threading.Thread.Sleep(1);
+
+                if (i == this._bleData.Count - 1) i = 0;
+            }
+        }
+
         public void readLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
-            data.printData();
             if (data.GetType() == typeof(BLEDataPage16))
             {
                
@@ -42,15 +58,10 @@ namespace ErgoConnect
             }
         }
 
-        public void readData()
+        public string GetReadWritePath()
         {
-            List<BLEData> deSerializedObject = readToFileBinary<List<BLEData>>(GetReadWritePath());
-            this._bleData = deSerializedObject;
-        }
-
-        private string GetReadWritePath()
-        {
-           return $"{ApplicationSettings.GetSaveDirectory()}/activitylog_{ergoID}"; 
+           //return $"{ApplicationSettings.GetSaveDirectory()}/activitylog";
+           return $"{ApplicationSettings.GetSaveDirectory()}/activitylog_{ergoID}";
         }
 
         public void writeData()
@@ -58,22 +69,15 @@ namespace ErgoConnect
             writeToFileBinary(GetReadWritePath(), _bleData);
         }
 
-        private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = true)
+        private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
-            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Create)) // Was Append
+            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Truncate)) // Was Append
             {
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 binaryFormatter.Serialize(stream, objectToWrite);
             }
         }
 
-        private static T readToFileBinary<T>(string pathToFile)
-        {
-            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Open))
-            {
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(stream);
-            }
-        }
+
     }
 }
