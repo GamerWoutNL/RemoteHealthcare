@@ -20,7 +20,7 @@ namespace ErgoConnect
         public static void Main(string[] args)
         {
             BLEconnect test = new BLEconnect(ergometerSerialLastFiveNumbers);
-            BLEconnect test1 = new BLEconnect("00457");
+            //BLEconnect test1 = new BLEconnect("00457");
             Console.Read();
         }
 
@@ -42,7 +42,7 @@ namespace ErgoConnect
 
             Thread.Sleep(1000);
 
-            //ScanConnectForErgo(ergometerBLE, ergometerSerialLastFiveNumbers);
+            ScanConnectForErgo(ergometerBLE, ergometerSerialLastFiveNumbers);
             ScanConnectForHR(heartrateBLE);
         }
 
@@ -144,7 +144,7 @@ namespace ErgoConnect
 
             int heartRate = rawData[1];
 
-            Console.WriteLine("HeartRate: " + heartRate);
+            this.dataHandler.SetHeartrate(heartRate);
 
 
 
@@ -208,8 +208,8 @@ namespace ErgoConnect
                     double[] data = { updateEventCount, instanteousCadence, accumulatedPower, instanteousPower };
                     this.dataHandler.addBLEDataForDataPage25(data);
                 }
-                //this.dataHandler.readLastData();
-                //this.dataHandler.writeData();
+                this.dataHandler.readLastData();
+                this.dataHandler.writeData();
             }
         }
     }

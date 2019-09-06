@@ -10,14 +10,21 @@ namespace ErgoConnect
     {
         private List<BLEData> _bleData = new List<BLEData>();
         private string ergoID;
+        private int heartrate;
 
         public BLEDataHandler(System.String ergometerSerialLastFiveNumbers) // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
         {
             ergoID = ergometerSerialLastFiveNumbers;
         }
 
+        public void SetHeartrate(int heartrate)
+        {
+            this.heartrate = heartrate;
+        }
+
         public void addBLEDataForDataPage16(double[] data)
         {
+            data[3] = this.heartrate;
             BLEDataPage16 bLEDataPage16 = new BLEDataPage16(data);
             _bleData.Add(bLEDataPage16);
         }
