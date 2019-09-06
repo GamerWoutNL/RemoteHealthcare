@@ -19,17 +19,18 @@ namespace ErgoConnect
 
         public static void Main(string[] args)
         {
-            BLEconnect test = new BLEconnect();
+            BLEconnect test = new BLEconnect(ergometerSerialLastFiveNumbers);
+            BLEconnect test1 = new BLEconnect("00457");
             Console.Read();
         }
 
-        public BLEconnect()
+        public BLEconnect(System.String ergometerSerialLastFiveNumbers)
         {
-            init();
-            this.dataHandler = new BLEDataHandler();
+            init(ergometerSerialLastFiveNumbers);
+            this.dataHandler = new BLEDataHandler(ergometerSerialLastFiveNumbers);
         }
 
-        public async void init()
+        public async void init(System.String ergometerSerialLastFiveNumbers)
         {
             ConnectToErgoAndHR(ergometerSerialLastFiveNumbers);
         }

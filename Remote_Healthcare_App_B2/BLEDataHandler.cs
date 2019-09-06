@@ -9,10 +9,11 @@ namespace ErgoConnect
     public class BLEDataHandler
     {
         private List<BLEData> _bleData = new List<BLEData>();
+        private string ergoID;
 
-        public BLEDataHandler() // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
+        public BLEDataHandler(System.String ergometerSerialLastFiveNumbers) // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
         {
-
+            ergoID = ergometerSerialLastFiveNumbers;
         }
 
         public void addBLEDataForDataPage16(double[] data)
@@ -49,7 +50,7 @@ namespace ErgoConnect
 
         private string GetReadWritePath()
         {
-           return $"{ApplicationSettings.GetSaveDirectory()}/activitylog"; 
+           return $"{ApplicationSettings.GetSaveDirectory()}/activitylog_{ergoID}"; 
         }
 
         public void writeData()
