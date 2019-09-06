@@ -14,7 +14,7 @@ namespace ErgoConnect
     class BLEconnect
     {
         public const System.String ergometerSerialLastFiveNumbers = "00472";
-        public const bool printChecksum=true; 
+        public const bool printChecksum=false; 
         
 
         public static void Main(string[] args)
@@ -69,6 +69,10 @@ namespace ErgoConnect
             // Subscribe 
             ergometerBLE.SubscriptionValueChanged += Ble_SubscriptionValueChanged;
             errorCode = await ergometerBLE.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
+
+            // Attempt to change resistance of vehicle.
+            System.Byte[] byteArray = new System.Byte[] {0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 100}; 
+            await ergometerBLE.WriteCharacteristic("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", byteArray);
         }
 
         public async Task ScanConnectForHR(BLE heartrateBLE)
@@ -133,36 +137,46 @@ namespace ErgoConnect
             byte[] checksum = rawData.Skip(4).Skip(messageLength).ToArray();
             //Console.WriteLine((int)rawData[4]);
 
-            if (pageNumber == 16)
-            {
-                Console.WriteLine("test");
-                // decode page 16
-                int elapsedTime = message[2]; //0,25 seconds
-                int distanceTraveled = message[3]; //metres
-
-                byte speedLSB = message[4];
-                byte speedMSB = message[5];
-
-                System.Int32 speed = (speedMSB << 8) | speedLSB;
-
-                int heartRate = message[6]; //bpm
-
-                //int[] dataPage16 = new int[4];
-                //dataPage16[0] = elapsedTime;
-                //dataPage16[1] = distanceTraveled;
-                //dataPage16[2] = speed;
-                //dataPage16[3] = heartRate;
-
-                Console.WriteLine($"Speed: {(double)(speed/1000.0)*3.6}");
-            }
-            else if (pageNumber == 25)
-            {
-                Console.WriteLine("test2");
-                // decode page 25
-                byte updateEventCount = message[1];
-                byte cadence = message[2];
-            }
             bool isCorrect = CheckXorValue(rawData, checksum);
+
+            if (isCorrect)
+            {
+                if (pageNumber == 16)
+                {
+                    // decode page 16
+                    byte elapsedTime = message[2]; // Units: .25 seconds
+                    byte distanceTraveled = message[3]; // Metres
+                    byte speedLSB = message[4];
+                    byte speedMSB = message[5];
+                    byte heartRate = message[6]; // Beats per minute (BPM)
+
+                    System.Int32 speed = (speedMSB << 8) | speedLSB;
+
+                    //int[] dataPage16 = new int[4];
+                    //dataPage16[0] = elapsedTime;
+                    //dataPage16[1] = distanceTraveled;
+                    //dataPage16[2] = speed;
+                    //dataPage16[3] = heartRate;
+
+                    Console.WriteLine($"Speed: {(double)(speed / 1000.0) * 3.6}");
+                }
+                else if (pageNumber == 25)
+                {
+                    // decode page 25
+                    byte updateEventCount = message[1];
+                    byte instantiousCadence = message[2];
+                    byte accumulatedPowerLSB = message[3];
+                    byte accumulatedPowerMSB = message[4];
+                    byte instanteousPowerLSB = message[5];
+                    byte instanteousPowerMSB = message[6];
+
+                    System.Int32 accumulatedPower = (accumulatedPowerMSB << 8) | accumulatedPowerLSB;
+                    Console.WriteLine($"Accumulated power: {accumulatedPower}");
+                    System.Int32 instanteousPower = (instanteousPowerMSB >> 4 << 8) | instanteousPowerLSB;
+                    Console.WriteLine($"Instanteous power: {instanteousPower}");
+
+                }
+            }
         }
     }
 }
