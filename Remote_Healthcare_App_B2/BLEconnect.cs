@@ -54,7 +54,7 @@ namespace ErgoConnect
             // Ergometer Bluetooth Low Energy Code
             ConnectToErgoMeter(ergometerBLE, ergometerSerialLastFiveNumbers, errorCode);
 
-            this.SendResistance(ergometerBLE, 100);
+            //this.SendResistance(ergometerBLE, 100);
         }
 
         private async void ConnectToErgoMeter(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers, System.Int32 errorCode)
