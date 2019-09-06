@@ -34,6 +34,17 @@ namespace ErgoConnect
             this._bleData[_bleData.Count - 1].printData();
         }
 
+        public void printAllData()
+        {
+            for (int i = 0; i < this._bleData.Count; i++)
+            {
+                this._bleData[i].printData();
+                System.Threading.Thread.Sleep(1);
+
+                if (i == this._bleData.Count - 1) i = 0;
+            }
+        }
+
         public void readLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
@@ -49,17 +60,18 @@ namespace ErgoConnect
 
         public string GetReadWritePath()
         {
-           return $"{ApplicationSettings.GetSaveDirectory()}/activitylog_{ergoID}"; 
+           //return $"{ApplicationSettings.GetSaveDirectory()}/activitylog";
+           return $"{ApplicationSettings.GetSaveDirectory()}/activitylog_{ergoID}";
         }
 
         public void writeData()
         {
-            writeToFileBinary(GetReadWritePath(), _bleData[_bleData.Count-1]);
+            writeToFileBinary(GetReadWritePath(), _bleData);
         }
 
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
-            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Append)) // Was Append
+            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Truncate)) // Was Append
             {
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 binaryFormatter.Serialize(stream, objectToWrite);
