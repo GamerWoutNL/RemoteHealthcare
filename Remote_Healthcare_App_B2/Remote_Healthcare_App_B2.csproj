@@ -46,7 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSettings.cs" />
     <Compile Include="BLEconnect.cs" />
+    <Compile Include="BLEData.cs" />
+    <Compile Include="BLEDataHandler.cs" />
+    <Compile Include="BLEDataPage16.cs" />
+    <Compile Include="BLEDataPage25.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
