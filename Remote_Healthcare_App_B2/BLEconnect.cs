@@ -144,37 +144,33 @@ namespace ErgoConnect
                 if (pageNumber == 16)
                 {
                     // decode page 16
-                    byte elapsedTime = message[2]; // Units: .25 seconds
-                    byte distanceTraveled = message[3]; // Metres
+                    double elapsedTime = message[2] * 0.25; //seconds
+                    int distanceTraveled = message[3]; //metres
                     byte speedLSB = message[4];
                     byte speedMSB = message[5];
-                    byte heartRate = message[6]; // Beats per minute (BPM)
+                    int heartRate = message[6]; // bpm
+                    double speed = ((speedMSB << 8) | speedLSB) / 1000.0 * 3.6; //kmph
 
-                    System.Int32 speed = (speedMSB << 8) | speedLSB;
+                    double[] data = {elapsedTime, distanceTraveled, speed, heartRate};
 
-                    //int[] dataPage16 = new int[4];
-                    //dataPage16[0] = elapsedTime;
-                    //dataPage16[1] = distanceTraveled;
-                    //dataPage16[2] = speed;
-                    //dataPage16[3] = heartRate;
-
-                    Console.WriteLine($"Speed: {(double)(speed / 1000.0) * 3.6}");
+                    //Console.WriteLine($"Elapsed Time: {Math.Round(data[0])} sec\t\t Distance: {data[1]} m\t\t Speed: {Math.Round(data[2])} kmph\t\t Heart rate: {data[3]} bpm");
                 }
                 else if (pageNumber == 25)
                 {
                     // decode page 25
-                    byte updateEventCount = message[1];
-                    byte instantiousCadence = message[2];
+                    int updateEventCount = message[1]; //count
+                    int instanteousCadence = message[2]; //rpm
                     byte accumulatedPowerLSB = message[3];
                     byte accumulatedPowerMSB = message[4];
                     byte instanteousPowerLSB = message[5];
                     byte instanteousPowerMSB = message[6];
 
-                    System.Int32 accumulatedPower = (accumulatedPowerMSB << 8) | accumulatedPowerLSB;
-                    Console.WriteLine($"Accumulated power: {accumulatedPower}");
-                    System.Int32 instanteousPower = (instanteousPowerMSB >> 4 << 8) | instanteousPowerLSB;
-                    Console.WriteLine($"Instanteous power: {instanteousPower}");
+                    int accumulatedPower = (accumulatedPowerMSB << 8) | accumulatedPowerLSB; //watt
+                    int instanteousPower = (((instanteousPowerMSB | 0b11110000) ^ 0b11110000) << 8) | instanteousPowerLSB; //watt
 
+                    double[] data = {updateEventCount, instanteousCadence, accumulatedPower, instanteousPower};
+
+                    Console.WriteLine($"Count: {Math.Round(data[0])}\t\t Cadence: {data[1]} rpm\t\t Acc power: {Math.Round(data[2])} Watt\t\t Inst power: {data[3]} Watt");
                 }
             }
         }
