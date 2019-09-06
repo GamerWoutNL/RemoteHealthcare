@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-    class Simulator
+    public class Simulator
     {
+        public Simulator()
+        {
+
+        }
+
+
     }
 }

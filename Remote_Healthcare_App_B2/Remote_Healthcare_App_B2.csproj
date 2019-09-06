@@ -53,6 +53,7 @@
     <Compile Include="BLEDataPage16.cs" />
     <Compile Include="BLEDataPage25.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
