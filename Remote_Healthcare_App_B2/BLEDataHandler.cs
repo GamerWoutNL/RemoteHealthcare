@@ -39,7 +39,7 @@ namespace ErgoConnect
             for (int i = 0; i < this._bleData.Count; i++)
             {
                 this._bleData[i].printData();
-                System.Threading.Thread.Sleep(1);
+                System.Threading.Thread.Sleep(250);
 
                 if (i == this._bleData.Count - 1) i = 0;
             }
