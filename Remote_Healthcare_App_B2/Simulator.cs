@@ -12,13 +12,13 @@ namespace ErgoConnect
         public Simulator()
         {
             this.dataHandler = new BLEDataHandler("00472");
-            this.dataHandler._bleData = this.readData(dataHandler.GetReadWritePath());
-            Console.WriteLine(this.dataHandler._bleData);
+            BLEData data = this.readData(dataHandler.GetReadWritePath());
+            data.printData();
         }
 
-        private List<BLEData> readData(string filePath)
+        private BLEData readData(string filePath)
         {
-            List<BLEData> deSerializedObject = readToFileBinary<List<BLEData>>(filePath);
+            BLEData deSerializedObject = readToFileBinary<BLEData>(filePath);
             return deSerializedObject;
         }
 
