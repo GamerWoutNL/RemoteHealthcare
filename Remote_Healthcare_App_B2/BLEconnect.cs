@@ -53,6 +53,8 @@ namespace ErgoConnect
 
             // Ergometer Bluetooth Low Energy Code
             ConnectToErgoMeter(ergometerBLE, ergometerSerialLastFiveNumbers, errorCode);
+
+            this.SendResistance(ergometerBLE, 100);
         }
 
         private async void ConnectToErgoMeter(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers, System.Int32 errorCode)
@@ -69,10 +71,6 @@ namespace ErgoConnect
             // Subscribe 
             ergometerBLE.SubscriptionValueChanged += Ble_SubscriptionValueChanged;
             errorCode = await ergometerBLE.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
-
-            // Attempt to change resistance of vehicle.
-            System.Byte[] byteArray = new System.Byte[] {0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 100}; 
-            await ergometerBLE.WriteCharacteristic("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", byteArray);
         }
 
         public async Task ScanConnectForHR(BLE heartrateBLE)
@@ -128,8 +126,16 @@ namespace ErgoConnect
             }
         }
 
+        private void SendResistance(BLE ble, double percentage)
+        {
+            byte[] resistance = { 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2) };
+            ble.WriteCharacteristic("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", resistance);
+        }
+
         private void Ble_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
+            // Attempt to change resistance of vehicle.
+
             byte[] rawData = e.Data;
             int messageLength = rawData[1];
             byte[] message = rawData.Skip(4).Take(messageLength).ToArray();
@@ -153,7 +159,7 @@ namespace ErgoConnect
 
                     double[] data = {elapsedTime, distanceTraveled, speed, heartRate};
 
-                    //Console.WriteLine($"Elapsed Time: {Math.Round(data[0])} sec\t\t Distance: {data[1]} m\t\t Speed: {Math.Round(data[2])} kmph\t\t Heart rate: {data[3]} bpm");
+                    Console.WriteLine($"Elapsed Time: {Math.Round(data[0])} sec\t\t Distance: {data[1]} m\t\t Speed: {Math.Round(data[2])} kmph\t\t Heart rate: {data[3]} bpm");
                 }
                 else if (pageNumber == 25)
                 {
@@ -170,7 +176,7 @@ namespace ErgoConnect
 
                     double[] data = {updateEventCount, instanteousCadence, accumulatedPower, instanteousPower};
 
-                    Console.WriteLine($"Count: {Math.Round(data[0])}\t\t Cadence: {data[1]} rpm\t\t Acc power: {Math.Round(data[2])} Watt\t\t Inst power: {data[3]} Watt");
+                    //Console.WriteLine($"Count: {Math.Round(data[0])}\t\t Cadence: {data[1]} rpm\t\t Acc power: {Math.Round(data[2])} Watt\t\t Inst power: {data[3]} Watt");
                 }
             }
         }
