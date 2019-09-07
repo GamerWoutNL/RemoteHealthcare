@@ -16,6 +16,8 @@ namespace ErgoConnect
         {
             this._bleData = new List<BLEData>();
             ergoID = ergometerSerialLastFiveNumbers;
+            // writeData();
+            DoesExist(GetReadWritePath());
         }
 
         public void SetHeartrate(int heartrate)
@@ -76,13 +78,31 @@ namespace ErgoConnect
             writeToFileBinary(GetReadWritePath(), _bleData);
         }
 
+        private static void DoesExist(string pathToFile)
+        {
+            if (!System.IO.File.Exists(pathToFile))
+            {
+                System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Create);
+                //System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                //binaryFormatter.Serialize(stream, null);
+            }
+            
+        }
+
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
+            //using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Truncate)) // Was Append
+            //{
+            //    System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+            //    binaryFormatter.Serialize(stream, objectToWrite);
+            //}
+
             using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.FileMode.Truncate)) // Was Append
             {
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 binaryFormatter.Serialize(stream, objectToWrite);
             }
+
         }
 
 
