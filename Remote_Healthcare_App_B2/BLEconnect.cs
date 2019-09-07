@@ -130,44 +130,21 @@ namespace ErgoConnect
         private void HR_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
             byte[] rawData = e.Data;
-            //int messageLength = rawData[1];
-            //byte[] message = rawData.Take(messageLength).ToArray();
-            //byte[] checksum = rawData.Skip(messageLength).ToArray();
+            //byte[] checksum = { rawData[rawData.Length - 1] };
             //bool isCorrect = CheckXorValue(rawData, checksum);
 
             int heartRate = rawData[1];
-
             this.dataHandler.SetHeartrate(heartRate);
-
-
-
-            //if (isCorrect)
-            //{
-
-            //}
-
         }
         private void Ble_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-            // Attempt to change resistance of vehicle.
+            
 
             byte[] rawData = e.Data;
             int messageLength = rawData[1];
             byte[] message = rawData.Skip(4).Take(messageLength).ToArray();
-            int pageNumber = 0;
-
-            if (message.Length != 0)
-            {
-                pageNumber = message[0];
-            }
-            else
-            {
-                Console.WriteLine("Message is zero");
-            }
-            
+            int pageNumber = message[0];            
             byte[] checksum = rawData.Skip(4).Skip(messageLength).ToArray();
-            //Console.WriteLine((int)rawData[4]);
-
             bool isCorrect = CheckXorValue(rawData, checksum);
 
             if (isCorrect)

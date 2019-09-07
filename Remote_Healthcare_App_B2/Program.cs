@@ -10,8 +10,8 @@ namespace ErgoConnect
     {
         public static void Main(string[] args)
         {
-            BLEconnect bike1 = new BLEconnect("00472");
-            //Simulator simulator = new Simulator();
+         //   BLEconnect ergo1 = new BLEconnect("00472");
+            Simulator simulator = new Simulator();
             Console.Read();
         }
     }
