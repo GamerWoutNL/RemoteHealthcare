@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-    public class BLEDecryptorErgo : BLEDecryptor
+    /// <summary>
+    /// Decryptor inheritance for the Ergometer. Decodes a byte[] rawdata.
+    /// </summary>
+    public class BLEDecoderErgo : BLEDecoder
     {
-
+        /// <summary>
+        /// Decodes the data for all data pages. Hence, when you add a DataPage, also add it here!
+        /// </summary>
+        /// <param name="rawData"></param>
+        /// <param name="bLEDataHandler"></param>
         public static void Decrypt(byte[] rawData, BLEDataHandler bLEDataHandler)
         {
             int messageLength = rawData[1];

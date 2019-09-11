@@ -8,26 +8,43 @@ using Avans.TI.BLE;
 
 namespace ErgoConnect
 {
-    // Original author:
-    // Avans TI
-    // Changes in structure made by B2. Also added functionality.
+    /// <summary>
+    /// The BLEConnect class handles connecting to the Ergometer and Heart Rate Monitor. 
+    /// </summary>
     public class BLEconnect
     {
-        public const System.String ergometerSerialLastFiveNumbers = "00472";
+        public System.String ergometerSerialLastFiveNumbers;
         public const bool printChecksum=false;
         private BLEDataHandler dataHandler;
-        private BLESimulator bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
+        private BLESimulator bLESimulator;
 
+        /// <summary>
+        /// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
+        /// </summary>
+        /// <param name="ergometerSerialLastFiveNumbers"></param>
         public BLEconnect(System.String ergometerSerialLastFiveNumbers)
         {
+            this.ergometerSerialLastFiveNumbers = ergometerSerialLastFiveNumbers;
+            bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
             init(ergometerSerialLastFiveNumbers);
             this.dataHandler = new BLEDataHandler(ergometerSerialLastFiveNumbers);
         }
+
+        /// <summary>
+        /// Attempt to connect to the Ergometer using the known serial number.
+        /// </summary>
+        /// <param name="ergometerSerialLastFiveNumbers"></param>
 
         public async void init(System.String ergometerSerialLastFiveNumbers)
         {
             ConnectToErgoAndHR(ergometerSerialLastFiveNumbers);
         }
+
+        /// <summary>
+        /// Helper method to connect to the Ergometer and Heart rate monitor. Uses the "Thread.Sleep(1000)" to give some time for scanning for BLE devices.
+        /// </summary>
+        /// <param name="ergometerSerialLastFiveNumbers"></param>
+        /// <returns></returns>
 
         public async Task ConnectToErgoAndHR(String ergometerSerialLastFiveNumbers)
         {
@@ -40,6 +57,13 @@ namespace ErgoConnect
             await ScanConnectForHR(heartrateBLE);
         }
 
+        /// <summary>
+        /// Stores a potential error code and prints devices, afterwards the connection attempt to the ergometer is made.
+        /// </summary>
+        /// <param name="ergometerBLE"></param>
+        /// <param name="ergometerSerialLastFiveNumbers"></param>
+        /// <returns></returns>
+
         public async Task ScanConnectForErgo(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers)
         {
             System.Int32 errorCode = 0;
@@ -49,6 +73,13 @@ namespace ErgoConnect
             ConnectToErgoMeter(ergometerBLE, ergometerSerialLastFiveNumbers, errorCode);
             //this.SendResistance(ergometerBLE, 100);  // Change ergometer resistance!
         }
+
+        /// <summary>
+        /// Attempt to connect to the Ergometer. For this the serial code is needed, potential errors are logged in an integer "errorCode".
+        /// </summary>
+        /// <param name="ergometerBLE"></param>
+        /// <param name="ergometerSerialLastFiveNumbers"></param>
+        /// <param name="errorCode"></param>
 
         private async void ConnectToErgoMeter(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers, System.Int32 errorCode)
         {
@@ -63,6 +94,12 @@ namespace ErgoConnect
             errorCode = await ergometerBLE.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
         }
 
+        /// <summary>
+        /// Scan for a BLE Heartrate device.
+        /// </summary>
+        /// <param name="heartrateBLE"></param>
+        /// <returns></returns>
+
         public async Task ScanConnectForHR(BLE heartrateBLE)
         {
             System.Int32 errorCode = 0;
@@ -72,6 +109,12 @@ namespace ErgoConnect
             ConnectToHeartRateSensor(heartrateBLE, errorCode);
         }
 
+        /// <summary>
+        /// Attempt to setup a connection with the Heart Rate monitor. 
+        /// </summary>
+        /// <param name="heartrateSensorBLE"></param>
+        /// <param name="errorCode"></param>
+        
         private async void ConnectToHeartRateSensor(BLE heartrateSensorBLE, System.Int32 errorCode)
         {
             // Attempt to connect to the heart rate sensor.
@@ -83,6 +126,11 @@ namespace ErgoConnect
             await heartrateSensorBLE.SubscribeToCharacteristic("HeartRateMeasurement");
         }
 
+        /// <summary>
+        /// Print BLE services.
+        /// </summary>
+        /// <param name="ergoMeterBle"></param>
+
         private static void printServices(BLE ergoMeterBle)
         {
             List<BluetoothLEAttributeDisplay> services = ergoMeterBle.GetServices;
@@ -91,6 +139,11 @@ namespace ErgoConnect
                 Console.WriteLine($"Service: {service}");
             }
         }
+
+        /// <summary>
+        /// Print BLE devices.
+        /// </summary>
+        /// <param name="ergoMeterBle"></param>
 
         private static void printDevices(BLE ergoMeterBle)
         {
@@ -102,23 +155,42 @@ namespace ErgoConnect
             }
         }
 
+        /// <summary>
+        /// Attempt to change resistance of Ergometer.
+        /// </summary>
+        /// <param name="ble"></param>
+        /// <param name="percentage"></param>
+
         private void SendResistance(BLE ble, double percentage)
         {
             byte[] resistance = { 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2) };
             ble.WriteCharacteristic("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", resistance);
         }
 
+        /// <summary>
+        /// Callback for the Heart Rate sensor. Contains data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void HR_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
             bLESimulator.SaveBytesHeartRate(e.Data);
             bLESimulator.WriteData(WriteOption.Heartrate);
-            BLEDecryptorHR.Decrypt(e.Data, this.dataHandler);
+            BLEDecoderHR.Decrypt(e.Data, this.dataHandler);
         }
+
+        /// <summary>
+        /// Callback for the Ergometer. Contains data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void Ergo_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
             bLESimulator.SaveBytesErgo(e.Data);
             bLESimulator.WriteData(WriteOption.Ergo);
-            BLEDecryptorErgo.Decrypt(e.Data, this.dataHandler);   
+            BLEDecoderErgo.Decrypt(e.Data, this.dataHandler);   
         }
     }
 }

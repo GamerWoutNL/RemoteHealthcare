@@ -47,15 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="BLEConnect\BLEconnect.cs" />
-    <Compile Include="BLEData\BLEData.cs" />
-    <Compile Include="BLEDecryptor\BLEDecryptor.cs" />
-    <Compile Include="BLEDecryptor\BLEDecryptorErgo.cs" />
-    <Compile Include="BLEData\BLEDataHandler.cs" />
-    <Compile Include="BLEData\BLEDataPage16.cs" />
-    <Compile Include="BLEData\BLEDataPage25.cs" />
-    <Compile Include="BLEDecryptor\BLEDecryptorHR.cs" />
-    <Compile Include="BLESimulator\BLESimulator.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEConnect\BLEConnect.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEData\BLEData.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoder.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoderErgo.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEData\BLEDataHandler.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEData\BLEDataPage16.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEData\BLEDataPage25.cs" />
+    <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoderHR.cs" />
+    <Compile Include="BluetoothLowEnergy\BLESimulator\BLESimulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

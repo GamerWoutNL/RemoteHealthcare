@@ -7,21 +7,35 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
+    /// <summary>
+    /// The WriteOption enumeration defines two options to help identify actions. These are Ergo and Heartrate.
+    /// </summary>
     public enum WriteOption
     {
         Ergo, Heartrate
     }
+
+    /// <summary>
+    /// BLESimulator replicates data output by using a 1 : 1 copy of a team member cycling on the ergometer.
+    /// </summary>
     public class BLESimulator
     {
         private List<byte[]> _bytesErgo = new List<byte[]>();
         private List<byte[]> _bytesHeartRate = new List<byte[]>();
         private string ergoID;
+
+        /// <summary>
+        /// The ergoID is needed to define the save location of the Ergometer data.
+        /// </summary>
+        /// <param name="ergoID"></param>
         public BLESimulator(string ergoID)
         {
             this.ergoID = ergoID;
-            //_bytesErgo = ReadData(ApplicationSettings.GetReadWritePath(ergoID), WriteOption.Ergo);
-            //_bytesHeartRate = ReadData(ApplicationSettings.GetReadWritePath(ergoID), WriteOption.Heartrate);
         }
+
+        /// <summary>
+        /// Run the simulator with a data transfer time of 4Hz, just like the real protocol.
+        /// </summary>
 
         public void RunSimulator()
         {
@@ -32,23 +46,37 @@ namespace ErgoConnect
             {
                 data = ReadData(ApplicationSettings.GetReadWritePath(ergoID), WriteOption.Ergo);
                 System.Threading.Thread.Sleep(250);
-                BLEDecryptorErgo.Decrypt(data[i], bLEDataHandler);
+                BLEDecoderErgo.Decrypt(data[i], bLEDataHandler);
                 if (i >= data.Count - 1)
                     i = 0;
                 i++;
             }
         }
 
+        /// <summary>
+        /// Save bytes for record purposes of Ergometer.
+        /// </summary>
+        /// <param name="data"></param>
         public void SaveBytesErgo(byte[] data)
         {
             _bytesErgo.Add(data);
         }
 
+        /// <summary>
+        /// Save bytes for record purposes of heart rate monitor.
+        /// </summary>
+        /// <param name="data"></param>
         public void SaveBytesHeartRate(byte[] data)
         {
             _bytesHeartRate.Add(data);
         }
 
+        /// <summary>
+        /// Read data for simulating purposes. Returns a list of byte[] of data.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="ergoOrHeartRate"></param>
+        /// <returns></returns>
         private List<byte[]> ReadData(string filePath, WriteOption ergoOrHeartRate)
         {
             filePath = GetErgoHeartRatePath(filePath, ergoOrHeartRate);
@@ -56,6 +84,12 @@ namespace ErgoConnect
             return deSerializedObject;
         }
 
+        /// <summary>
+        /// Read in a file and receive a binary desiralization.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pathToFile"></param>
+        /// <returns></returns>
         private static T ReadToFileBinary<T>(string pathToFile)
         {
             using (System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Open))
@@ -65,6 +99,10 @@ namespace ErgoConnect
             }
         }
 
+        /// <summary>
+        /// Write to file, writeOption is needed to define the path.
+        /// </summary>
+        /// <param name="writeOption"></param>
         public void WriteData(WriteOption writeOption)
         {
             string pathToFile = GetErgoHeartRatePath(ApplicationSettings.GetReadWritePath(ergoID), writeOption);
@@ -81,7 +119,12 @@ namespace ErgoConnect
             }
             writeToFileBinary(pathToFile, dataToWrite);
         }
-
+        /// <summary>
+        /// Receive the Ergometer or Heart rate data path.
+        /// </summary>
+        /// <param name="pathToFile"></param>
+        /// <param name="ergoOrHeartRate"></param>
+        /// <returns></returns>
         private static string GetErgoHeartRatePath(string pathToFile, WriteOption ergoOrHeartRate)
         {
             string newPath = pathToFile;
@@ -97,6 +140,13 @@ namespace ErgoConnect
             return newPath;
         }
 
+        /// <summary>
+        /// Write binary data to a file (serialize).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="pathToFile"></param>
+        /// <param name="objectToWrite"></param>
+        /// <param name="newFile"></param>
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
             Console.WriteLine("Path: " + pathToFile);
