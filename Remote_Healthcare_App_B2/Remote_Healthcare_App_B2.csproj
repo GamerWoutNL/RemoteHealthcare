@@ -47,17 +47,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="BLEconnect.cs" />
-    <Compile Include="BLEData.cs" />
-    <Compile Include="BLEDataHandler.cs" />
-    <Compile Include="BLEDataPage16.cs" />
-    <Compile Include="BLEDataPage25.cs" />
+    <Compile Include="BLEConnect\BLEconnect.cs" />
+    <Compile Include="BLEData\BLEData.cs" />
+    <Compile Include="BLEDecryptor\BLEDecryptor.cs" />
+    <Compile Include="BLEDecryptor\BLEDecryptorErgo.cs" />
+    <Compile Include="BLEData\BLEDataHandler.cs" />
+    <Compile Include="BLEData\BLEDataPage16.cs" />
+    <Compile Include="BLEData\BLEDataPage25.cs" />
+    <Compile Include="BLEDecryptor\BLEDecryptorHR.cs" />
+    <Compile Include="BLESimulator\BLESimulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Simulator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

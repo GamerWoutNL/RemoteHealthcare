@@ -10,10 +10,15 @@ namespace ErgoConnect
     {
         public static string GetSaveDirectory()
         {
-            String path = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/RemoteHealthcare";
+            string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/RemoteHealthcare";
             if (!System.IO.Directory.Exists(path))
                 System.IO.Directory.CreateDirectory(path);
            return path; 
+        }
+
+        public static string GetReadWritePath(string ergoID)
+        {
+            return $"{GetSaveDirectory()}/activitylog_{ergoID}";
         }
     }
 }
