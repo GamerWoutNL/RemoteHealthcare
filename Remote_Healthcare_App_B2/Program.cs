@@ -13,10 +13,8 @@ namespace ErgoConnect
     {
         public static void Main(string[] args)
         {
-            string ergoID = "00472";
-            //BLEconnect ergo1 = new BLEconnect(ergoID);
-            BLESimulator simulator = new BLESimulator(ergoID);
-            simulator.RunSimulator();
+            BLEconnect ergo1 = new BLEconnect("00457");
+           // Simulator simulator = new Simulator();
             Console.Read();
         }
     }
