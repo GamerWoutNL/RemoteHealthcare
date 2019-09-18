@@ -8,11 +8,11 @@ namespace Sprint2VR.VR.Components
 {
     class VRTransform : VRComponent
     {
-        public VRPositionXYZ positionXYZ; // position
-        public VRPositionXYZ rotationXYZ; // rotation
+        public VRPoint3D positionXYZ; // position
+        public VRPoint3D rotationXYZ; // rotation
         public double scale; // scale
 
-        public VRTransform(VRPositionXYZ positionXYZ, VRPositionXYZ rotationXYZ, double scale)
+        public VRTransform(VRPoint3D positionXYZ, VRPoint3D rotationXYZ, double scale)
         {
             this.positionXYZ = positionXYZ;
             this.rotationXYZ = rotationXYZ;

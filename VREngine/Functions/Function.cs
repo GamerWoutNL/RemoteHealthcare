@@ -24,7 +24,7 @@ namespace VRCode
             this._vRHelper = vRHelper;
         }
 
-        public VRResponse dynaGet(Sprint2VR.VR.Type type, Button button, Hand hand)
+        public VRResponse DynaGet(Sprint2VR.VR.Type type, Button button, Hand hand)
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.type = type;
@@ -36,7 +36,7 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.get, dynamicRequest));
         }
 
-        public VRResponse dynaSetCallback(Sprint2VR.VR.Type type, Button button, Hand hand)
+        public VRResponse DynaSetCallback(Sprint2VR.VR.Type type, Button button, Hand hand)
         {
             //dynamic dynamicRequest = new JObject();
             //dynamicRequest.type = type;
@@ -51,44 +51,33 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.setCallback, dynamicRequest));
         }
 
-        public VRResponse dynaPlay()
+        public VRResponse DynaPlay()
         {
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.play, new {}));
         }
 
-        public VRResponse dynaPause()
+        public VRResponse DynaPause()
         {
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.pause, new { }));
         }
 
-        // Scene functions
-
-        //public VRResponse dynaSceneGet()
-        //{
-
-        //}
-
-        // Scene Node Add
-
-        public VRResponse dynaSceneNodeAdd(string name, string parent, List<VRComponent> vRComponents)
+        public VRResponse DynaSceneNodeAdd(string name, string parent, List<VRComponent> vRComponents)
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.name = name;
             dynamicRequest.parent = parent;
 
-            JArray components = new JArray();
-            foreach(VRComponent vRComponent in vRComponents)
-            {
-                components.Add(vRComponent.GetDynamic());
-     //           components.
-            }
-            if (components.Count > 0)
-                dynamicRequest.components = components;
+            //JArray components = new JArray();
+            //foreach(VRComponent vRComponent in vRComponents)
+            //{
+            //    components.Add(vRComponent.GetDynamic());
+            //}
+            //if (components.Count > 0)
+            //    dynamicRequest.components = components;
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeAdd, dynamicRequest));
         }
 
-        // Scene terrain add
-        public VRResponse dynaSceneTerrainAdd(VRPositionXY size, int[] heightmap)
+        public VRResponse DynaSceneTerrainAdd(VRPoint2D size, int[] heightmap)
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.size = size.GetDynamic().position;

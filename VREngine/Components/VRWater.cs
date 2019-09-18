@@ -8,10 +8,10 @@ namespace Sprint2VR.VR.Components
 {
     class VRWater : VRComponent
     {
-        public VRPositionXY size;
+        public VRPoint2D size;
         public double resolution;
 
-        public VRWater(VRPositionXY size, double resolution)
+        public VRWater(VRPoint2D size, double resolution)
         {
             this.size = size;
             this.resolution = resolution;

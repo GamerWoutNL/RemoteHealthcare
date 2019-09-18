@@ -35,14 +35,14 @@ namespace VRCode
             int[] heightmap = new int[length * width];
             for (int i = 0; i < length * width; i++)
                 heightmap[i] = height;
-            VRResponse response =function.dynaSceneTerrainAdd(new Sprint2VR.VR.Components.VRPositionXY(length, width), heightmap);
+            VRResponse response =function.DynaSceneTerrainAdd(new Sprint2VR.VR.Components.VRPoint2D(length, width), heightmap);
         }
 
         public void CreateTerrainNode()
         {
             List<VRComponent> vRComponents = new List<VRComponent>();
             vRComponents.Add(new VRTerrain(true));
-            VRResponse response = function.dynaSceneNodeAdd("terrain", "", vRComponents);
+            VRResponse response = function.DynaSceneNodeAdd("terrain", "", vRComponents);
         }
     }
 }

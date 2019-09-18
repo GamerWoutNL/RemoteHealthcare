@@ -8,12 +8,12 @@ namespace Sprint2VR.VR.Components
 {
     class VRPanel : VRComponent
     {
-        public VRPositionXY size; //Size
-        public VRPositionXY resolution; //Resolution 
+        public VRPoint2D size; //Size
+        public VRPoint2D resolution; //Resolution 
         public VRColor background; //Background
         public bool castShadow; //Cast a shadow
 
-        public VRPanel(VRPositionXY size, VRPositionXY resolution, VRColor background, bool castShadow)
+        public VRPanel(VRPoint2D size, VRPoint2D resolution, VRColor background, bool castShadow)
         {
             this.size = size;
             this.resolution = resolution;

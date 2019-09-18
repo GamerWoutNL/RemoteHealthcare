@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRPositionXY : VRComponent
+    class VRPoint2D : VRComponent
     {
         public double posx, posy;
 
-        public VRPositionXY(double posx, double posy)
+        public VRPoint2D(double posx, double posy)
         {
             this.posx = posx;
             this.posy = posy;

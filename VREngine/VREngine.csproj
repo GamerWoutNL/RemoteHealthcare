@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>VREngine</RootNamespace>
     <AssemblyName>VREngine</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,11 +46,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Additional\VRResponse.cs" />
+    <Compile Include="Components\VRAnimation.cs" />
+    <Compile Include="Components\VRColor.cs" />
+    <Compile Include="Components\VRComponent.cs" />
+    <Compile Include="Components\VRLine.cs" />
+    <Compile Include="Components\VRModel.cs" />
+    <Compile Include="Components\VRPanel.cs" />
+    <Compile Include="Components\VRPoint2D.cs" />
+    <Compile Include="Components\VRPoint3D.cs" />
+    <Compile Include="Components\VRSkybox.cs" />
+    <Compile Include="Components\VRTerrain.cs" />
+    <Compile Include="Components\VRTransform.cs" />
+    <Compile Include="Components\VRWater.cs" />
+    <Compile Include="Connection\Client.cs" />
+    <Compile Include="Connection\VRConnectionHandler.cs" />
+    <Compile Include="Functions\Function.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VRHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

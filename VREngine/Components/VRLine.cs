@@ -9,11 +9,11 @@ namespace Sprint2VR.VR.Components
 {
     class VRLine : VRComponent
     {
-        public VRPositionXY positionXY;
-        public VRPositionXY positionXY2;
+        public VRPoint2D positionXY;
+        public VRPoint2D positionXY2;
         public VRColor color;
 
-        public VRLine(VRPositionXY positionXY, VRPositionXY positionXY2, VRColor color)
+        public VRLine(VRPoint2D positionXY, VRPoint2D positionXY2, VRColor color)
         {
             this.positionXY = positionXY;
             this.positionXY2 = positionXY2;
