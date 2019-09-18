@@ -24,10 +24,10 @@ namespace VRCode
 
             VRHelper vRHelper = new VRHelper();
             Program program = new Program(vRHelper._client, vRHelper._tunnelID, vRHelper);
-            Console.ReadLine();
             program.CreateFlatTerrain(50, 50, 1);
-            Console.ReadLine();
             program.CreateTerrainNode();
+            Console.ReadLine();
+
         }
 
         public void CreateFlatTerrain(int length, int width, int height)
@@ -40,9 +40,7 @@ namespace VRCode
 
         public void CreateTerrainNode()
         {
-            List<VRComponent> vRComponents = new List<VRComponent>();
-            vRComponents.Add(new VRTerrain(true));
-            VRResponse response = function.DynaSceneNodeAdd("terrain", "", vRComponents);
+            VRResponse response = function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null);
         }
     }
 }
