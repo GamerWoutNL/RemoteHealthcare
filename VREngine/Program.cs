@@ -17,32 +17,37 @@ namespace VRCode
         public Program(Client client, string tunnelID, VRHelper vRHelper)
         {
             this.function = new Function(client, tunnelID, vRHelper);
-            
+            init();
         }
         static void Main(string[] args)
         {
-
             VRHelper vRHelper = new VRHelper();
             Program program = new Program(vRHelper._client, vRHelper._tunnelID, vRHelper);
-            Console.ReadLine();
-            program.CreateFlatTerrain(50, 50, 1);
-            Console.ReadLine();
-            program.CreateTerrainNode();
+
+            Console.ReadKey();
+        }
+
+        public void init()
+        {
+            string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/heightmap.png";
+            Console.WriteLine(function.DynaSceneTerrainAdd(path));
+            
+            function.DynaSceneNodeAdd("test", "terrain", null, null, new VRTerrain(true), null, null);
         }
 
         public void CreateFlatTerrain(int length, int width, int height)
         {
-            int[] heightmap = new int[length * width];
-            for (int i = 0; i < length * width; i++)
-                heightmap[i] = height;
-            VRResponse response =function.DynaSceneTerrainAdd(new Sprint2VR.VR.Components.VRPoint2D(length, width), heightmap);
+            //int[] heightmap = new int[length * width];
+            //for (int i = 0; i < length * width; i++)
+            //    heightmap[i] = height;
+            //VRResponse response =function.DynaSceneTerrainAdd(new Sprint2VR.VR.Components.VRPoint2D(length, width), heightmap);
         }
 
         public void CreateTerrainNode()
         {
             List<VRComponent> vRComponents = new List<VRComponent>();
             vRComponents.Add(new VRTerrain(true));
-            VRResponse response = function.DynaSceneNodeAdd("terrain", "", vRComponents);
+           // VRResponse response = function.DynaSceneNodeAdd("terrain", "", vRComponents);
         }
     }
 }

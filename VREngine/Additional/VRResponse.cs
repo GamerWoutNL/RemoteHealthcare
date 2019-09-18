@@ -17,6 +17,9 @@ namespace Sprint2VR.VR.Additional
             this.response = response;
         }
 
-      
+        public override string ToString()
+        {
+            return $"Request: {this.request}\r\nResponse: {this.response}";
+        }
     }
 }

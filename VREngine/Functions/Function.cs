@@ -5,6 +5,7 @@ using Sprint2VR.VR.Additional;
 using Sprint2VR.VR.Components;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,26 +63,40 @@ namespace VRCode
             dynamic dynamicRequest = new JObject();
             dynamicRequest.name = name;
             dynamicRequest.parent = parent;
+            dynamicRequest.components = new { };
 
             if (vRTransform != null)
-                dynamicRequest.components.transform = vRTransform.GetDynamic().transform;
+                dynamicRequest.transform = vRTransform.GetDynamic().transform;
             if (vRModel != null)
-                dynamicRequest.components.model = vRModel.GetDynamic().model;
+                dynamicRequest.model = vRModel.GetDynamic().model;
             if (vRTerrain != null)
-                dynamicRequest.components.terrain = vRTerrain.GetDynamic().terrain;
+                dynamicRequest.terrain = vRTerrain.GetDynamic().terrain;
             if (vRPanel != null)
-                dynamicRequest.components.panel = vRPanel.GetDynamic().panel;
+                dynamicRequest.panel = vRPanel.GetDynamic().panel;
             if (vRWater != null)
-                dynamicRequest.components.water = vRWater.GetDynamic().water;
+                dynamicRequest.water = vRWater.GetDynamic().water;
 
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeAdd, dynamicRequest));
         }
 
-        public VRResponse DynaSceneTerrainAdd(VRPoint2D size, int[] heightmap)
+        public VRResponse DynaSceneTerrainAdd(string file)
         {
             dynamic dynamicRequest = new JObject();
-            dynamicRequest.size = size.GetDynamic().position;
-            dynamicRequest.heights = new JArray(heightmap);
+            using (Bitmap heightmap = new Bitmap(file))
+            {
+                float[,] heights = new float[heightmap.Width, heightmap.Height];
+
+                for (int x = 0; x < heightmap.Width; x++)
+                {
+                    for (int y = 0; y < heightmap.Height; y++)
+                    {
+                        heights[x, y] = (heightmap.GetPixel(x, y).R / 256.0f) * 25.0f;
+                    }
+                }
+                dynamicRequest.size = JArray.FromObject(new[] { heightmap.Width, heightmap.Height });
+                dynamicRequest.heights = JArray.FromObject(heights.Cast<float>().ToArray());
+            }
+
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneTerrainAdd, dynamicRequest));
         }
 

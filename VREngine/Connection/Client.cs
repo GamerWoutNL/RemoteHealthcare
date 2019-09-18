@@ -35,7 +35,6 @@ namespace Sprint2VR
 
         public void WriteMessage(dynamic message)
         {
-            Console.WriteLine("Send: "+JsonConvert.SerializeObject(message));
             byte[] packet = this.GetPrefixedMessage(JsonConvert.SerializeObject(message));
             this.stream.Write(packet, 0, packet.Length);
             this.stream.Flush();
