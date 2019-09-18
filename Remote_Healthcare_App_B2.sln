@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remote_Healthcare_App_B2", "Remote_Healthcare_App_B2\Remote_Healthcare_App_B2.csproj", "{FE90096F-274D-43E9-AE78-57665C500FB2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VREngine", "VREngine\VREngine.csproj", "{B0929D82-D734-428D-AF96-93300D9CA048}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remote_Healthcare_App_B2", "Remote_Healthcare_App_B2\Remote_Healthcare_App_B2.csproj", "{1D01A1C0-6EBF-4349-A94D-4310D767407C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FE90096F-274D-43E9-AE78-57665C500FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE90096F-274D-43E9-AE78-57665C500FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE90096F-274D-43E9-AE78-57665C500FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE90096F-274D-43E9-AE78-57665C500FB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0929D82-D734-428D-AF96-93300D9CA048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0929D82-D734-428D-AF96-93300D9CA048}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0929D82-D734-428D-AF96-93300D9CA048}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0929D82-D734-428D-AF96-93300D9CA048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D01A1C0-6EBF-4349-A94D-4310D767407C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D01A1C0-6EBF-4349-A94D-4310D767407C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D01A1C0-6EBF-4349-A94D-4310D767407C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D01A1C0-6EBF-4349-A94D-4310D767407C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
