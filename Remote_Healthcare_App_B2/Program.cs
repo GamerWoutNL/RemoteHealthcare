@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
+    /// <summary>
+    /// The Program class starts up the application. You can use the simulator to receive data without having physical access to an Ergometer / HR-sensor.
+    /// </summary>
     class Program
     {
         public static void Main(string[] args)
         {
-            BLEconnect bike1 = new BLEconnect("00472");
-            //Simulator simulator = new Simulator();
+            BLEconnect ergo1 = new BLEconnect("00457");
+           // Simulator simulator = new Simulator();
             Console.Read();
         }
     }
