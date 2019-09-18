@@ -114,7 +114,7 @@ namespace Sprint2VR.VR
                 id = IDOperations.tunnelSend,
                 data = new
                 {
-                    dest = _tunnelID,
+                    dest = this._tunnelID,
                     data = request
                 }
             };
@@ -143,23 +143,6 @@ namespace Sprint2VR.VR
             if (request != null)
                 dynamicRequest.data = request;
             return dynamicRequest;
-            //if (request != null)
-            //{
-            //    dynamicRequest = new
-            //    {
-            //        id = idOperation,
-            //        data = request
-
-            //    };
-            //    return dynamicRequest;
-            //}
-            //else
-            //{
-            //    dynamicRequest = new
-            //    {
-            //        id = idOperation
-            //    };
-            //    return dynamicRequest;
         }
 
         private dynamic GetTunnelID(string sessionID, string key)
