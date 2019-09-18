@@ -28,7 +28,7 @@ namespace VRCode
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.type = type;
-            if (type== Sprint2VR.VR.Type.button)
+            if (type == Sprint2VR.VR.Type.button)
             {
                 dynamicRequest.button = button;
                 dynamicRequest.hand = hand;
@@ -38,10 +38,6 @@ namespace VRCode
 
         public VRResponse DynaSetCallback(Sprint2VR.VR.Type type, Button button, Hand hand)
         {
-            //dynamic dynamicRequest = new JObject();
-            //dynamicRequest.type = type;
-            //dynamicRequest.button = button;
-            //dynamicRequest.hand = hand;
             dynamic dynamicRequest = new
             {
                 type,
@@ -53,7 +49,7 @@ namespace VRCode
 
         public VRResponse DynaPlay()
         {
-            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.play, new {}));
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.play, new { }));
         }
 
         public VRResponse DynaPause()
@@ -61,19 +57,23 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.pause, new { }));
         }
 
-        public VRResponse DynaSceneNodeAdd(string name, string parent, List<VRComponent> vRComponents)
+        public VRResponse DynaSceneNodeAdd(string name, string parent, VRTransform vRTransform, VRModel vRModel, VRTerrain vRTerrain, VRPanel vRPanel, VRWater vRWater)
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.name = name;
             dynamicRequest.parent = parent;
 
-            //JArray components = new JArray();
-            //foreach(VRComponent vRComponent in vRComponents)
-            //{
-            //    components.Add(vRComponent.GetDynamic());
-            //}
-            //if (components.Count > 0)
-            //    dynamicRequest.components = components;
+            if (vRTransform != null)
+                dynamicRequest.components.transform = vRTransform.GetDynamic().transform;
+            if (vRModel != null)
+                dynamicRequest.components.model = vRModel.GetDynamic().model;
+            if (vRTerrain != null)
+                dynamicRequest.components.terrain = vRTerrain.GetDynamic().terrain;
+            if (vRPanel != null)
+                dynamicRequest.components.panel = vRPanel.GetDynamic().panel;
+            if (vRWater != null)
+                dynamicRequest.components.water = vRWater.GetDynamic().water;
+
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeAdd, dynamicRequest));
         }
 
