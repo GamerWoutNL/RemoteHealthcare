@@ -19,7 +19,7 @@ namespace Sprint2VR.VR.Additional
 
         public override string ToString()
         {
-            return $"Request: {this.request}\r\nResponse: {this.response}";
+            return $"Request: {request}\r\nResponse: {this.response}";
         }
     }
 }

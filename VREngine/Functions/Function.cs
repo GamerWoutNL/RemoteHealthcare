@@ -62,20 +62,21 @@ namespace VRCode
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.name = name;
+            if (parent!="")
             dynamicRequest.parent = parent;
-            dynamicRequest.components = new { };
-
+            dynamic jObject = new JObject();
             if (vRTransform != null)
-                dynamicRequest.transform = vRTransform.GetDynamic().transform;
+                jObject.Add("model", JObject.FromObject(vRTransform.GetDynamic().transform));
             if (vRModel != null)
-                dynamicRequest.model = vRModel.GetDynamic().model;
+                jObject.model = JObject.FromObject(vRModel.GetDynamic().model);
             if (vRTerrain != null)
-                dynamicRequest.terrain = vRTerrain.GetDynamic().terrain;
+                jObject.terrain = JObject.FromObject(vRTerrain.GetDynamic().terrain);
             if (vRPanel != null)
-                dynamicRequest.panel = vRPanel.GetDynamic().panel;
+                jObject.panel = JObject.FromObject(vRPanel.GetDynamic().panel);
             if (vRWater != null)
-                dynamicRequest.water = vRWater.GetDynamic().water;
-
+                jObject.water = JObject.FromObject(vRWater.GetDynamic().water);
+            if (vRTransform == null || vRModel == null || vRTerrain == null || vRPanel == null || vRWater == null)
+                dynamicRequest.Add("components", jObject);
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeAdd, dynamicRequest));
         }
 

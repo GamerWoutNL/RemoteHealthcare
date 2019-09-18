@@ -32,7 +32,7 @@ namespace VRCode
             string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/heightmap.png";
             Console.WriteLine(function.DynaSceneTerrainAdd(path));
             
-            function.DynaSceneNodeAdd("test", "terrain", null, null, new VRTerrain(true), null, null);
+            Console.WriteLine(function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null));
         }
 
         public void CreateFlatTerrain(int length, int width, int height)
