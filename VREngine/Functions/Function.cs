@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace VRCode
 {
+
     class Function
     {
         private Client _client;
@@ -62,8 +63,9 @@ namespace VRCode
         {
             dynamic dynamicRequest = new JObject();
             dynamicRequest.name = name;
-            if (parent!="")
-            dynamicRequest.parent = parent;
+            //Optional fields - Begin
+            if (parent != null)
+                dynamicRequest.parent = parent;
             dynamic jObject = new JObject();
             if (vRTransform != null)
                 jObject.Add("model", JObject.FromObject(vRTransform.GetDynamic().transform));
@@ -75,9 +77,133 @@ namespace VRCode
                 jObject.panel = JObject.FromObject(vRPanel.GetDynamic().panel);
             if (vRWater != null)
                 jObject.water = JObject.FromObject(vRWater.GetDynamic().water);
+            //Optional fields - End
             if (vRTransform == null || vRModel == null || vRTerrain == null || vRPanel == null || vRWater == null)
                 dynamicRequest.Add("components", jObject);
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeAdd, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneNodeUpdate(string id, string parent, VRTransform vRTransform, VRAnimation vRAnimation)
+        {
+            dynamic dynamicRequest = new JObject();
+            dynamicRequest.id = new { id };
+            if (parent != null)
+                dynamicRequest.parent = new { parent };
+            if (vRTransform != null)
+                dynamicRequest.transform = JObject.FromObject(vRTransform.GetDynamic().transform);
+            if (vRAnimation != null)
+                dynamicRequest.animation = JObject.FromObject(vRTransform.GetDynamic().animation);
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeUpdate, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneNodeMoveTo(string id, string stop, VRPoint3D position, VRPoint2D rotation, string interpolate, bool followHeight, double timeOrSpeed, bool isTime)
+        {
+            dynamic dynamicRequest = new JObject();
+            dynamicRequest.id = new { id };
+            dynamicRequest.stop = stop;
+            dynamicRequest.position = JObject.FromObject(position.GetDynamic().position);
+            dynamicRequest.rotate = JObject.FromObject(position.GetDynamic().position);
+            dynamicRequest.interpolate = interpolate;
+            dynamicRequest.followheight = followHeight;
+            if (isTime)
+                dynamicRequest.time = timeOrSpeed;
+            else dynamicRequest.speed = timeOrSpeed;
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeMoveto, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneNodeDelete(string id)
+        {
+            dynamic dynamicRequest = new {id};
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeDelete, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneNodeFind(string name)
+        {
+            dynamic dynamicRequest = new { name };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeFind, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneNodeAddLayer(string id, string diffuse, string normal, double minHeight, double maxHeight, double fadeDist)
+        {
+            dynamic dynamicRequest = new
+            {
+                id,
+                diffuse,
+                normal,
+                minHeight,
+                maxHeight,
+                fadeDist
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeAddlayer, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneNodeDelLayer()
+        {
+            dynamic dynamicRequest = new{ };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneNodeDellayer, dynamicRequest));
+        }
+
+        public VRResponse DynaScenePanelClear(string id)
+        {
+            dynamic dynamicRequest = new { id };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelClear, dynamicRequest));
+        }
+
+        public VRResponse DynaScenePanelSwap(string id)
+        {
+            dynamic dynamicRequest = new { id };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelSwap, dynamicRequest));
+        } 
+
+        public VRResponse DynaScenePanelDrawLines(string id, double width, params VRLine[] vRLines)
+        {
+            dynamic dynamicRequest = new JObject();
+            dynamicRequest.id = id;
+            dynamicRequest.width = width;
+            JArray jArray = new JArray();
+            if (vRLines!=null)
+            {
+                for (int i = 0; i < vRLines.Length; i++)
+                    jArray.Add(JObject.FromObject(vRLines[i].GetDynamic().line));
+                dynamicRequest.lines = jArray;
+            }
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelDrawlines, dynamicRequest));
+        }
+
+        public VRResponse DynaScenePanelSetClearColor(string id, VRColor color)
+        {
+            dynamic dynamicRequest = new
+            {
+                id = new { id },
+                color = JObject.FromObject(color.GetDynamic().color)
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelSetclearcolor, dynamicRequest));
+        }
+
+        public VRResponse DynaScenePanelDrawText(string id, string text, VRPoint2D position, double size, VRColor color, string font)
+        {
+            dynamic dynamicRequest = new
+            {
+                id,
+                text,
+                position = JObject.FromObject(position.GetDynamic().position),
+                size,
+                color = JObject.FromObject(position.GetDynamic().color),
+                font
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelDrawtext, dynamicRequest));
+        }
+
+        public VRResponse DynaScenePanelImage(string id, string image, VRPoint2D position, VRPoint2D size)
+        {
+            dynamic dynamicRequest = new
+            {
+                id = new { id },
+                image,
+                position = JObject.FromObject(position.GetDynamic().position),
+                size = JObject.FromObject(size.GetDynamic().position)
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelImage, dynamicRequest));
         }
 
         public VRResponse DynaSceneTerrainAdd(string file)
