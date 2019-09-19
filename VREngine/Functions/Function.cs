@@ -179,7 +179,31 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelSetclearcolor, dynamicRequest));
         }
 
+        public VRResponse DynaScenePanelDrawText(string id, string text, VRPoint2D position, double size, VRColor color, string font)
+        {
+            dynamic dynamicRequest = new
+            {
+                id,
+                text,
+                position = JObject.FromObject(position.GetDynamic().position),
+                size,
+                color = JObject.FromObject(position.GetDynamic().color),
+                font
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelDrawtext, dynamicRequest));
+        }
 
+        public VRResponse DynaScenePanelImage(string id, string image, VRPoint2D position, VRPoint2D size)
+        {
+            dynamic dynamicRequest = new
+            {
+                id = new { id },
+                image,
+                position = JObject.FromObject(position.GetDynamic().position),
+                size = JObject.FromObject(size.GetDynamic().position)
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.scenePanelImage, dynamicRequest));
+        }
 
         public VRResponse DynaSceneTerrainAdd(VRPoint2D size, int[] heightmap)
         {
