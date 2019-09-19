@@ -45,9 +45,7 @@ namespace VRCode
 
         public void CreateTerrainNode()
         {
-            List<VRComponent> vRComponents = new List<VRComponent>();
-            vRComponents.Add(new VRTerrain(true));
-           // VRResponse response = function.DynaSceneNodeAdd("terrain", "", vRComponents);
+            VRResponse response = function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null);
         }
     }
 }
