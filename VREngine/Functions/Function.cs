@@ -59,6 +59,44 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.pause, new { }));
         }
 
+        public VRResponse DynaSceneGet()
+        {
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneGet, new { }));
+        }
+
+        public VRResponse DynaSceneReset()
+        {
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneReset, new { }));
+        }
+
+        public VRResponse DynaSceneSave(string filename, bool overwrite)
+        {
+            dynamic dynamicRequest = new
+            {
+                filename,
+                overwrite
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneSave, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneLoad(string filename)
+        {
+            dynamic dynamicRequest = new
+            {
+                filename
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneLoad, dynamicRequest()));
+        }
+
+        public VRResponse DynaSceneRaycast(VRPoint3D start, VRPoint3D direction, bool physics)
+        {
+            dynamic dynamicRequest = new JObject();
+            dynamicRequest.start = JArray.FromObject(start.GetDynamic().position);
+            dynamicRequest.direction = JArray.FromObject(direction.GetDynamic().position);
+            dynamicRequest.phyics = physics;
+            return dynamicRequest;
+        }
+
         public VRResponse DynaSceneNodeAdd(string name, string parent, VRTransform vRTransform, VRModel vRModel, VRTerrain vRTerrain, VRPanel vRPanel, VRWater vRWater)
         {
             dynamic dynamicRequest = new JObject();
@@ -227,5 +265,29 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneTerrainAdd, dynamicRequest));
         }
 
+        public VRResponse DynaSceneTerrainUpdate()
+        {
+            dynamic dynamicRequest = new {};
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneTerrainUpdate, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneTerrainDelete()
+        {
+            dynamic dynamicRequest = new { };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneTerrainDelete, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneTerrainGetHeight(params VRPoint2D[] positions)
+        {
+            dynamic dynamicRequest = new JObject();
+            JArray jArray = new JArray();
+            foreach (VRPoint2D position in positions)
+                jArray.Add(JArray.FromObject(position.GetDynamic().position));
+            dynamicRequest.positions = jArray;
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneTerrainGetheight, dynamicRequest));
+        }
+
+        
+            
     }
-}
+}   

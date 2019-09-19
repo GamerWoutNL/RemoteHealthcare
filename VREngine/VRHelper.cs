@@ -147,8 +147,6 @@ namespace Sprint2VR.VR
 
         private dynamic GetTunnelID(string sessionID, string key)
         {
-            //string request = @"{'id': 'tunnel/create', 'data': {'session': '" + sessionID + "', 'key': ''}}";// --> original string from Wout
-
             dynamic dynamicRequest = new JObject();
             dynamicRequest.session = sessionID;
             dynamicRequest.key = key;
@@ -159,16 +157,11 @@ namespace Sprint2VR.VR
 
         private string GetSessionID()
         {
-            //   string request = @"{'id': 'session/list'}"; //--> original string from Wout
             VRResponse vRResponse = DoSimpleRequest(GetSimpleRequest(IDOperations.sessionList));
             string sessionID = String.Empty;
             foreach (var session in vRResponse.response.data)
-            {
-                if (session.clientinfo.user == Environment.UserName) // Environment.username
-                {
+                if (session.clientinfo.user == Environment.UserName) 
                     sessionID = session.id;
-                }
-            }
             return sessionID;
         }
 
