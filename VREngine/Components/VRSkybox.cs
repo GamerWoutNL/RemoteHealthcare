@@ -19,7 +19,7 @@ namespace Sprint2VR.VR.Components
         public override dynamic GetDynamic()
         {
             dynamic dynamicRequest = new JObject();
-            dynamicRequest.type = skyboxType.ToString();
+            dynamicRequest.type = skyboxType;
             if (skyboxType==SkyboxType.@static)
             {
                 dynamicRequest.files = new

@@ -287,7 +287,19 @@ namespace VRCode
             return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneTerrainGetheight, dynamicRequest));
         }
 
-        
-            
+        public VRResponse DynaSceneSkyboxSettime(float time)
+        {
+            dynamic dynamicRequest = new
+            {
+                time
+            };
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneSkyboxSettime, dynamicRequest));
+        }
+          
+        public VRResponse DynaSceneSkyboxUpdate(VRSkybox vRSkybox)
+        {
+            dynamic dynamicRequest = vRSkybox.GetDynamic();
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneSkyboxUpdate, dynamicRequest));
+        }
     }
 }   
