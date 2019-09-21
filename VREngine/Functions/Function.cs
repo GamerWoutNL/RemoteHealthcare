@@ -24,6 +24,7 @@ namespace VRCode
             this._client = client;
             this._tunnelID = tunnelID;
             this._vRHelper = vRHelper;
+             
         }
 
         public VRResponse DynaGet(Sprint2VR.VR.Type type, Button button, Hand hand)
@@ -106,7 +107,7 @@ namespace VRCode
                 dynamicRequest.parent = parent;
             dynamic jObject = new JObject();
             if (vRTransform != null)
-                jObject.Add("model", JObject.FromObject(vRTransform.GetDynamic().transform));
+                jObject.transform = JObject.FromObject(vRTransform.GetDynamic().transform);
             if (vRModel != null)
                 jObject.model = JObject.FromObject(vRModel.GetDynamic().model);
             if (vRTerrain != null)
