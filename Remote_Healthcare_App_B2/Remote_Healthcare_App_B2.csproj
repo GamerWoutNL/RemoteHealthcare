@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ClientServer|AnyCPU'">
+    <OutputPath>bin\ClientServer\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BLELibrary">
       <HintPath>.\BLELibrary.dll</HintPath>

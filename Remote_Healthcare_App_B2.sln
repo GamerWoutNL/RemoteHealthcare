@@ -7,26 +7,41 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remote_Healthcare_App_B2", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VREngine", "VREngine\VREngine.csproj", "{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientServer", "ClientServer\ClientServer.csproj", "{F160A4F9-031D-4F83-9425-EF08C29F4AAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{690A2B5C-955A-4A23-B163-29B41918B75F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C291ECCB-D913-43BD-B2DF-3089F064957A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		ClientServer|Any CPU = ClientServer|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE90096F-274D-43E9-AE78-57665C500FB2}.ClientServer|Any CPU.ActiveCfg = ClientServer|Any CPU
+		{FE90096F-274D-43E9-AE78-57665C500FB2}.ClientServer|Any CPU.Build.0 = ClientServer|Any CPU
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.ClientServer|Any CPU.ActiveCfg = ClientServer|Any CPU
+		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.ClientServer|Any CPU.Build.0 = ClientServer|Any CPU
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690A2B5C-955A-4A23-B163-29B41918B75F}.ClientServer|Any CPU.ActiveCfg = ClientServer|Any CPU
+		{690A2B5C-955A-4A23-B163-29B41918B75F}.ClientServer|Any CPU.Build.0 = ClientServer|Any CPU
+		{690A2B5C-955A-4A23-B163-29B41918B75F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690A2B5C-955A-4A23-B163-29B41918B75F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690A2B5C-955A-4A23-B163-29B41918B75F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690A2B5C-955A-4A23-B163-29B41918B75F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C291ECCB-D913-43BD-B2DF-3089F064957A}.ClientServer|Any CPU.ActiveCfg = ClientServer|Any CPU
+		{C291ECCB-D913-43BD-B2DF-3089F064957A}.ClientServer|Any CPU.Build.0 = ClientServer|Any CPU
+		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
