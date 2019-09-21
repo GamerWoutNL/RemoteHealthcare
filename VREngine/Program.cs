@@ -39,6 +39,7 @@ namespace VRCode
             AddTexture();
             CreateWaterNode();
             CreateHouseNode();
+            CreateSkybox("spires", "spires", "png");
             Console.Read();
             //
 
@@ -66,12 +67,19 @@ namespace VRCode
 
         public void CreateWaterNode()
         {
-            VRResponse response = function.DynaSceneNodeAdd("water", null, new VRTransform(new VRPoint3D(0, 3, 0), new VRPoint3D(0, 0, 0), 1), null, null, null, new VRWater(new VRPoint2D(400, 400), 1));
+            VRResponse response = function.DynaSceneNodeAdd("water", null, new VRTransform(new VRPoint3D(0, 13, 0), new VRPoint3D(0, 0, 0), 1), null, null, null, new VRWater(new VRPoint2D(1000, 1000), 1));
         }
 
         public void CreateHouseNode()
         {
             VRResponse response = function.DynaSceneNodeAdd("house", null, new VRTransform(new VRPoint3D(0, 6, 0), new VRPoint3D(0,0,0), 1), new VRModel(@"data\NetworkEngine\models\houses\set1\citytest1.obj", false, false, null), null, null, null);
+        }
+
+        public void CreateSkybox(string folder, string name, string extension)
+        {
+            VRSkybox vRSkybox = new VRSkybox();
+            vRSkybox.SetCustomSkybox($"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_rt.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_lf.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_up.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_dn.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_bk.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_ft.{extension}");
+            VRResponse response = function.DynaSceneSkyboxUpdate(vRSkybox);
         }
 
         public void AddTexture()
