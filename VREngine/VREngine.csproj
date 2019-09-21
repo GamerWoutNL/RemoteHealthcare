@@ -50,7 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Additional\IRespond.cs" />
     <Compile Include="Additional\VRResponse.cs" />
+    <Compile Include="Additional\VRResponseHandler.cs" />
     <Compile Include="Components\VRAnimation.cs" />
     <Compile Include="Components\VRColor.cs" />
     <Compile Include="Components\VRComponent.cs" />

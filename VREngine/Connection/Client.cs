@@ -25,6 +25,7 @@ namespace Sprint2VR
         {
             this.tcpClient.Connect(server, port);
             this.stream = this.tcpClient.GetStream();
+            this.stream.Flush();
         }
 
         public void Disconnect()
@@ -43,6 +44,7 @@ namespace Sprint2VR
 
         public JObject ReadMessage()
         {
+            this.stream.Flush();
             byte[] prefixBuffer = new byte[4];
             this.stream.Read(prefixBuffer, 0, prefixBuffer.Length);
 
