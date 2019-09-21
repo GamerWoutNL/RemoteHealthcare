@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remote_Healthcare_App_B2", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VREngine", "VREngine\VREngine.csproj", "{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientServer", "ClientServer\ClientServer.csproj", "{F160A4F9-031D-4F83-9425-EF08C29F4AAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F160A4F9-031D-4F83-9425-EF08C29F4AAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
