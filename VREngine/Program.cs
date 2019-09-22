@@ -1,4 +1,5 @@
-﻿using Sprint2VR;
+﻿using Newtonsoft.Json.Linq;
+using Sprint2VR;
 using Sprint2VR.VR;
 using Sprint2VR.VR.Additional;
 using Sprint2VR.VR.Components;
@@ -38,8 +39,9 @@ namespace VRCode
             CreateTerrainNode();
             AddTexture();
             CreateWaterNode();
-            CreateHouseNode();
+            CreateCityNode();
             CreateSkybox("spires", "spires", "png");
+            //DoRaycast1();
             Console.Read();
             //
 
@@ -67,12 +69,12 @@ namespace VRCode
 
         public void CreateWaterNode()
         {
-            VRResponse response = function.DynaSceneNodeAdd("water", null, new VRTransform(new VRPoint3D(0, 13, 0), new VRPoint3D(0, 0, 0), 1), null, null, null, new VRWater(new VRPoint2D(1000, 1000), 1));
+            VRResponse response = function.DynaSceneNodeAdd("water", null, new VRTransform(new VRPoint3D(0, 13, 0), new VRPoint3D(0, 0, 0), 1), null, null, null, new VRWater(new VRPoint2D(1000, 1000), 5));
         }
 
-        public void CreateHouseNode()
+        public void CreateCityNode()
         {
-            VRResponse response = function.DynaSceneNodeAdd("house", null, new VRTransform(new VRPoint3D(0, 6, 0), new VRPoint3D(0,0,0), 1), new VRModel(@"data\NetworkEngine\models\houses\set1\citytest1.obj", false, false, null), null, null, null);
+            VRResponse response = function.DynaSceneNodeAdd("city", null, new VRTransform(new VRPoint3D(0, 6, 0), new VRPoint3D(0,0,0), 1), new VRModel(@"data\NetworkEngine\models\houses\set1\citytest1.obj", false, false, null), null, null, null);
         }
 
         public void CreateSkybox(string folder, string name, string extension)
@@ -80,6 +82,20 @@ namespace VRCode
             VRSkybox vRSkybox = new VRSkybox();
             vRSkybox.SetCustomSkybox($"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_rt.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_lf.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_up.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_dn.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_bk.{extension}", $"data/NetworkEngine/textures/SkyBoxes/{folder}/{name}_ft.{extension}");
             VRResponse response = function.DynaSceneSkyboxUpdate(vRSkybox);
+        }
+
+        public void DoRaycast()
+        {
+            VRResponse response = function.DynaSceneRaycast(new VRPoint3D(0,0,0), new VRPoint3D(0,1,0), false);
+            JArray collision = response.response.data.data.data;
+            Console.WriteLine(collision.Count());
+        }
+
+        public void DoRaycast1()
+        {
+            VRResponse response = function.DynaSceneRaycast(new int[] { 0, 0, 0 }, new int[] { 0, 1, 0 }, true);
+            JArray collision = response.response.data.data.data;
+            Console.WriteLine(collision.Count());
         }
 
         public void AddTexture()

@@ -94,8 +94,17 @@ namespace VRCode
             dynamic dynamicRequest = new JObject();
             dynamicRequest.start = JArray.FromObject(start.GetDynamic().position);
             dynamicRequest.direction = JArray.FromObject(direction.GetDynamic().position);
-            dynamicRequest.phyics = physics;
-            return dynamicRequest;
+            dynamicRequest.physics = physics;
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneRaycast, dynamicRequest));
+        }
+
+        public VRResponse DynaSceneRaycast(int[] start, int[] direction, bool physics)
+        {
+            dynamic dynamicRequest = new JObject();
+            dynamicRequest.start = JArray.FromObject(start);
+            dynamicRequest.direction = JArray.FromObject(direction);
+            dynamicRequest.physics = physics;
+            return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneRaycast, dynamicRequest));
         }
 
         public VRResponse DynaSceneNodeAdd(string name, string parent, VRTransform vRTransform, VRModel vRModel, VRTerrain vRTerrain, VRPanel vRPanel, VRWater vRWater)
