@@ -34,5 +34,10 @@ namespace ErgoConnect
         {
             Console.WriteLine($"Count: {Math.Round(this.updateEventCount)}\t\t Cadence: {this.instanteousCadence} rpm\t\t Acc power: {Math.Round(this.accumulatedPower)} Watt\t\t Inst power: {this.instanteousPower} Watt");
         }
+
+        public override string getData()
+        {
+            return $"BikeData25#{Math.Round(this.updateEventCount)}#{this.instanteousCadence}#{Math.Round(this.accumulatedPower)}#{this.instanteousPower}";
+        }
     }
 }

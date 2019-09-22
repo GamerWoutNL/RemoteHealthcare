@@ -27,6 +27,7 @@ namespace ErgoConnect
         /// Abstract implementation the print data in the console. Must be implemented for testing and debug purposes.
         /// </summary>
         public abstract void printData();
+        public abstract string getData();
        
 
         

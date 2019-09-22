@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using ErgoConnect;
 
 namespace Client
 {
@@ -22,10 +23,48 @@ namespace Client
             client.Connect("localhost", 1717);
 
             stream = client.GetStream();
+            string clientErgoID = "00457";
+
+            //BLEconnect ergoClient = new BLEconnect(clientErgoID);
+
+            BLESimulator simulator = new BLESimulator(clientErgoID);
+
+            List<byte[]> rawData = new List<byte[]>();
+            rawData = simulator.ReadData(ApplicationSettings.GetReadWritePath(clientErgoID), WriteOption.Ergo);
+            BLEDataHandler dataHandler = new BLEDataHandler(clientErgoID);
+
+            for (int i = 0; i < rawData.Count; i++)
+            {
+                BLEDecoderErgo.Decrypt(rawData[i], dataHandler);
+  
+            }
+
+
+
+
+
+            List<BLEData> data = dataHandler._bleData;
+
+            string dataMessage = Environment.UserName + "#";
+
+            
+
+
 
             stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
 
             Write("Connect", Environment.UserName);
+
+            foreach (BLEData dataPacket in data)
+            {
+                dataMessage += dataPacket.getData() + "\n";
+                Write("Datapackage", dataMessage);
+                dataMessage = Environment.UserName + "#";
+
+            }
+
+            
+            
 
             Console.ReadKey();
         }

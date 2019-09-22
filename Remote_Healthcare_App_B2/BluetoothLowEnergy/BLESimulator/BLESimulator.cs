@@ -77,7 +77,7 @@ namespace ErgoConnect
         /// <param name="filePath"></param>
         /// <param name="ergoOrHeartRate"></param>
         /// <returns></returns>
-        private List<byte[]> ReadData(string filePath, WriteOption ergoOrHeartRate)
+        public List<byte[]> ReadData(string filePath, WriteOption ergoOrHeartRate)
         {
             filePath = GetErgoHeartRatePath(filePath, ergoOrHeartRate);
             List<Byte[]> deSerializedObject = ReadToFileBinary<List<Byte[]>>(filePath);

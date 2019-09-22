@@ -17,6 +17,9 @@ namespace ErgoConnect
         public const bool printChecksum=false;
         private BLEDataHandler dataHandler;
         private BLESimulator bLESimulator;
+        private byte[] rawDataHR;
+        private byte[] rawDataErgo;
+
 
         /// <summary>
         /// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
@@ -177,6 +180,7 @@ namespace ErgoConnect
         {
             bLESimulator.SaveBytesHeartRate(e.Data);
             bLESimulator.WriteData(WriteOption.Heartrate);
+            rawDataHR = e.Data;
             BLEDecoderHR.Decrypt(e.Data, this.dataHandler);
         }
 
@@ -190,7 +194,17 @@ namespace ErgoConnect
         {
             bLESimulator.SaveBytesErgo(e.Data);
             bLESimulator.WriteData(WriteOption.Ergo);
+            rawDataErgo = e.Data;
             BLEDecoderErgo.Decrypt(e.Data, this.dataHandler);   
+        }
+
+        public byte[] getRawDataHR()
+        {
+            return rawDataHR;
+        }
+        public byte[] getRawDataErgo()
+        {
+            return rawDataErgo;
         }
     }
 }

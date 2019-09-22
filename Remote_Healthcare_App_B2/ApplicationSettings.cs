@@ -9,7 +9,7 @@ namespace ErgoConnect
     /// <summary>
     /// Handy application settings, such as save directories.
     /// </summary>
-    class ApplicationSettings
+    public class ApplicationSettings
     {
         /// <summary>
         /// Receive the save directory for bluetooth data.

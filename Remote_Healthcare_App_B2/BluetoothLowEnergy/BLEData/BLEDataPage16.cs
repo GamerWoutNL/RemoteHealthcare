@@ -36,5 +36,10 @@ namespace ErgoConnect
         {
             Console.WriteLine($"Elapsed Time: {Math.Round(this.elapsedTime)} sec\t\t Distance: {this.distanceTravelled} m\t\t Speed: {Math.Round(this.speed)} kmph\t\t Heart rate: {this.heartRate} bpm");
         }
+
+        public override string getData()
+        {
+            return $"BikeData16#{Math.Round(this.elapsedTime)}#{this.distanceTravelled}#{Math.Round(this.speed)}#{this.heartRate}";
+        }
     }
 }
