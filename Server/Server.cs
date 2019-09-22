@@ -20,7 +20,7 @@ namespace Server
 
         Server()
         {
-            listener = new TcpListener(IPAddress.Any, 1717);
+            listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
             Console.ReadKey();

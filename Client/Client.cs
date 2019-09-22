@@ -20,7 +20,7 @@ namespace Client
         static void Main(string[] args)
         {
             TcpClient client = new TcpClient();
-            client.Connect("localhost", 1717);
+            client.Connect("localhost", 1717); // was 1717
 
             stream = client.GetStream();
             string clientErgoID = "00457";
@@ -39,34 +39,22 @@ namespace Client
   
             }
 
-
-
-
-
             List<BLEData> data = dataHandler._bleData;
 
             string dataMessage = Environment.UserName + "#";
 
-            
-
-
-
-            stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            //stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
 
             Write("Connect", Environment.UserName);
 
             foreach (BLEData dataPacket in data)
             {
                 dataMessage += dataPacket.getData() + "\n";
+                System.Threading.Thread.Sleep(1000);
                 Write("Datapackage", dataMessage);
                 dataMessage = Environment.UserName + "#";
 
             }
-
-            
-            
-
-            Console.ReadKey();
         }
 
         private static void Write(string tag, string message)

@@ -38,6 +38,7 @@ namespace Server
             string[] data = Regex.Split(message, "#");
             Console.WriteLine(data[0]);
             handleMessage(data);
+            stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
         private void handleMessage(string[] data)
@@ -56,6 +57,7 @@ namespace Server
                     break;
                 default:
                     Console.WriteLine($"Tag: {data[0]} not recognized!");
+                    stream.Flush(); // Added for debug purposes.
                     break;
             }
         }
