@@ -49,11 +49,10 @@ namespace Client
 
             foreach (BLEData dataPacket in data)
             {
-                dataMessage += dataPacket.getData() + "\n";
+                dataMessage += dataPacket.GetData() + "\n";
                 System.Threading.Thread.Sleep(1000);
                 Write("Datapackage", dataMessage);
                 dataMessage = Environment.UserName + "#";
-
             }
         }
 

@@ -182,6 +182,7 @@ namespace ErgoConnect
             bLESimulator.WriteData(WriteOption.Heartrate);
             rawDataHR = e.Data;
             BLEDecoderHR.Decrypt(e.Data, this.dataHandler);
+            string ToSendHeartRateData = dataHandler.ReadLastData();
         }
 
         /// <summary>
@@ -195,7 +196,8 @@ namespace ErgoConnect
             bLESimulator.SaveBytesErgo(e.Data);
             bLESimulator.WriteData(WriteOption.Ergo);
             rawDataErgo = e.Data;
-            BLEDecoderErgo.Decrypt(e.Data, this.dataHandler);   
+            BLEDecoderErgo.Decrypt(e.Data, this.dataHandler);
+            string ToSendErgoData = dataHandler.ReadLastData();
         }
 
         public byte[] getRawDataHR()

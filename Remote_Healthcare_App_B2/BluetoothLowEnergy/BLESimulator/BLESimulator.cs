@@ -50,6 +50,7 @@ namespace ErgoConnect
                 if (i >= data.Count - 1)
                     i = 0;
                 i++;
+                string toSend = bLEDataHandler.ReadLastData(); // Data that should be send to the client.
             }
         }
 

@@ -30,14 +30,15 @@ namespace ErgoConnect
         /// <summary>
         /// Implementation of printing data to the console.
         /// </summary>
-        public override void printData()
+        public override void PrintData()
         {
             Console.WriteLine($"Count: {Math.Round(this.updateEventCount)}\t\t Cadence: {this.instanteousCadence} rpm\t\t Acc power: {Math.Round(this.accumulatedPower)} Watt\t\t Inst power: {this.instanteousPower} Watt");
         }
 
-        public override string getData()
+        public override string GetData()
         {
-            return $"BikeData25#{Math.Round(this.updateEventCount)}#{this.instanteousCadence}#{Math.Round(this.accumulatedPower)}#{this.instanteousPower}";
+            return $"<{Tag.EC.ToString()}>{updateEventCount}<{Tag.IC.ToString()}>{instanteousCadence}<{Tag.AP.ToString()}>{accumulatedPower}<{Tag.IP.ToString()}>{instanteousPower}<{Tag.EOF.ToString()}>";
+            //return $"BikeData25#{Math.Round(this.updateEventCount)}#{this.instanteousCadence}#{Math.Round(this.accumulatedPower)}#{this.instanteousPower}";
         }
     }
 }
