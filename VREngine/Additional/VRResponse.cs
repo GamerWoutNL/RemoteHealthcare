@@ -9,14 +9,17 @@ namespace Sprint2VR.VR.Additional
     public class VRResponse
     {
         public dynamic request { get; }
-        public dynamic response { get; }
+        public dynamic response { get; set;  }
 
-        public VRResponse(dynamic request, dynamic response)
+        public VRResponse(dynamic request)
         {
             this.request = request;
             this.response = response;
         }
 
-      
+        public override string ToString()
+        {
+            return $"Request: {request}\r\nResponse: {this.response}";
+        }
     }
 }

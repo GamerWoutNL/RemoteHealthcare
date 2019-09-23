@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,16 +24,27 @@ namespace Sprint2VR.VR.Components
 
         public override dynamic GetDynamic()
         {
-            return new
-            {
-                model = new
-                {
-                    file = fileName,
-                    cullbackfaces = cullBackFaces,
-                    animated,
-                    animation
-                }
-            };
+            dynamic request = new JObject();
+            dynamic model = new JObject();
+            model.file = fileName;
+            if (cullBackFaces != false)
+                model.cullbackfaces = cullBackFaces;
+            if (animated != false)
+                model.animated = animated;
+            if (animation != null)
+                model.animation = animation;
+            request.model = model;
+            return request;
+            //return new
+            //{
+            //    model = new
+            //    {
+            //        file = fileName,
+            //        cullbackfaces = cullBackFaces,
+            //        animated,
+            //        animation
+            //    }
+            //};
         }
     }
 }

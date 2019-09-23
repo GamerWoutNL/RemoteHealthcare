@@ -22,10 +22,18 @@ namespace Sprint2VR.VR.Components
             dynamicRequest.type = skyboxType.ToString();
             if (skyboxType==SkyboxType.@static)
             {
-                dynamicRequest.files = new
-                {
-                    xpos, xneg, ypos, yneg, zpos, zneg
-                };
+                dynamic files = new JObject();
+                files.xpos = xpos;
+                files.xneg = xneg;
+                files.ypos = ypos;
+                files.yneg = yneg;
+                files.zpos = zpos;
+                files.zneg = zneg;
+                dynamicRequest.files = files;
+                //dynamicRequest.files = new
+                //{
+                //    xpos, xneg, ypos, yneg, zpos, zneg
+                //};
             }
             return dynamicRequest;
         }

@@ -25,6 +25,7 @@ namespace Sprint2VR
         {
             this.tcpClient.Connect(server, port);
             this.stream = this.tcpClient.GetStream();
+            this.stream.Flush();
         }
 
         public void Disconnect()
@@ -35,7 +36,7 @@ namespace Sprint2VR
 
         public void WriteMessage(dynamic message)
         {
-            Console.WriteLine("Send: "+JsonConvert.SerializeObject(message));
+            Console.WriteLine("Send in client: "+JsonConvert.SerializeObject(message));
             byte[] packet = this.GetPrefixedMessage(JsonConvert.SerializeObject(message));
             this.stream.Write(packet, 0, packet.Length);
             this.stream.Flush();
@@ -43,6 +44,7 @@ namespace Sprint2VR
 
         public JObject ReadMessage()
         {
+            this.stream.Flush();
             byte[] prefixBuffer = new byte[4];
             this.stream.Read(prefixBuffer, 0, prefixBuffer.Length);
 
