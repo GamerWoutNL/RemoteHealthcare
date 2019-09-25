@@ -22,7 +22,9 @@ namespace ErgoConnect
 
         // Extra
         EOF, // End Of File
-        ID // Tag of Ergometer / simulator ID
+        ID, // Tag of Ergometer / simulator ID
+		TS, // Timestamp
+		MT //The Message type of the message
     }
 
     /// <summary>

@@ -24,29 +24,31 @@ namespace Server
 
 		// Extra
 		EOF, // End Of File
-		ID // Tag of Ergometer / simulator ID
+		ID, // Tag of Ergometer / simulator ID
+		TS, // Timestamp
+		MT //The Message type of the message
 	}
 
 	class ServerClient
-    {
-        private TcpClient tcpclient;
-        private NetworkStream stream;
+	{
+		private TcpClient tcpclient;
+		private NetworkStream stream;
 		private byte[] buffer;
 		private string totalBuffer;
 
-        public ServerClient(TcpClient client)
-        {
-            this.tcpclient = client;
-            this.stream = client.GetStream();
+		public ServerClient(TcpClient client)
+		{
+			this.tcpclient = client;
+			this.stream = client.GetStream();
 			this.buffer = new byte[1024];
 			this.totalBuffer = String.Empty;
 
 			this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
-        }
+		}
 
-        private void OnRead(IAsyncResult ar)
-        {
-            int receivedBytes = stream.EndRead(ar);
+		private void OnRead(IAsyncResult ar)
+		{
+			int receivedBytes = stream.EndRead(ar);
 			this.totalBuffer += Encoding.ASCII.GetString(buffer, 0, receivedBytes);
 
 			while (totalBuffer.Contains("<EOF>"))
@@ -60,9 +62,22 @@ namespace Server
 			this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
 		}
 
-		private void HandlePacket(string data)
+		private void HandlePacket(string packet)
 		{
-			Console.WriteLine(data);
+			this.GetValueByTag(TagErgo.ID, packet);
 		}
-    }
+
+		private string GetValueByTag(TagErgo tag, string packet)
+		{
+			string[] tags = packet.Split('<');
+			foreach (string a in tags)
+			{
+				if (a.Substring(0, 2) == tag.ToString())
+				{
+					Console.WriteLine(a.Substring(0, 2));
+				}
+			}
+			return "";
+		}
+	}
 }
