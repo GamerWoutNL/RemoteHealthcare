@@ -36,16 +36,6 @@ namespace Client
 			this._tcpClient.Close();
 		}
 
-		private void Write(string tag, string message)
-        {
-            string fullMessage = tag + "#" + message;
-
-            Console.WriteLine("Writing: " + fullMessage);
-
-            _stream.Write(Encoding.ASCII.GetBytes(fullMessage), 0, fullMessage.Length);
-            _stream.Flush();
-        }
-
         private void OnRead(IAsyncResult ar)
         {
             Console.WriteLine("Data received");
@@ -54,7 +44,10 @@ namespace Client
 
 		public void Write(string ergoData)
 		{
-			Console.WriteLine(ergoData);
+			Console.WriteLine($"Writing: {ergoData}");
+
+			this._stream.Write(Encoding.ASCII.GetBytes(ergoData), 0, ergoData.Length);
+			this._stream.Flush();
 		}
 	}
 }

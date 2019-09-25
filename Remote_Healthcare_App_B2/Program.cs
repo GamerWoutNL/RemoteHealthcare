@@ -21,15 +21,14 @@ namespace ErgoConnect
 			new Program("00438");
         }
 
-		
-
 		public Program(string ergoID)
 		{
 			this.ergoID = ergoID;
 			this.client = new Client.Client(1024);
 			//client.Connect("localhost", 1717, ergoID);
 			BLEConnect ergo = new BLEConnect(ergoID, client, this);
-			bool isConnected = ergo.Connect();
+			ergo.Connect();
+
 			Console.Read();
 		}
 		public void Create()
