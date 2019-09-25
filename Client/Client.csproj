@@ -53,9 +53,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Remote_Healthcare_App_B2\Remote_Healthcare_App_B2.csproj">
+    <ProjectReference Include="..\Remote_Healthcare_App_B2\Ergometer.csproj">
       <Project>{fe90096f-274d-43e9-ae78-57665c500fb2}</Project>
-      <Name>Remote_Healthcare_App_B2</Name>
+      <Name>Ergometer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
