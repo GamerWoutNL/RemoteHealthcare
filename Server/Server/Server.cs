@@ -10,13 +10,13 @@ namespace Server
 {
     class Server
     {
-        static void Main(string[] args)
+		TcpListener listener;
+		private List<ServerClient> clients = new List<ServerClient>();
+
+		static void Main(string[] args)
         {
             new Server();
         }
-
-        TcpListener listener;
-        private List<ServerClient> clients = new List<ServerClient>();
 
         Server()
         {
@@ -29,7 +29,7 @@ namespace Server
         private void OnConnect(IAsyncResult ar)
         {
             TcpClient newClient = listener.EndAcceptTcpClient(ar);
-            Console.WriteLine("Client connected");
+            Console.WriteLine("New client connected");
             clients.Add(new ServerClient(newClient));
 
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
