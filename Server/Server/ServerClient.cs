@@ -49,9 +49,20 @@ namespace Server
             int receivedBytes = stream.EndRead(ar);
 			this.totalBuffer += Encoding.ASCII.GetString(buffer, 0, receivedBytes);
 
-			Console.WriteLine(totalBuffer);
+			while (totalBuffer.Contains("<EOF>"))
+			{
+				string packet = totalBuffer.Substring(0, totalBuffer.IndexOf("<EOF>") + 5);
+				totalBuffer = totalBuffer.Substring(packet.IndexOf("<EOF>") + 5);
+
+				HandlePacket(packet);
+			}
 
 			this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+		}
+
+		private void HandlePacket(string data)
+		{
+			Console.WriteLine(data);
 		}
     }
 }
