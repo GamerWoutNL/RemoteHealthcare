@@ -64,36 +64,7 @@ namespace Server
 
 		private void HandlePacket(string packet)
 		{
-			Console.WriteLine(GetValueByTag(TagErgo.TS, packet));
-		}
-
-		private string GetValueByTag(TagErgo tag, string packet)
-		{
-			try
-			{
-				int tagPos = packet.IndexOf(tag.ToString());
-				int start = 0;
-				int end = 0;
-
-				for (int i = tagPos; i < packet.Length; i++)
-				{
-					if (packet[i] == '>')
-					{
-						start = i;
-					}
-					if (packet[i] == '<')
-					{
-						end = i;
-						break;
-					}
-				}
-				return packet.Substring(start, end - start);
-			}
-			catch (Exception e)
-			{
-
-			}
-			return "";
+			
 		}
 	}
 }
