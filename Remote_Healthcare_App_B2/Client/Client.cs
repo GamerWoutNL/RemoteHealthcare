@@ -55,7 +55,6 @@ namespace Client
 		public void Write(string ergoData)
 		{
 			Console.WriteLine(ergoData);
-			Console.Read();
 		}
 	}
 }

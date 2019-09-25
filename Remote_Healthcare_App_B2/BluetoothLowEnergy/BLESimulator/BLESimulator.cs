@@ -166,7 +166,7 @@ namespace ErgoConnect
         /// <param name="newFile"></param>
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
-            Console.WriteLine("Path: " + pathToFile);
+            //Console.WriteLine("Path: " + pathToFile);
             
             using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.File.Exists(pathToFile) ? System.IO.FileMode.Truncate : System.IO.FileMode.Create))
             {

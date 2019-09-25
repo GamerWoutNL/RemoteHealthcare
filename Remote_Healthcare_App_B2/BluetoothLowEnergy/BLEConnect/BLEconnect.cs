@@ -6,13 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avans.TI.BLE;
 using Client;
+using ErgoConnect.BluetoothLowEnergy;
 
 namespace ErgoConnect
 {
 	/// <summary>
 	/// The BLEConnect class handles connecting to the Ergometer and Heart Rate Monitor. 
 	/// </summary>
-	public class BLEconnect
+	public class BLEConnect
 	{
 		public System.String ergometerSerialLastFiveNumbers;
 		public const bool printChecksum = false;
@@ -21,19 +22,21 @@ namespace ErgoConnect
 		private byte[] rawDataHR;
 		private byte[] rawDataErgo;
 		private IClient iClient;
-		private bool isConnected;
+		private ISim iSim;
+		private bool isConnected = false;
 
 
 		/// <summary>
 		/// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
 		/// </summary>
 		/// <param name="ergometerSerialLastFiveNumbers"></param>
-		public BLEconnect(System.String ergometerSerialLastFiveNumbers, IClient iClient)
+		public BLEConnect(System.String ergometerSerialLastFiveNumbers, IClient iClient, ISim iSim)
 		{
 			this.ergometerSerialLastFiveNumbers = ergometerSerialLastFiveNumbers;
 			bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
 			this.dataHandler = new BLEDataHandler(ergometerSerialLastFiveNumbers);
 			this.iClient = iClient;
+			this.iSim = iSim;
 		}
 
 		public bool Connect()
@@ -56,13 +59,21 @@ namespace ErgoConnect
 
 			Thread.Sleep(2000);
 
-			foreach (string device in ergometerBLE.ListDevices())
-				isConnected = device.Replace(" ", String.Empty).ToLower().Contains(ergometerSerialLastFiveNumbers.Replace(" ", String.Empty).ToLower());
-			if (isConnected)
-			{
-				await ScanConnectForErgo(ergometerBLE, ergometerSerialLastFiveNumbers);
-				await ScanConnectForHR(heartrateBLE);
-			}
+			//foreach (string device in ergometerBLE.ListDevices())
+			//{
+			//	//isConnected = device.Replace(" ", String.Empty).ToLower().Contains(ergometerSerialLastFiveNumbers.Replace(" ", String.Empty).ToLower());
+			//	isConnected = device.Contains(ergometerSerialLastFiveNumbers);
+			//	if (isConnected)
+			//	{
+			//		break;
+			//	}
+			//}
+
+
+			await ScanConnectForErgo(ergometerBLE, ergometerSerialLastFiveNumbers);
+			await ScanConnectForHR(heartrateBLE);
+
+
 		}
 
 		/// <summary>
@@ -100,6 +111,9 @@ namespace ErgoConnect
 			// Subscribe 
 			ergometerBLE.SubscriptionValueChanged += Ergo_SubscriptionValueChanged;
 			errorCode = await ergometerBLE.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
+
+			if (errorCode != 0) iSim.Create();
+			Console.WriteLine(errorCode); // Errorcode to check if is connected.
 		}
 
 		/// <summary>
