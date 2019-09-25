@@ -1,4 +1,5 @@
 ﻿using Avans.TI.BLE;
+using Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +23,28 @@ namespace ErgoConnect
     {
         private List<byte[]> _bytesErgo = new List<byte[]>();
         private List<byte[]> _bytesHeartRate = new List<byte[]>();
-        private string ergoID;
+        private string _ergoID;
+		private IClient _iClient;
 
-        /// <summary>
-        /// The ergoID is needed to define the save location of the Ergometer data.
-        /// </summary>
-        /// <param name="ergoID"></param>
-        public BLESimulator(string ergoID)
+		/// <summary>
+		/// The ergoID is needed to define the save location of the Ergometer data.
+		/// </summary>
+		/// <param name="ergoID"></param>
+		public BLESimulator(string ergoID, IClient iClient)
         {
-            this.ergoID = ergoID;
+            this._ergoID = ergoID;
+			this._iClient = iClient;
         }
+
+		/// <summary>
+		/// Use only for BLEConnect
+		/// </summary>
+		/// <param name="ergoID"></param>
+
+		public BLESimulator(string ergoID)
+		{
+			this._ergoID = ergoID;
+		}
 
         /// <summary>
         /// Run the simulator with a data transfer time of 4Hz, just like the real protocol.
@@ -39,20 +52,23 @@ namespace ErgoConnect
 
         public void RunSimulator()
         {
-            BLEDataHandler bLEDataHandler = new BLEDataHandler(ergoID);
+            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID);
             int i = 0;
             List<byte[]> data = new List<byte[]>();
             while (true)
             {
-                data = ReadData(ApplicationSettings.GetReadWritePath(ergoID), WriteOption.Ergo);
-                System.Threading.Thread.Sleep(250);
+                data = ReadData(ApplicationSettings.GetReadWritePath(_ergoID), WriteOption.Ergo);
                 BLEDecoderErgo.Decrypt(data[i], bLEDataHandler);
-                if (i >= data.Count - 1)
-                    i = 0;
-                i++;
                 string toSend = bLEDataHandler.ReadLastData(); // Data that should be send to the client.
-            }
-        }
+				this._iClient.Write(toSend);
+
+				if (i >= data.Count - 1)
+					i = 0;
+				i++;
+
+				System.Threading.Thread.Sleep(250);
+			}
+		}
 
         /// <summary>
         /// Save bytes for record purposes of Ergometer.
@@ -106,7 +122,7 @@ namespace ErgoConnect
         /// <param name="writeOption"></param>
         public void WriteData(WriteOption writeOption)
         {
-            string pathToFile = GetErgoHeartRatePath(ApplicationSettings.GetReadWritePath(ergoID), writeOption);
+            string pathToFile = GetErgoHeartRatePath(ApplicationSettings.GetReadWritePath(_ergoID), writeOption);
             List<byte[]> dataToWrite = new List<byte[]>();
             switch (writeOption)
             {

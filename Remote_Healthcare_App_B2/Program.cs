@@ -14,15 +14,19 @@ namespace ErgoConnect
     {
         public static void Main(string[] args)
         {
+			string ergoID = "00472";
+
 			Client.Client client = new Client.Client(1024);
-			client.Connect("localhost", 1717, "00472");
+			client.Connect("localhost", 1717, ergoID);
 
+            BLEconnect ergo1 = new BLEconnect(ergoID, client);
+			if(!ergo1.Connect())
+			{
+				BLESimulator simulator = new BLESimulator(ergoID, client);
+				simulator.RunSimulator();
+			}
 
-
-            BLEconnect ergo1 = new BLEconnect("00472", client);
-            //BLESimulator simulator = new BLESimulator("00457");
-            //simulator.RunSimulator();
-            Console.Read();
+			Console.Read();
         }
     }
 }
