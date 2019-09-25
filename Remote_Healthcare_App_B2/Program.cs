@@ -25,11 +25,13 @@ namespace ErgoConnect
 		{
 			this.ergoID = ergoID;
 			this.client = new Client.Client(1024);
-			//client.Connect("localhost", 1717, ergoID);
+			client.Connect("localhost", 1717, ergoID);
+
 			BLEConnect ergo = new BLEConnect(ergoID, client, this);
 			ergo.Connect();
 
 			Console.Read();
+			client.Disconnect();
 		}
 		public void Create()
 		{
