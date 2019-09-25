@@ -182,7 +182,7 @@ namespace Server
                         string value = packet.Substring(startPosition, endPosition - startPosition);
                         Console.WriteLine($"Found value corresponding with tag : {completeTag} {value}");
                     }
-                    catch (Exception e) { Console.WriteLine("Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed code?"); Console.WriteLine(e.ToString()); }
+                    catch (ArgumentOutOfRangeException e) { Console.WriteLine("Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed code?"); Console.WriteLine(e.ToString()); }
                     Console.WriteLine("String does not contain your searched tag, have you added tags?");
                 }
             }
