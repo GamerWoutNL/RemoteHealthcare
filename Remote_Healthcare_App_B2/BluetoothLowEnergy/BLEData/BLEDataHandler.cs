@@ -71,17 +71,7 @@ namespace ErgoConnect
         public string ReadLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
-            //if (data is BLEDataPage16)
-            //{
-            //    // Action for page 16 data
-            //    //return data.GetData();
-            //}
-            //if (data is BLEDataPage25)
-            //{
-            //    // Action for page 25 data
-            //    //return data.GetData();
-            //}
-            return $"<{Tag.ID.ToString()}>{ergoID}{data.GetData()}";
+            return $"<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
         }
     }
 }

@@ -39,8 +39,7 @@ namespace ErgoConnect
 
         public override string GetData()
         {
-            return $"<{Tag.ET.ToString()}>{elapsedTime}<{Tag.DT.ToString()}>{distanceTravelled}<{Tag.SP.ToString()}>{speed}<{Tag.HR.ToString()}>{heartRate}<{Tag.EOF.ToString()}>";
-            //return $"BikeData16#{Math.Round(this.elapsedTime)}#{this.distanceTravelled}#{Math.Round(this.speed)}#{this.heartRate}";
+            return $"<{Tag.ET.ToString()}>{elapsedTime}<{Tag.DT.ToString()}>{distanceTravelled}<{Tag.SP.ToString()}>{speed}<{Tag.HR.ToString()}>{heartRate}";
         }
     }
 }

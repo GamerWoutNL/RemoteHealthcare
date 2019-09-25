@@ -59,6 +59,7 @@
     <Compile Include="BluetoothLowEnergy\BLEData\BLEDataPage25.cs" />
     <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoderHR.cs" />
     <Compile Include="BluetoothLowEnergy\BLESimulator\BLESimulator.cs" />
+    <Compile Include="Client\Client.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

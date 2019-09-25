@@ -37,8 +37,7 @@ namespace ErgoConnect
 
         public override string GetData()
         {
-            return $"<{Tag.EC.ToString()}>{updateEventCount}<{Tag.IC.ToString()}>{instanteousCadence}<{Tag.AP.ToString()}>{accumulatedPower}<{Tag.IP.ToString()}>{instanteousPower}<{Tag.EOF.ToString()}>";
-            //return $"BikeData25#{Math.Round(this.updateEventCount)}#{this.instanteousCadence}#{Math.Round(this.accumulatedPower)}#{this.instanteousPower}";
+            return $"<{Tag.EC.ToString()}>{updateEventCount}<{Tag.IC.ToString()}>{instanteousCadence}<{Tag.AP.ToString()}>{accumulatedPower}<{Tag.IP.ToString()}>{instanteousPower}";
         }
     }
 }
