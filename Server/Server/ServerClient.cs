@@ -24,9 +24,9 @@ namespace Server
 
         // Extra
         EOF, // End Of File
-        ID, // Tag of Ergometer / simulator ID
-        TS, // Timestamp
-        MT //The Message type of the message
+        ID,  // Tag of Ergometer / simulator ID
+        TS,  // Timestamp
+        MT   //The Message type of the message
     }
 
     public enum TagDoctor
@@ -88,6 +88,7 @@ namespace Server
             //string tsValue = GetValueByTag(TagErgo.TS, packet);
 
             string mtValue = GetValueByTag(TagErgo.MT, packet);
+            //string mtValue = "bla";
             string idValue = GetValueByTag(TagErgo.ID, packet);
 
             // Fastest way to handle the data.
@@ -105,37 +106,46 @@ namespace Server
 
         private void HandleInputErgo(TagErgo tag, string value, string ergoID)
         {
-            ClientData clientData;
-            clientDatas.TryGetValue(ergoID, out clientData);
-            switch (tag)
+            Console.WriteLine("Running");
+            if (value != String.Empty)
             {
-                case TagErgo.ET:
-                    clientData.AddET(value);
-                    break;
-                case TagErgo.DT:
-                    clientData.AddDT(value);
-                    break;
-                case TagErgo.SP:
-                    clientData.AddSP(value);
-                    break;
-                case TagErgo.HR:
-                    clientData.AddHR(value);
-                    break;
-                case TagErgo.EC:
-                    clientData.AddEC(value);
-                    break;
-                case TagErgo.IC:
-                    clientData.AddIC(value);
-                    break;
-                case TagErgo.AP:
-                    clientData.AddAP(value);
-                    break;
-                case TagErgo.IP:
-                    clientData.AddIP(value);
-                    break;
-                case TagErgo.TS:
-                    clientData.AddTS(value);
-                    break;
+                ClientData clientData;
+                if (!clientDatas.TryGetValue(ergoID, out clientData))
+                {
+                    clientData = new ClientData();
+                    clientDatas.Add(ergoID, clientData);
+                }
+                switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
+                {
+                    case TagErgo.ET:
+                        clientData.AddET(value);
+                        break;
+                    case TagErgo.DT:
+                        clientData.AddDT(value);
+                        break;
+                    case TagErgo.SP:
+                        clientData.AddSP(value);
+                        break;
+                    case TagErgo.HR:
+                        clientData.AddHR(value);
+                        break;
+                    case TagErgo.EC:
+                        clientData.AddEC(value);
+                        break;
+                    case TagErgo.IC:
+                        clientData.AddIC(value);
+                        break;
+                    case TagErgo.AP:
+                        clientData.AddAP(value);
+                        break;
+                    case TagErgo.IP:
+                        clientData.AddIP(value);
+                        break;
+                    case TagErgo.TS:
+                        clientData.AddTS(value);
+                        break;
+                }
+                Console.WriteLine(clientData.ToString());
             }
         }
 
@@ -151,18 +161,20 @@ namespace Server
 
         private string GetValueByTag(TagErgo tag, string packet)
         {
+            char openTag = '<';
+            char closeTag = '>';
             if (tag != TagErgo.EOF)
             {
-                string completeTag = $"<{tag.ToString()}>";
+                string completeTag = $"{openTag}{tag.ToString()}{closeTag}";
                 if (packet.Contains(completeTag))
                 {
-                    Console.WriteLine("Package contains tag!");
+                  //  Console.WriteLine("Found and processed tag! {tag.ToString()}");
                     int startPosition = -1;
                     int endPosition = -1;
                     for (int i = packet.IndexOf(completeTag); i < packet.Length; i++)
                     {
                         char characterAtIndex = packet[i];
-                        if (characterAtIndex == '>' && i + 1 < packet.Length)
+                        if (characterAtIndex == closeTag && i + 1 < packet.Length)
                         {
                             startPosition = i + 1;
                             break;
@@ -171,7 +183,7 @@ namespace Server
                     for (int i = startPosition; i < packet.Length; i++)
                     {
                         char characterAtIndex = packet[i];
-                        if (characterAtIndex == '<' && i - 1 >= 0)
+                        if (characterAtIndex == openTag && i - 1 >= 0)
                         {
                             endPosition = i;
                             break;
@@ -180,11 +192,12 @@ namespace Server
                     try
                     {
                         string value = packet.Substring(startPosition, endPosition - startPosition);
-                        Console.WriteLine($"Found value corresponding with tag : {completeTag} {value}");
+                        //Console.WriteLine($"Found value corresponding with tag : {completeTag}{value}");
+                        return value;
                     }
-                    catch (ArgumentOutOfRangeException e) { Console.WriteLine("Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed code?"); Console.WriteLine(e.ToString()); }
-                    Console.WriteLine("String does not contain your searched tag, have you added tags?");
+                    catch (ArgumentOutOfRangeException e) { Console.WriteLine("Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed any code?"); Console.WriteLine(e.ToString()); }
                 }
+               // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
             }
             return String.Empty;
         }

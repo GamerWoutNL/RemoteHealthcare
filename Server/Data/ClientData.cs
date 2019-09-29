@@ -31,6 +31,12 @@ namespace Server
             this._timeStamp = new List<String>();
 		}
 
+        public override string ToString()
+        {
+            string sizes = $"Elapsed Time: {_elapsedTime.Count()} \nDistance Travelled: {_distanceTravelled.Count()} \nSpeed: {_speed.Count()} \nHeartrate: {_heartRate.Count()} \nEvent count: {_eventCount.Count()} \nInstanteous cadence: {_instanteousCadance.Count()} \nAccumulated power: {_accumulatedPower.Count()} \nInstanteous power: {_instanteousPower.Count()} \nTimestamp: {_timeStamp.Count()}";
+            return sizes;
+        }
+
 		public void AddET(string et)
 		{
 			this._elapsedTime.Add(et);
