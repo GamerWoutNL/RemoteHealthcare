@@ -24,13 +24,14 @@ namespace ErgoConnect
 		private IClient iClient;
 		private ISim iSim;
 		private bool isConnected = false;
+        private const string serviceNumber = "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e";
 
 
-		/// <summary>
-		/// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
-		/// </summary>
-		/// <param name="ergometerSerialLastFiveNumbers"></param>
-		public BLEConnect(System.String ergometerSerialLastFiveNumbers, IClient iClient, ISim iSim)
+        /// <summary>
+        /// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
+        /// </summary>
+        /// <param name="ergometerSerialLastFiveNumbers"></param>
+        public BLEConnect(System.String ergometerSerialLastFiveNumbers, IClient iClient, ISim iSim)
 		{
 			this.ergometerSerialLastFiveNumbers = ergometerSerialLastFiveNumbers;
 			bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
@@ -107,10 +108,10 @@ namespace ErgoConnect
 																									  // Receive bluetooth services and print afterwards, error check.
 			printServices(ergometerBLE);
 			// Set service
-			errorCode = await ergometerBLE.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
+			errorCode = await ergometerBLE.SetService(serviceNumber);
 			// Subscribe 
 			ergometerBLE.SubscriptionValueChanged += Ergo_SubscriptionValueChanged;
-			errorCode = await ergometerBLE.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
+			errorCode = await ergometerBLE.SubscribeToCharacteristic(serviceNumber);
 
 			if (errorCode != 0) iSim.Create();
 			Console.WriteLine(errorCode); // Errorcode to check if is connected.
@@ -185,8 +186,10 @@ namespace ErgoConnect
 
 		private void SendResistance(BLE ble, double percentage)
 		{
-			byte[] resistance = { 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2) };
-			ble.WriteCharacteristic("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", resistance);
+			byte[] resistance = { 0xA4, 0x09, 0x4E, 0x05, 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2),0};
+            byte checksum = BLEDecoder.GetXorValue(resistance);
+            resistance[resistance.Length] = checksum;
+			ble.WriteCharacteristic(serviceNumber, resistance);
 		}
 
 		/// <summary>

@@ -27,14 +27,25 @@ namespace ErgoConnect
         /// <param name="data"></param>
         /// <param name="checksum"></param>
         /// <returns></returns>
-        protected static bool CheckXorValue(byte[] data, byte[] checksum)
+        public static bool CheckXorValue(byte[] data, byte[] checksum)
         {
-            int xorValue = 0;
+            //byte xorValue = 0;
+            //for (int i = 0; i < data.Length - 1; i++)
+            //    xorValue ^= data[i];
+            //if (printChecksum)
+            //    Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length - 1]}");
+            byte xorValue = GetXorValue(data);
+            return xorValue == data[data.Length - 1];
+        }
+
+        public static byte GetXorValue(byte[] data)
+        {
+            byte xorValue = 0;
             for (int i = 0; i < data.Length - 1; i++)
                 xorValue ^= data[i];
             if (printChecksum)
                 Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length - 1]}");
-            return xorValue == data[data.Length - 1];
+            return xorValue;
         }
     }
 }
