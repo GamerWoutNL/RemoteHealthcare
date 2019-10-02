@@ -112,15 +112,15 @@ namespace ErgoConnect
         {
 			try
 			{
-				using (System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Open))
+				using (Stream stream = File.Open(pathToFile, FileMode.Open))
 				{
-					System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+					var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 					return (T)binaryFormatter.Deserialize(stream);
 				}
 			}
 			catch (FileNotFoundException e)
 			{
-				using (System.IO.File.Create(pathToFile))
+				using (File.Create(pathToFile))
 				{
 					return ReadToFileBinary<T>(pathToFile);
 				}
