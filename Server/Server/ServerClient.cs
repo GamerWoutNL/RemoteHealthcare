@@ -61,15 +61,15 @@ namespace Server
         {
             int receivedBytes = stream.EndRead(ar);
             this.totalBuffer += Encoding.ASCII.GetString(buffer, 0, receivedBytes);
+            string eof = $"<{TagErgo.EOF.ToString()}>";
 
-            while (totalBuffer.Contains("<EOF>"))
+            while (totalBuffer.Contains(eof))
             {
-                string packet = totalBuffer.Substring(0, totalBuffer.IndexOf("<EOF>") + 5);
-                totalBuffer = totalBuffer.Substring(packet.IndexOf("<EOF>") + 5);
+                string packet = totalBuffer.Substring(0, totalBuffer.IndexOf(eof) + 5);
+                totalBuffer = totalBuffer.Substring(packet.IndexOf(eof) + 5);
 
                 HandlePacket(packet);
             }
-
             this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
@@ -195,7 +195,7 @@ namespace Server
                         //Console.WriteLine($"Found value corresponding with tag : {completeTag}{value}");
                         return value;
                     }
-                    catch (ArgumentOutOfRangeException e) { Console.WriteLine("Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed any code?"); Console.WriteLine(e.ToString()); }
+                    catch (ArgumentOutOfRangeException e) { Console.WriteLine($"Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed any code? {e.ToString()}"); }
                 }
                // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
             }
