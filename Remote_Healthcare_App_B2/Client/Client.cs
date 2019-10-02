@@ -40,6 +40,7 @@ namespace Client
         {
             Console.WriteLine("Data received");
             //server response handling
+
         }
 
 		public void Write(string ergoData)

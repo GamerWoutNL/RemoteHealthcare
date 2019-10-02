@@ -16,7 +16,8 @@ namespace Server
 		static void Main(string[] args)
         {
             new Server();
-        }
+			Console.ReadKey();
+		}
 
         Server()
         {
@@ -24,7 +25,6 @@ namespace Server
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
-            Console.ReadKey();
         }
 
         private void OnConnect(IAsyncResult ar)

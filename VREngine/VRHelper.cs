@@ -97,14 +97,21 @@ namespace Sprint2VR.VR
         private VRResponseHandler responseHandler;
         private VRConnectionHandler _vRConnectionHandler;
         private const int maxRetry = 3;
+		private List<VRResponse> _responses;
 
-        public VRHelper()
+		public VRHelper()
         {
             responseHandler = new VRResponseHandler(25);
             _vRConnectionHandler = new VRConnectionHandler("145.48.6.10", 6666);
             _client = _vRConnectionHandler._client;
             _tunnelID = GetTunnelID(GetSessionID(), "");
+			_responses = new List<VRResponse>();
         }
+
+		public void AddResponse(VRResponse response)
+		{
+			this._responses.Add(response);
+		}
 
         public dynamic GetRequestDynamic(dynamic request)
         {
