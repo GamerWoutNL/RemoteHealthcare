@@ -91,6 +91,8 @@ namespace Server
             //string mtValue = "bla";
             string idValue = GetValueByTag(TagErgo.ID, packet);
 
+			string tsValue = GetValueByTag(TagErgo.TS, packet);
+
             // Fastest way to handle the data.
             foreach (TagErgo tag in (TagErgo[])Enum.GetValues(typeof(TagErgo)))
             {
@@ -98,13 +100,13 @@ namespace Server
                 {
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
                     default:
-                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue);
+                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
                         break;
                 }
             }
         }
 
-        private void HandleInputErgo(TagErgo tag, string value, string ergoID)
+        private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp)
         {
             Console.WriteLine("Running");
             if (value != String.Empty)
@@ -118,31 +120,28 @@ namespace Server
                 switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
                 {
                     case TagErgo.ET:
-                        clientData.AddET(value);
+                        clientData.AddET(value, timestamp);
                         break;
                     case TagErgo.DT:
-                        clientData.AddDT(value);
+                        clientData.AddDT(value, timestamp);
                         break;
                     case TagErgo.SP:
-                        clientData.AddSP(value);
+                        clientData.AddSP(value, timestamp);
                         break;
                     case TagErgo.HR:
-                        clientData.AddHR(value);
+                        clientData.AddHR(value, timestamp);
                         break;
                     case TagErgo.EC:
-                        clientData.AddEC(value);
+                        clientData.AddEC(value, timestamp);
                         break;
                     case TagErgo.IC:
-                        clientData.AddIC(value);
+                        clientData.AddIC(value, timestamp);
                         break;
                     case TagErgo.AP:
-                        clientData.AddAP(value);
+                        clientData.AddAP(value, timestamp);
                         break;
                     case TagErgo.IP:
-                        clientData.AddIP(value);
-                        break;
-                    case TagErgo.TS:
-                        clientData.AddTS(value);
+                        clientData.AddIP(value, timestamp);
                         break;
                 }
                 Console.WriteLine(clientData.ToString());

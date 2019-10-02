@@ -11,7 +11,7 @@ namespace Server.Data
         private string time;
         private string data;
 
-        public TimeData(string time, string data)
+        public TimeData(string data, string time)
         {
             this.time = time;
             this.data = data;
