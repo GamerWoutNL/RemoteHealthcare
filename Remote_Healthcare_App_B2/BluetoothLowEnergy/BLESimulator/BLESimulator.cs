@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ErgoConnect
 {
@@ -109,11 +110,21 @@ namespace ErgoConnect
         /// <returns></returns>
         private static T ReadToFileBinary<T>(string pathToFile)
         {
-            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Open))
-            {
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(stream);
-            }
+			try
+			{
+				using (System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Open))
+				{
+					System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+					return (T)binaryFormatter.Deserialize(stream);
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				using (System.IO.File.Create(pathToFile))
+				{
+					return ReadToFileBinary<T>(pathToFile);
+				}
+			}
         }
 
         /// <summary>

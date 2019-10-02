@@ -42,7 +42,7 @@ namespace ErgoConnect
 
 		public bool Connect()
 		{
-			bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
+			//bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
 			ConnectToErgoAndHR(ergometerSerialLastFiveNumbers);
 			return isConnected;
 		}
@@ -105,7 +105,7 @@ namespace ErgoConnect
 		{
 			// Attempt to connect to the Ergometer.
 			errorCode = await ergometerBLE.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}"); // Example: Tacx Flux 01140
-																									  // Receive bluetooth services and print afterwards, error check.
+																		  // Receive bluetooth services and print afterwards, error check.
 			printServices(ergometerBLE);
 			// Set service
 			errorCode = await ergometerBLE.SetService(serviceNumber);
