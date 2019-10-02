@@ -16,6 +16,7 @@ namespace Server
 		private List<String> _instanteousCadance;
 		private List<String> _accumulatedPower;
 		private List<String> _instanteousPower;
+        private List<String> _timeStamp;
 
 		public ClientData()
 		{
@@ -27,7 +28,14 @@ namespace Server
 			this._instanteousCadance = new List<String>();
 			this._accumulatedPower = new List<String>();
 			this._instanteousPower = new List<String>();
+            this._timeStamp = new List<String>();
 		}
+
+        public override string ToString()
+        {
+            string sizes = $"Elapsed Time: {_elapsedTime.Count()} \nDistance Travelled: {_distanceTravelled.Count()} \nSpeed: {_speed.Count()} \nHeartrate: {_heartRate.Count()} \nEvent count: {_eventCount.Count()} \nInstanteous cadence: {_instanteousCadance.Count()} \nAccumulated power: {_accumulatedPower.Count()} \nInstanteous power: {_instanteousPower.Count()} \nTimestamp: {_timeStamp.Count()}";
+            return sizes;
+        }
 
 		public void AddET(string et)
 		{
@@ -68,5 +76,10 @@ namespace Server
 		{
 			this._instanteousPower.Add(ip);
 		}
+
+        public void AddTS(string ts)
+        {
+            this._timeStamp.Add(ts);
+        }
 	}
 }
