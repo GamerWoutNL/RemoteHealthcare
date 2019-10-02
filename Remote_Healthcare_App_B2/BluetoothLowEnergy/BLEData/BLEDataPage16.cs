@@ -32,9 +32,14 @@ namespace ErgoConnect
         /// <summary>
         /// Implementation of printing data to the console.
         /// </summary>
-        public override void printData()
+        public override void PrintData()
         {
             Console.WriteLine($"Elapsed Time: {Math.Round(this.elapsedTime)} sec\t\t Distance: {this.distanceTravelled} m\t\t Speed: {Math.Round(this.speed)} kmph\t\t Heart rate: {this.heartRate} bpm");
+        }
+
+        public override string GetData()
+        {
+            return $"<{Tag.ET.ToString()}>{elapsedTime}<{Tag.DT.ToString()}>{distanceTravelled}<{Tag.SP.ToString()}>{speed}<{Tag.HR.ToString()}>{heartRate}";
         }
     }
 }

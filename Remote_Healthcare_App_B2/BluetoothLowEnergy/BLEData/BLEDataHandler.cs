@@ -54,31 +54,24 @@ namespace ErgoConnect
         public void addBLEDataForDataPage25(double[] data)
         {
             BLEDataPage25 bLEDataPage25 = new BLEDataPage25(data);
-            _bleData.Add(bLEDataPage25); 
+            _bleData.Add(bLEDataPage25);
         }
         /// <summary>
         /// Print the last data stored in the List (hence this is not the same as printing the last _received_ data!).
         /// </summary>
         public void printLastData()
         {
-            this._bleData[_bleData.Count - 1].printData();
+            this._bleData[_bleData.Count - 1].PrintData();
         }
 
-       /// <summary>
-       /// Check for instance of BLEData
-       /// </summary>
+        /// <summary>
+        /// Check for instance of BLEData
+        /// </summary>
 
-        public void readLastData()
+        public string ReadLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
-            if (data is BLEDataPage16)
-            {
-                // Action for page 16 data
-            } 
-            if (data is BLEDataPage25)
-            {
-                // Action for page 25 data
-            }
+            return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("h:mm:ss")}<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
         }
     }
 }

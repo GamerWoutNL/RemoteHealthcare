@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ClientServer|AnyCPU'">
+    <OutputPath>bin\ClientServer\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BLELibrary">
       <HintPath>.\BLELibrary.dll</HintPath>
@@ -56,6 +59,9 @@
     <Compile Include="BluetoothLowEnergy\BLEData\BLEDataPage25.cs" />
     <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoderHR.cs" />
     <Compile Include="BluetoothLowEnergy\BLESimulator\BLESimulator.cs" />
+    <Compile Include="BluetoothLowEnergy\ISim.cs" />
+    <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\IClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
