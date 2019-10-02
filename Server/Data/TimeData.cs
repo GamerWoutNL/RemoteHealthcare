@@ -8,10 +8,10 @@ namespace Server.Data
 {
     public class TimeData
     {
-        private string time;
-        private string data;
+        public string time { get; }
+        public string data { get; }
 
-        public TimeData(string data, string time)
+		public TimeData(string data, string time)
         {
             this.time = time;
             this.data = data;
