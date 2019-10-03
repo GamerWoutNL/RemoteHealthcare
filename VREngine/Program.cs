@@ -11,27 +11,25 @@ using System.Threading.Tasks;
 
 namespace VRCode
 {
-    class Program
-    {
-
-		private Client client;
+    static class Program
+	{
+		public static T[] SubArray<T>(this T[] data, int index, int length)
+		{
+			T[] result = new T[length];
+			Array.Copy(data, index, result, 0, length);
+			return result;
+		}
 
 		static void Main(string[] args)
 		{
-			new Program();
+			Client client = new Client();
+			client.Connect("145.48.6.10", 6666);
+
+			System.Threading.Thread.Sleep(2000);
+			client.SendMessage(@"{'id': 'session/list'}");
 			Console.ReadKey();
 		}
 
-		public Program()
-		{
-			this.client = new Client();
-			this.client.Connect("145.48.6.10", 6666);
-
-			this.client.WriteMessage(@"{'id': 'session/list'}");
-
-		}
-
-		
 
 
 
