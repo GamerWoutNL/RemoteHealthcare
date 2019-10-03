@@ -151,50 +151,50 @@ namespace Sprint2VR.VR
             return dynamicRequest;
         }
 
-        //private dynamic GetTunnelID(string sessionID, string key)
-        //{
-        //    dynamic dynamicRequest = new JObject();
-        //    dynamicRequest.session = sessionID;
-        //    dynamicRequest.key = key;
-        //    dynamicRequest = GetIDData(IDOperations.tunnelCreate, dynamicRequest);
-        //    VRResponse vRResponse = DoSimpleRequest(dynamicRequest);
-        //    return vRResponse.response.data.id;
-        //}
+		//private dynamic GetTunnelID(string sessionID, string key)
+		//{
+		//	dynamic dynamicRequest = new JObject();
+		//	dynamicRequest.session = sessionID;
+		//	dynamicRequest.key = key;
+		//	dynamicRequest = GetIDData(IDOperations.tunnelCreate, dynamicRequest);
+		//	VRResponse vRResponse = DoSimpleRequest(dynamicRequest);
+		//	return vRResponse.response.data.id;
+		//}
 
-        //private string GetSessionID()
-        //{
-        //    VRResponse vRResponse = DoSimpleRequest(GetSimpleRequest(IDOperations.sessionList));
-        //    string sessionID = String.Empty;
-        //    foreach (var session in vRResponse.response.data)
-        //        if (session.clientinfo.user == Environment.UserName)
-        //            sessionID = session.id;
-        //    return sessionID;
-        //}
-
-
-        //public static dynamic GetSimpleRequest(string idOperation)
-        //{
-        //    dynamic request = new JObject();
-        //    request.id = idOperation;
-        //    return request;
-        //}
-
-        //public VRResponse DoSimpleRequest(dynamic request)
-        //{
-        //    _client.WriteMessage(request);
-        //    dynamic response = _client.ReadMessage();
-        //    VRResponse vRResponse = new VRResponse(request);
-        //    vRResponse.response = response;
-        //    return vRResponse;
-        //}
-
-        //public VRResponse DoVRRequest(dynamic request)
-        //{
-        //    dynamic fullRequest = GetRequestDynamic(request);
-        //    return DoSimpleRequest(request);
-        //}
+		//private string GetSessionID()
+		//{
+		//	VRResponse vRResponse = DoSimpleRequest(GetSimpleRequest(IDOperations.sessionList));
+		//	string sessionID = String.Empty;
+		//	foreach (var session in vRResponse.response.data)
+		//		if (session.clientinfo.user == Environment.UserName)
+		//			sessionID = session.id;
+		//	return sessionID;
+		//}
 
 
+		//public static dynamic GetSimpleRequest(string idOperation)
+		//{
+		//    dynamic request = new JObject();
+		//    request.id = idOperation;
+		//    return request;
+		//}
 
-    }
+		//public VRResponse DoSimpleRequest(dynamic request)
+		//{
+		//    _client.WriteMessage(request);
+		//    dynamic response = _client.ReadMessage();
+		//    VRResponse vRResponse = new VRResponse(request);
+		//    vRResponse.response = response;
+		//    return vRResponse;
+		//}
+
+		//public VRResponse DoVRRequest(dynamic request)
+		//{
+		//    dynamic fullRequest = GetRequestDynamic(request);
+		//    return DoSimpleRequest(request);
+		//}
+
+
+
+	}
 }

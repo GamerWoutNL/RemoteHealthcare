@@ -6,8 +6,11 @@ using Sprint2VR.VR.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace VRCode
 {
@@ -24,9 +27,10 @@ namespace VRCode
 		{
 			Client client = new Client();
 			client.Connect("145.48.6.10", 6666);
+			client.OpenTunnel("muffins");
 
-			System.Threading.Thread.Sleep(2000);
-			client.SendMessage(@"{'id': 'session/list'}");
+			Console.WriteLine(client.tunnelID);
+
 			Console.ReadKey();
 		}
 
