@@ -18,15 +18,15 @@ namespace Sprint2VR
         private NetworkStream stream;
 		private byte[] buffer;
 		private byte[] totalBuffer;
-		public string tunnelID;
-		public List<JObject> Responses { get; }
+		private string tunnelID;
+		public List<JObject> responses;
 
 		public Client()
         {
             this.client = new TcpClient();
 			this.buffer = new byte[1024];
 			this.totalBuffer = new byte[0];
-			this.Responses = new List<JObject>();
+			this.responses = new List<JObject>();
 		}
 
         public async Task Connect(string server, int port)
@@ -49,8 +49,7 @@ namespace Sprint2VR
 				{
 					string data = Encoding.UTF8.GetString(totalBuffer, 4, packetSize);
 					JObject json = (JObject)JsonConvert.DeserializeObject(data);
-					//Console.WriteLine(data);
-					Responses.Add(json);
+					responses.Add(json);
 
 					this.totalBuffer = totalBuffer.SubArray(4 + packetSize, totalBuffer.Length - packetSize - 4);
 				}
@@ -90,17 +89,18 @@ namespace Sprint2VR
 
 		public void SendTunnel(string _id, dynamic _data)
 		{
-			SendMessage(new { id = "sent/tunnel", data = new { dest = tunnelID, data = new { id = _id, data = _data } } });
+			SendMessage(new { id = "tunnel/send", data = new { dest = tunnelID, data = new { id = _id, data = _data } } });
 		}
 
 		public JObject SearchResponses(string id)
 		{
 			Thread.Sleep(1000);
-			foreach (JObject json in Responses)
+			foreach (JObject json in responses)
 			{
+				Console.WriteLine(json);
 				if (json.GetValue("id").ToString() == id)
 				{
-					Responses.Remove(json);
+					responses.Remove(json);
 					return json;
 				}
 			}

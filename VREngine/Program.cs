@@ -29,7 +29,10 @@ namespace VRCode
 			client.Connect("145.48.6.10", 6666);
 			client.OpenTunnel("muffins");
 
-			Console.WriteLine(client.tunnelID);
+			client.SendTunnel("scene/skybox/settime", new { time = 12 });
+
+			JObject test = client.SearchResponses("scene/skybox/settime");
+			Console.WriteLine(test);
 
 			Console.ReadKey();
 		}
