@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Threading;
 using VRCode;
+using Sprint2VR.VR;
 
 namespace Sprint2VR
 {
@@ -19,7 +20,7 @@ namespace Sprint2VR
 		private byte[] buffer;
 		private byte[] totalBuffer;
 		private string tunnelID;
-		public List<JObject> responses;
+		public List<JObject> responses { get; }
 
 		public Client()
         {
@@ -79,9 +80,9 @@ namespace Sprint2VR
 
 		public void OpenTunnel(string _key)
 		{
-			SendMessage(new { id = "tunnel/create", data = new { session = GetSessionID(), key = _key } });
+			SendMessage(new { id = IDOperations.tunnelCreate, data = new { session = GetSessionID(), key = _key } });
 
-			JObject response = SearchResponses("tunnel/create");
+			JObject response = SearchResponses(IDOperations.tunnelCreate);
 			JObject data = (JObject)response.GetValue("data");
 
 			this.tunnelID = data.GetValue("id").ToString();
@@ -89,7 +90,7 @@ namespace Sprint2VR
 
 		public void SendTunnel(string _id, dynamic _data)
 		{
-			SendMessage(new { id = "tunnel/send", data = new { dest = tunnelID, data = new { id = _id, data = _data } } });
+			SendMessage(new { id = IDOperations.tunnelSend, data = new { dest = tunnelID, data = new { id = _id, data = _data } } });
 		}
 
 		public JObject SearchResponses(string id)
@@ -128,10 +129,9 @@ namespace Sprint2VR
 
 		private string GetSessionID()
 		{
-			string _id = "session/list";
-			SendMessage(new { id = _id });
+			SendMessage(new { id = IDOperations.sessionList });
 
-			JObject json = SearchResponses(_id);
+			JObject json = SearchResponses(IDOperations.sessionList);
 
 			if (json != null)
 			{

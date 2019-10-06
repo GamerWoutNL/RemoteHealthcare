@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using Sprint2VR;
 using Sprint2VR.VR;
-using Sprint2VR.VR.Additional;
 using Sprint2VR.VR.Components;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace VRCode
     {
         private Client _client;
 
-        public Function(Client client, VRHelper vRHelper)
+        public Function(Client client)
         {
             this._client = client;
         }
@@ -67,7 +66,7 @@ namespace VRCode
 
         public void DynaSceneReset()
         {
-			this._client.SendTunnel(IDOperations.sceneReset, new { })
+			this._client.SendTunnel(IDOperations.sceneReset, new { });
             //return _vRHelper.DoVRRequest(_vRHelper.GetFullRequest(IDOperations.sceneReset, new { }));
         }
 
