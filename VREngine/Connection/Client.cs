@@ -94,17 +94,35 @@ namespace Sprint2VR
 
 		public JObject SearchResponses(string id)
 		{
-			Thread.Sleep(1000);
-			foreach (JObject json in responses)
+			Thread.Sleep(2500);
+			for (int i = responses.Count; i > 0; i--)
 			{
-				Console.WriteLine(json);
+				JObject json = responses[i - 1];
+
 				if (json.GetValue("id").ToString() == id)
 				{
 					responses.Remove(json);
 					return json;
 				}
-			}
 
+				try
+				{
+					JObject data1 = (JObject)json.GetValue("data");
+					JObject data2 = (JObject)data1.GetValue("data");
+
+					if (data2.GetValue("id").ToString() == id)
+					{
+						responses.Remove(json);
+						return json;
+					}
+				}
+				catch (Exception e)
+				{
+
+				}
+				
+			}
+			//{{"id": "tunnel/send", "data": {"id": "088acefd-5fd3-45d8-bde4-03ad642f41ca", "data": {"id": "scene/skybox/settime", "status": "ok"}}}}
 			return null;
 		}
 
