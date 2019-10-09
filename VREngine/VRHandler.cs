@@ -41,7 +41,6 @@ namespace VREngine
 			CreateTerrainNode();
 			AddTexture();
 			CreateWaterNode();
-			System.Threading.Thread.Sleep(2000);
 			CreateCityNode();
 			CreateSkybox("spires", "spires", "png");
 		}
