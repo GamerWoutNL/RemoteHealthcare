@@ -25,7 +25,7 @@ namespace DoktorApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TopDown")]
+        [global::System.Configuration.DefaultSettingValueAttribute("LeftToRight")]
         public global::System.Windows.Forms.FlowDirection flowtopdown {
             get {
                 return ((global::System.Windows.Forms.FlowDirection)(this["flowtopdown"]));

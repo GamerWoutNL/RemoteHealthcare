@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="flowtopdown" Type="System.Windows.Forms.FlowDirection" Scope="User">
-      <Value Profile="(Default)">TopDown</Value>
+      <Value Profile="(Default)">LeftToRight</Value>
     </Setting>
   </Settings>
 </SettingsFile>

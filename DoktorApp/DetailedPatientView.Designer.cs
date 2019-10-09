@@ -36,9 +36,11 @@
             this.textbox_message = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button_sendbutton = new System.Windows.Forms.Button();
+            this.button_sendmessage = new System.Windows.Forms.Button();
             this.combobox_clientselection = new System.Windows.Forms.ComboBox();
             this.button_backbutton = new System.Windows.Forms.PictureBox();
+            this.button_sendbroadcast = new System.Windows.Forms.Button();
+            this.textbox_broadcast = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.button_backbutton)).BeginInit();
@@ -99,15 +101,15 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(300, 700);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
-            // button_sendbutton
+            // button_sendmessage
             // 
-            this.button_sendbutton.Location = new System.Drawing.Point(589, 125);
-            this.button_sendbutton.Name = "button_sendbutton";
-            this.button_sendbutton.Size = new System.Drawing.Size(75, 26);
-            this.button_sendbutton.TabIndex = 11;
-            this.button_sendbutton.Text = "Send";
-            this.button_sendbutton.UseVisualStyleBackColor = true;
-            this.button_sendbutton.Click += new System.EventHandler(this.button_sendbutton_Click);
+            this.button_sendmessage.Location = new System.Drawing.Point(589, 125);
+            this.button_sendmessage.Name = "button_sendmessage";
+            this.button_sendmessage.Size = new System.Drawing.Size(75, 26);
+            this.button_sendmessage.TabIndex = 11;
+            this.button_sendmessage.Text = "Send";
+            this.button_sendmessage.UseVisualStyleBackColor = true;
+            this.button_sendmessage.Click += new System.EventHandler(this.button_sendbutton_Click);
             // 
             // combobox_clientselection
             // 
@@ -128,14 +130,32 @@
             this.button_backbutton.TabStop = false;
             this.button_backbutton.Click += new System.EventHandler(this.button_backbutton_Click);
             // 
+            // button_sendbroadcast
+            // 
+            this.button_sendbroadcast.Location = new System.Drawing.Point(1161, 31);
+            this.button_sendbroadcast.Name = "button_sendbroadcast";
+            this.button_sendbroadcast.Size = new System.Drawing.Size(75, 26);
+            this.button_sendbroadcast.TabIndex = 15;
+            this.button_sendbroadcast.Text = "Send";
+            this.button_sendbroadcast.UseVisualStyleBackColor = true;
+            // 
+            // textbox_broadcast
+            // 
+            this.textbox_broadcast.Location = new System.Drawing.Point(952, 31);
+            this.textbox_broadcast.Name = "textbox_broadcast";
+            this.textbox_broadcast.Size = new System.Drawing.Size(203, 22);
+            this.textbox_broadcast.TabIndex = 14;
+            // 
             // DetailedPatientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1386, 763);
+            this.Controls.Add(this.button_sendbroadcast);
+            this.Controls.Add(this.textbox_broadcast);
             this.Controls.Add(this.button_backbutton);
             this.Controls.Add(this.combobox_clientselection);
-            this.Controls.Add(this.button_sendbutton);
+            this.Controls.Add(this.button_sendmessage);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textbox_message);
             this.Controls.Add(this.button_file);
@@ -143,7 +163,6 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "DetailedPatientView";
             this.Text = "DetailedPatientView";
-            this.Load += new System.EventHandler(this.DetailedPatientView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.button_backbutton)).EndInit();
@@ -159,8 +178,10 @@
         private System.Windows.Forms.Button button_file;
         private System.Windows.Forms.TextBox textbox_message;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button_sendbutton;
+        private System.Windows.Forms.Button button_sendmessage;
         private System.Windows.Forms.ComboBox combobox_clientselection;
         private System.Windows.Forms.PictureBox button_backbutton;
+        private System.Windows.Forms.Button button_sendbroadcast;
+        private System.Windows.Forms.TextBox textbox_broadcast;
     }
 }

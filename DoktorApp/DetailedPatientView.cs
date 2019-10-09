@@ -16,8 +16,11 @@ namespace DoktorApp
 
         FlowLayoutPanel chartpanel;
         Dictionary<DataTag, Chart> chartlist;
-        Dumydata data = new Dumydata();
+        DummyData data = new DummyData();
 
+        /// <summary>
+        /// Datatags that can be recieved from the bike
+        /// </summary>
         public enum DataTag{ID, ET, DT, SP, HR, EC, IC, AP, IP}
 
 
@@ -26,26 +29,31 @@ namespace DoktorApp
         {
             
             InitializeComponent();
-            chartlist = new Dictionary<DataTag, Chart>();
-            SetPlaceHolder(textbox_message, "Type message:");
+            chartpanel = flowLayoutPanel1;
 
-            flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+            //Set placeholders for textboxes
+            SetPlaceHolder(textbox_message, "Type message:");
+            SetPlaceHolder(textbox_broadcast, "Broadcast:");
+
+            //Set datasource for clientselection
             combobox_clientselection.DataSource = data.clientdata;
             combobox_clientselection.DisplayMember = "Name";
 
-            chartpanel = flowLayoutPanel1;
-
-            
-
-
+            /////Creates Charts for every DataTag
+            chartlist = new Dictionary<DataTag, Chart>();
             for (int i = 0; i < 8; i++)
             {
                 chartlist.Add(DataTag.ID+i, AddChartInList(GetNamefromTag(DataTag.ID+i)));
             }
             ChangeMainChart(chartlist[DataTag.HR]);
-
+            /////
         }
 
+        /// <summary>
+        /// Creates a small chart in the chartflowpanel
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Chart AddChartInList(string name)
         {
             Chart chart = new Chart();
@@ -62,30 +70,35 @@ namespace DoktorApp
             series.ChartType = SeriesChartType.Line;
             chart.Series.Add(series);
             
-
-           
             var title = new Title();
             title.Name = name;
             title.Text = name;
             chart.Titles.Add(title);
-
-            chart.Visible = true;
-
-            chart.Parent = chartpanel;
-
+            
             chart.Width = 200;
             chart.Height = 100;
-
+            chart.Parent = chartpanel;
             chart.Click += new System.EventHandler(this.ChartOnClick);
 
             return chart;
         }
 
+
+        /// <summary>
+        /// Eventhandler when a chart is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ChartOnClick(object sender, EventArgs e)
         {
             ChangeMainChart(sender as Chart);
         }
 
+
+        /// <summary>
+        /// Changes the main chart to the selected chart
+        /// </summary>
+        /// <param name="chart"></param>
         public void ChangeMainChart(Chart chart)
         {
             for(int i = 0; i< chart_mainchart.Series.Count; i++)
@@ -102,6 +115,11 @@ namespace DoktorApp
             chart_mainchart.Titles.Add(chart.Titles.ElementAt(0));
         }
 
+        /// <summary>
+        /// Translates a DataTag(enum) to a string
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
         public string GetNamefromTag(DataTag tag)
         {
             switch (tag)
@@ -129,30 +147,37 @@ namespace DoktorApp
             }
         }
 
-       
 
-        private void DetailedPatientView_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        //Textbox 
+        /// <summary>
+        /// Fills a textbox with a text that disappears when clicked on.
+        /// Credits: igorpauk at https://stackoverflow.com/questions/11873378/adding-placeholder-text-to-textbox
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="PlaceHolderText"></param>
         public void SetPlaceHolder(Control control, string PlaceHolderText)
         {
             control.Text = PlaceHolderText;
+            control.ForeColor = Color.Gray;
             control.GotFocus += delegate (object sender, EventArgs args) {
                 if (control.Text == PlaceHolderText)
                 {
                     control.Text = "";
+                    control.ForeColor = Color.Black;
                 }
             };
             control.LostFocus += delegate (object sender, EventArgs args) {
                 if (control.Text.Length == 0)
                 {
                     control.Text = PlaceHolderText;
+                    control.ForeColor = Color.Gray;
                 }
             };
         }
+
+
+        // /// // /// // /// // /// 
+        // Eventhandlers 
+        // /// // /// // /// // /// 
 
         private void button_backbutton_Click(object sender, EventArgs e)
         {
@@ -181,30 +206,33 @@ namespace DoktorApp
             }
             
         }
+
+        // /// // /// // /// // /// 
+        //
+        // /// // /// // /// // /// 
     }
 
 
+
+    /// <summary>
+    /// Basic info class for dummy data
+    /// </summary>
     public class ClientInfo
     {
         public ClientInfo() { }
-
         public string Name { get; set; }
-
-
     }
 
 
-    public class Dumydata
+    /// <summary>
+    /// Class that creates a list of dumy data
+    /// </summary>
+    public class DummyData
     {
-
         public List<ClientInfo> clientdata;
-        
-
-        public Dumydata()
+        public DummyData()
         {
             clientdata = new List<ClientInfo>();
-         
-
             for(int i = 0; i < 10; i++)
             {
                 ClientInfo newclient = new ClientInfo();
@@ -214,8 +242,6 @@ namespace DoktorApp
                
             }
         }
-
-       
     }
 
 }
