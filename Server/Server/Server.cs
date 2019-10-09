@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Server.Data;
+using System.Security.Cryptography;
 
 namespace Server
 {
@@ -15,8 +17,16 @@ namespace Server
 
 		static void Main(string[] args)
         {
-            new Server();
-        }
+			//new Server();
+
+			string test = "dikkigheid kent geen tijd";
+
+			byte[] encrypted = Encrypter.Encrypt(test, "dikkig");
+			Console.WriteLine(Encrypter.Decrypt(encrypted, "dikkig"));
+
+
+			Console.ReadKey();
+		}
 
         Server()
         {
@@ -24,7 +34,6 @@ namespace Server
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
-            Console.ReadKey();
         }
 
         private void OnConnect(IAsyncResult ar)
