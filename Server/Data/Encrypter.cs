@@ -59,7 +59,7 @@ namespace Server.Data
 			}
 			catch (CryptographicException)
 			{
-				return Encoding.UTF8.GetString(cipherText);
+				return Encoding.ASCII.GetString(cipherText);
 			}
 
 			return plaintext;
@@ -70,7 +70,7 @@ namespace Server.Data
 			byte[] result = new byte[32];
 
 			int i = 0;
-			foreach (byte b in Encoding.UTF8.GetBytes(key))
+			foreach (byte b in Encoding.ASCII.GetBytes(key))
 			{
 				result[i++] = b;
 			}

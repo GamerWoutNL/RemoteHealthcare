@@ -22,7 +22,9 @@ namespace Server
 			string test = "dikkigheid kent geen tijd";
 
 			byte[] encrypted = Encrypter.Encrypt(test, "dikkig");
-			Console.WriteLine(Encrypter.Decrypt(encrypted, "dikkig"));
+
+			string dik = Encoding.ASCII.GetString(encrypted);
+			Console.WriteLine(Encrypter.Decrypt(Encoding.ASCII.GetBytes(dik), "dikkig"));
 
 
 			Console.ReadKey();
