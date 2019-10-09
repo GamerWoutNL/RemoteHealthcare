@@ -56,18 +56,13 @@ namespace VREngine
 			string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/heightmap.png";
 			function.DynaSceneTerrainAdd(path);
 			//function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null);
-
-			JObject response = client.SearchResponses(IDOperations.sceneTerrainAdd);
-
-			Console.WriteLine(response);
 		}
 
 		public void CreateTerrainNode()
 		{
 			function.DynaSceneNodeAdd("terrain", null, new VRTransform(new VRPoint3D(-100, 0, -100), new VRPoint3D(0, 0, 0), 0.5), null, new VRTerrain(true), null, null);
-			JObject response = client.SearchResponses(IDOperations.sceneNodeAdd);
-
-			Console.WriteLine(response);
+			dynamic response = client.SearchResponses(IDOperations.sceneNodeAdd);
+			this.terrainUuid = response.data.data.data.uuid;
 
 			// TODO: Get the terrain uuid
 			//this.terrainUuid = response.response.data.data.data.uuid;
