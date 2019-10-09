@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRTransform : VRComponent
+    public class VRTransform : VRComponent
     {
         public VRPoint3D positionXYZ; // position
         public VRPoint3D rotationXYZ; // rotation

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRLine : VRComponent
+    public class VRLine : VRComponent
     {
         public VRPoint2D positionXY;
         public VRPoint2D positionXY2;

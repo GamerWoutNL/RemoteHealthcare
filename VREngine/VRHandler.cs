@@ -24,54 +24,72 @@ namespace VREngine
 			client.OpenTunnel("muffins");
 
 			this.function = new Function(client);
-			this.Init();
+			this.Create3D();
 		}
 
 		static void Main(string[] args)
 		{
-			new VRHandler();
-
+			VRHandler vrHandler = new VRHandler();
 			Console.Read();
 		}
 
-		private void Init()
+		private void Create3D()
 		{
-			function.DynaSceneReset();
-			CreateTerrain();
-			CreateTerrainNode();
-			AddTexture();
-			CreateWaterNode();
-			System.Threading.Thread.Sleep(2000);
-			CreateCityNode();
-			CreateSkybox("spires", "spires", "png");
+		//	function.DynaSceneReset();
+
+            CreateTerrain("terrain");
+           // CreateTerrainNode("terrain");
+           // CreateWaterNode();
+			//CreateTerrain("terrain");
+			//CreateTerrainNode("terrain");
+
+			//AddTexture();
+
+			//CreateWaterNode();
+
+			//System.Threading.Thread.Sleep(2000);
+
+			//CreateCityNode();
+
+			//CreateSkybox("spires", "spires", "png");
 		}
 
-		public void CreateFlatTerrain(int length, int width, int height)
+        public void CreateEnvironment()
+        {
+            CreateTerrain("terrain");
+            CreateTerrainNode("terrain");
+            AddTexture();
+            CreateWaterNode();
+            System.Threading.Thread.Sleep(2000);
+            CreateCityNode();
+            CreateSkybox("spires", "spires", "png");
+        }
+
+        public void CreateFlatTerrain(int length, int width, int height)
 		{
 			function.DynaSceneTerrainAdd(new VRPoint2D(length, width), height);
+            JObject response = client.SearchResponses(IDOperations.sceneTerrainAdd);
 		}
 
-		public void CreateTerrain()
+		public void CreateTerrain(string id)
 		{
 			string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/heightmap.png";
 			function.DynaSceneTerrainAdd(path);
-			function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null);
+			function.DynaSceneNodeAdd(id, null, null, null, new VRTerrain(true), null, null);
+            JObject response = client.SearchResponses(IDOperations.sceneNodeAdd);
+            Console.WriteLine(response==null);
 		}
 
-		public void CreateTerrainNode()
+		public void CreateTerrainNode(string id)
 		{
-			function.DynaSceneNodeAdd("terrain", null, new VRTransform(new VRPoint3D(-100, 0, -100), new VRPoint3D(0, 0, 0), 0.5), null, new VRTerrain(true), null, null);
+			function.DynaSceneNodeAdd(id, null, new VRTransform(new VRPoint3D(-100, 0, -100), new VRPoint3D(0, 0, 0), 0.5), null, new VRTerrain(true), null, null);
 			JObject response = client.SearchResponses(IDOperations.sceneNodeAdd);
-
-			Console.WriteLine(response);
-
-			// TODO: Get the terrain uuid
-			//this.terrainUuid = response.response.data.data.data.uuid;
 		}
 
 		public void CreateWaterNode()
 		{
 			function.DynaSceneNodeAdd("water", null, new VRTransform(new VRPoint3D(0, 13, 0), new VRPoint3D(0, 0, 0), 1), null, null, null, new VRWater(new VRPoint2D(1000, 1000), 5));
+            JObject response = client.SearchResponses(IDOperations.sceneNodeAdd);
 		}
 
 		public void CreateCityNode()
@@ -89,15 +107,6 @@ namespace VREngine
 		public void DoRaycast()
 		{
 			function.DynaSceneRaycast(new VRPoint3D(0, 0, 0), new VRPoint3D(0, 1, 0), false);
-			//JArray collision = response.response.data.data.data;
-			//Console.WriteLine(collision.Count());
-		}
-
-		public void DoRaycast1()
-		{
-			function.DynaSceneRaycast(new int[] { 0, 0, 0 }, new int[] { 0, 1, 0 }, true);
-			//JArray collision = response.response.data.data.data;
-			//Console.WriteLine(collision.Count());
 		}
 
 		public void AddTexture()
