@@ -10,6 +10,7 @@ using System.IO;
 using System.Threading;
 using VRCode;
 using Sprint2VR.VR;
+using System.Collections.Concurrent;
 
 namespace Sprint2VR
 {
@@ -21,9 +22,8 @@ namespace Sprint2VR
 		private byte[] totalBuffer;
 		private string tunnelID;
 		public List<JObject> responses { get; }
-		private static Mutex mutex = new Mutex();
-		private static ManualResetEvent wait = new ManualResetEvent(false);
 
+		private static object lockingObject = new object();
 
 		public Client()
         {
@@ -53,9 +53,12 @@ namespace Sprint2VR
 				{
 					string data = Encoding.UTF8.GetString(totalBuffer, 4, packetSize);
 					JObject json = (JObject)JsonConvert.DeserializeObject(data);
-					responses.Add(json);
 
-					wait.Set();
+					lock (lockingObject)
+					{
+						responses.Add(json);
+					}
+
 					this.totalBuffer = totalBuffer.SubArray(4 + packetSize, totalBuffer.Length - packetSize - 4);
 				}
 				else
@@ -99,35 +102,37 @@ namespace Sprint2VR
 
 		public JObject SearchResponses(string id)
 		{
-			wait.WaitOne();
-			for (int i = responses.Count; i > 0; i--)
+			for (int i = 0; i < 10000; i++)
 			{
-				JObject json = responses[i - 1];
-
-				if (json.GetValue("id").ToString() == id)
+				for (int j = responses.Count - 1; j >= 0; j--)
 				{
-					responses.Remove(json);
-					return json;
-				}
+					JObject json = responses[j];
 
-				try
-				{
-					JObject data1 = (JObject)json.GetValue("data");
-					JObject data2 = (JObject)data1.GetValue("data");
-
-					if (data2.GetValue("id").ToString() == id)
+					if (json.GetValue("id").ToString() == id)
 					{
 						responses.Remove(json);
 						return json;
 					}
-				}
-				catch (Exception e)
-				{
+
+					try
+					{
+						JObject data1 = (JObject)json.GetValue("data");
+						JObject data2 = (JObject)data1.GetValue("data");
+
+						if (data2.GetValue("id").ToString() == id)
+						{
+							responses.Remove(json);
+							return json;
+						}
+					}
+					catch (Exception)
+					{
+
+					}
 
 				}
-				
+				Thread.Sleep(1);
 			}
-			//{{"id": "tunnel/send", "data": {"id": "088acefd-5fd3-45d8-bde4-03ad642f41ca", "data": {"id": "scene/skybox/settime", "status": "ok"}}}}
 			return null;
 		}
 

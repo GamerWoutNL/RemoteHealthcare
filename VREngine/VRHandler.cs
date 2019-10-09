@@ -55,7 +55,11 @@ namespace VREngine
 		{
 			string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/heightmap.png";
 			function.DynaSceneTerrainAdd(path);
-			function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null);
+			//function.DynaSceneNodeAdd("terrain", "", null, null, new VRTerrain(true), null, null);
+
+			JObject response = client.SearchResponses(IDOperations.sceneTerrainAdd);
+
+			Console.WriteLine(response);
 		}
 
 		public void CreateTerrainNode()
