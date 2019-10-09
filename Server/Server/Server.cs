@@ -10,7 +10,7 @@ namespace Server
 {
     class Server
     {
-		TcpListener listener;
+		private TcpListener listener;
 		private List<ServerClient> clients = new List<ServerClient>();
 
 		static void Main(string[] args)
