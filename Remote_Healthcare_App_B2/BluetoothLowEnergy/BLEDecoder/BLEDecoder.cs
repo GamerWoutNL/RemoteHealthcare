@@ -41,7 +41,7 @@ namespace ErgoConnect
         public static byte GetXorValue(byte[] data)
         {
             byte xorValue = 0;
-            for (int i = 0; i < data.Length - 1; i++)
+            for (int i = 0; i < data.Length-1; i++)
                 xorValue ^= data[i];
             if (printChecksum)
                 Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length - 1]}");

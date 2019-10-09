@@ -19,19 +19,16 @@ namespace ErgoConnect
 		public const bool printChecksum = false;
 		private BLEDataHandler dataHandler;
 		private BLESimulator bLESimulator;
-		private byte[] rawDataHR;
-		private byte[] rawDataErgo;
-		private IClient iClient;
+        private BLE ergometerBLE;
+        private BLE heartrateBLE;
+        private IClient iClient;
 		private ISim iSim;
-		private bool isConnected = false;
-        private const string serviceNumber = "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e";
 
-
-        /// <summary>
-        /// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
-        /// </summary>
-        /// <param name="ergometerSerialLastFiveNumbers"></param>
-        public BLEConnect(System.String ergometerSerialLastFiveNumbers, IClient iClient, ISim iSim)
+		/// <summary>
+		/// Constructor to setup some prequisites. The serial code of the Ergometer is needed to setup the connection.
+		/// </summary>
+		/// <param name="ergometerSerialLastFiveNumbers"></param>
+		public BLEConnect(System.String ergometerSerialLastFiveNumbers, IClient iClient, ISim iSim)
 		{
 			this.ergometerSerialLastFiveNumbers = ergometerSerialLastFiveNumbers;
 			bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
@@ -40,11 +37,9 @@ namespace ErgoConnect
 			this.iSim = iSim;
 		}
 
-		public bool Connect()
+		public void Connect()
 		{
-			bLESimulator = new BLESimulator(ergometerSerialLastFiveNumbers);
 			ConnectToErgoAndHR(ergometerSerialLastFiveNumbers);
-			return isConnected;
 		}
 
 		/// <summary>
@@ -55,26 +50,13 @@ namespace ErgoConnect
 
 		public async Task ConnectToErgoAndHR(String ergometerSerialLastFiveNumbers)
 		{
-			BLE ergometerBLE = new BLE();
-			BLE heartrateBLE = new BLE();
-
+			this.ergometerBLE = new BLE();
+			this.heartrateBLE = new BLE();
 			Thread.Sleep(2000);
-
-			//foreach (string device in ergometerBLE.ListDevices())
-			//{
-			//	//isConnected = device.Replace(" ", String.Empty).ToLower().Contains(ergometerSerialLastFiveNumbers.Replace(" ", String.Empty).ToLower());
-			//	isConnected = device.Contains(ergometerSerialLastFiveNumbers);
-			//	if (isConnected)
-			//	{
-			//		break;
-			//	}
-			//}
-
-
 			await ScanConnectForErgo(ergometerBLE, ergometerSerialLastFiveNumbers);
 			await ScanConnectForHR(heartrateBLE);
-
-
+            Thread.Sleep(2000);
+            SendResistance(99);
 		}
 
 		/// <summary>
@@ -103,15 +85,17 @@ namespace ErgoConnect
 
 		private async void ConnectToErgoMeter(BLE ergometerBLE, System.String ergometerSerialLastFiveNumbers, System.Int32 errorCode)
 		{
-			// Attempt to connect to the Ergometer.
-			errorCode = await ergometerBLE.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}"); // Example: Tacx Flux 01140
+            string setService = "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e";
+            string subscribeToCharacteristic = "6e40fec2-b5a3-f393-e0a9-e50e24dcca9e";
+            // Attempt to connect to the Ergometer.
+            errorCode = await ergometerBLE.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}"); // Example: Tacx Flux 01140
 																									  // Receive bluetooth services and print afterwards, error check.
 			printServices(ergometerBLE);
 			// Set service
-			errorCode = await ergometerBLE.SetService(serviceNumber);
+			errorCode = await ergometerBLE.SetService(setService);
 			// Subscribe 
 			ergometerBLE.SubscriptionValueChanged += Ergo_SubscriptionValueChanged;
-			errorCode = await ergometerBLE.SubscribeToCharacteristic(serviceNumber);
+			errorCode = await ergometerBLE.SubscribeToCharacteristic(subscribeToCharacteristic);
 
 			if (errorCode != 0) iSim.Create();
 			Console.WriteLine(errorCode); // Errorcode to check if is connected.
@@ -184,12 +168,13 @@ namespace ErgoConnect
 		/// <param name="ble"></param>
 		/// <param name="percentage"></param>
 
-		private void SendResistance(BLE ble, double percentage)
+		public void SendResistance(double percentage)
 		{
-			byte[] resistance = { 0xA4, 0x09, 0x4E, 0x05, 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2),0};
+            string writeResistanceService = "6e40fec3-b5a3-f393-e0a9-e50e24dcca9e";
+            byte[] resistance = { 0x4A, 0x09, 0x4E, 0x05, 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2), 0};
             byte checksum = BLEDecoder.GetXorValue(resistance);
-            resistance[resistance.Length] = checksum;
-			ble.WriteCharacteristic(serviceNumber, resistance);
+            resistance[resistance.Length-1] = checksum;
+			ergometerBLE.WriteCharacteristic(writeResistanceService, resistance);
 		}
 
 		/// <summary>
@@ -202,7 +187,6 @@ namespace ErgoConnect
 		{
 			bLESimulator.SaveBytesHeartRate(e.Data);
 			bLESimulator.WriteData(WriteOption.Heartrate);
-			rawDataHR = e.Data;
 			BLEDecoderHR.Decrypt(e.Data, this.dataHandler);
 			string toSendHeartRateData = dataHandler.ReadLastData();
 			iClient.Write(toSendHeartRateData);
@@ -218,7 +202,6 @@ namespace ErgoConnect
 		{
 			bLESimulator.SaveBytesErgo(e.Data);
 			bLESimulator.WriteData(WriteOption.Ergo);
-			rawDataErgo = e.Data;
 			BLEDecoderErgo.Decrypt(e.Data, this.dataHandler);
 			string toSendErgoData = dataHandler.ReadLastData();
 			iClient.Write(toSendErgoData);

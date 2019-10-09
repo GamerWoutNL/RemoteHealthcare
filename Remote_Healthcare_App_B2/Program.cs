@@ -18,7 +18,7 @@ namespace ErgoConnect
 
         public static void Main(string[] args)
         {
-			new Program("00438");
+			new Program("01249");
         }
 
 		public Program(string ergoID)

@@ -148,7 +148,7 @@ namespace Server
             }
         }
 
-        private void HandleInputDoktor()
+        private void HandleInputDoctor()
         {
             throw new NotImplementedException();
         }
