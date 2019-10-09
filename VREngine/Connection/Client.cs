@@ -21,6 +21,9 @@ namespace Sprint2VR
 		private byte[] totalBuffer;
 		private string tunnelID;
 		public List<JObject> responses { get; }
+		private static Mutex mutex = new Mutex();
+		private static ManualResetEvent wait = new ManualResetEvent(false);
+
 
 		public Client()
         {
@@ -52,6 +55,7 @@ namespace Sprint2VR
 					JObject json = (JObject)JsonConvert.DeserializeObject(data);
 					responses.Add(json);
 
+					wait.Set();
 					this.totalBuffer = totalBuffer.SubArray(4 + packetSize, totalBuffer.Length - packetSize - 4);
 				}
 				else
@@ -95,7 +99,7 @@ namespace Sprint2VR
 
 		public JObject SearchResponses(string id)
 		{
-			Thread.Sleep(2500);
+			wait.WaitOne();
 			for (int i = responses.Count; i > 0; i--)
 			{
 				JObject json = responses[i - 1];
