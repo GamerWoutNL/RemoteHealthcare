@@ -28,47 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailedPatientView));
-            this.mainchart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart_mainchart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button_file = new System.Windows.Forms.Button();
             this.textbox_message = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button_sendbutton = new System.Windows.Forms.Button();
             this.combobox_clientselection = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.mainchart)).BeginInit();
+            this.button_backbutton = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.button_backbutton)).BeginInit();
             this.SuspendLayout();
             // 
-            // mainchart
+            // chart_mainchart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.mainchart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.mainchart.Legends.Add(legend2);
-            this.mainchart.Location = new System.Drawing.Point(380, 176);
-            this.mainchart.Name = "mainchart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.mainchart.Series.Add(series2);
-            this.mainchart.Size = new System.Drawing.Size(817, 480);
-            this.mainchart.TabIndex = 7;
-            this.mainchart.Text = "chart1";
+            chartArea1.Name = "ChartArea1";
+            this.chart_mainchart.ChartAreas.Add(chartArea1);
+            this.chart_mainchart.Location = new System.Drawing.Point(380, 176);
+            this.chart_mainchart.Name = "chart_mainchart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Name = "Series1";
+            this.chart_mainchart.Series.Add(series1);
+            this.chart_mainchart.Size = new System.Drawing.Size(817, 480);
+            this.chart_mainchart.TabIndex = 7;
+            this.chart_mainchart.Text = "chart1";
             // 
             // button_file
             // 
             this.button_file.Location = new System.Drawing.Point(1098, 698);
             this.button_file.Name = "button_file";
-            this.button_file.Size = new System.Drawing.Size(99, 23);
+            this.button_file.Size = new System.Drawing.Size(99, 26);
             this.button_file.TabIndex = 8;
             this.button_file.Text = "Open File";
             this.button_file.UseVisualStyleBackColor = true;
-            this.button_file.Click += new System.EventHandler(this.button1_Click);
+            this.button_file.Click += new System.EventHandler(this.button_file_Click);
             // 
             // textbox_message
             // 
@@ -76,6 +74,7 @@
             this.textbox_message.Name = "textbox_message";
             this.textbox_message.Size = new System.Drawing.Size(203, 22);
             this.textbox_message.TabIndex = 9;
+            this.textbox_message.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_message_KeyDown);
             // 
             // pictureBox1
             // 
@@ -108,6 +107,7 @@
             this.button_sendbutton.TabIndex = 11;
             this.button_sendbutton.Text = "Send";
             this.button_sendbutton.UseVisualStyleBackColor = true;
+            this.button_sendbutton.Click += new System.EventHandler(this.button_sendbutton_Click);
             // 
             // combobox_clientselection
             // 
@@ -117,23 +117,36 @@
             this.combobox_clientselection.Size = new System.Drawing.Size(203, 24);
             this.combobox_clientselection.TabIndex = 12;
             // 
+            // button_backbutton
+            // 
+            this.button_backbutton.Image = ((System.Drawing.Image)(resources.GetObject("button_backbutton.Image")));
+            this.button_backbutton.Location = new System.Drawing.Point(13, 13);
+            this.button_backbutton.Name = "button_backbutton";
+            this.button_backbutton.Size = new System.Drawing.Size(40, 40);
+            this.button_backbutton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.button_backbutton.TabIndex = 13;
+            this.button_backbutton.TabStop = false;
+            this.button_backbutton.Click += new System.EventHandler(this.button_backbutton_Click);
+            // 
             // DetailedPatientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1386, 763);
+            this.Controls.Add(this.button_backbutton);
             this.Controls.Add(this.combobox_clientselection);
             this.Controls.Add(this.button_sendbutton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textbox_message);
             this.Controls.Add(this.button_file);
-            this.Controls.Add(this.mainchart);
+            this.Controls.Add(this.chart_mainchart);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "DetailedPatientView";
             this.Text = "DetailedPatientView";
             this.Load += new System.EventHandler(this.DetailedPatientView_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.mainchart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.button_backbutton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,11 +155,12 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart mainchart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_mainchart;
         private System.Windows.Forms.Button button_file;
         private System.Windows.Forms.TextBox textbox_message;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button_sendbutton;
         private System.Windows.Forms.ComboBox combobox_clientselection;
+        private System.Windows.Forms.PictureBox button_backbutton;
     }
 }

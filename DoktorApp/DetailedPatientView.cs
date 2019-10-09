@@ -31,12 +31,19 @@ namespace DoktorApp
 
             flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
             combobox_clientselection.DataSource = data.clientdata;
+            combobox_clientselection.DisplayMember = "Name";
 
             chartpanel = flowLayoutPanel1;
+
+            
+
+
             for (int i = 0; i < 8; i++)
             {
                 chartlist.Add(DataTag.ID+i, AddChartInList(GetNamefromTag(DataTag.ID+i)));
             }
+            ChangeMainChart(chartlist[DataTag.HR]);
+
         }
 
         public Chart AddChartInList(string name)
@@ -48,16 +55,13 @@ namespace DoktorApp
             chartArea.AxisY.LabelStyle.Enabled = false;
             chartArea.AxisX.MajorGrid.Enabled = false;
             chartArea.AxisY.MajorGrid.Enabled = false;
-            
             chart.ChartAreas.Add(chartArea);
 
             var series = new Series("Data");
             series.Points.DataBindY(new[] { 0, 0, 0, 0 });
-            
-            chart.Series.Add(series);
-
-
             series.ChartType = SeriesChartType.Line;
+            chart.Series.Add(series);
+            
 
            
             var title = new Title();
@@ -72,7 +76,30 @@ namespace DoktorApp
             chart.Width = 200;
             chart.Height = 100;
 
+            chart.Click += new System.EventHandler(this.ChartOnClick);
+
             return chart;
+        }
+
+        public void ChartOnClick(object sender, EventArgs e)
+        {
+            ChangeMainChart(sender as Chart);
+        }
+
+        public void ChangeMainChart(Chart chart)
+        {
+            for(int i = 0; i< chart_mainchart.Series.Count; i++)
+            {
+                chart_mainchart.Series.RemoveAt(0);
+            }
+
+            for (int i = 0; i < chart_mainchart.Titles.Count; i++)
+            {
+                chart_mainchart.Titles.RemoveAt(0);
+            }
+
+            chart_mainchart.Series.Add(chart.Series.ElementAt(0));
+            chart_mainchart.Titles.Add(chart.Titles.ElementAt(0));
         }
 
         public string GetNamefromTag(DataTag tag)
@@ -102,10 +129,7 @@ namespace DoktorApp
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Button Clicked");
-        }
+       
 
         private void DetailedPatientView_Load(object sender, EventArgs e)
         {
@@ -129,15 +153,44 @@ namespace DoktorApp
                 }
             };
         }
-        //
-        
+
+        private void button_backbutton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Back button pressed!");
+            throw new NotImplementedException();
+        }
+
+        private void button_sendbutton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Send button pressed!");
+            throw new NotImplementedException();
+        }
+
+        private void button_file_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("File button pressed!");
+            throw new NotImplementedException();
+        }
+
+        private void textbox_message_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                Console.WriteLine("Enter pressed!");
+                throw new NotImplementedException();
+            }
+            
+        }
     }
+
 
     public class ClientInfo
     {
         public ClientInfo() { }
 
-        public string name { get; set; }
+        public string Name { get; set; }
+
+
     }
 
 
@@ -145,17 +198,24 @@ namespace DoktorApp
     {
 
         public List<ClientInfo> clientdata;
+        
 
         public Dumydata()
         {
             clientdata = new List<ClientInfo>();
+         
+
             for(int i = 0; i < 10; i++)
             {
                 ClientInfo newclient = new ClientInfo();
-                newclient.name = "Mark_" + i;
+                newclient.Name = "Mark_" + i;
+
                 clientdata.Add(newclient);
+               
             }
         }
+
+       
     }
 
 }
