@@ -118,6 +118,7 @@
             this.combobox_clientselection.Name = "combobox_clientselection";
             this.combobox_clientselection.Size = new System.Drawing.Size(203, 24);
             this.combobox_clientselection.TabIndex = 12;
+            this.combobox_clientselection.SelectedIndexChanged += new System.EventHandler(this.combobox_clientselection_SelectedIndexChanged);
             // 
             // button_backbutton
             // 
@@ -138,6 +139,7 @@
             this.button_sendbroadcast.TabIndex = 15;
             this.button_sendbroadcast.Text = "Send";
             this.button_sendbroadcast.UseVisualStyleBackColor = true;
+            this.button_sendbroadcast.Click += new System.EventHandler(this.button_sendbroadcast_Click);
             // 
             // textbox_broadcast
             // 
@@ -145,6 +147,7 @@
             this.textbox_broadcast.Name = "textbox_broadcast";
             this.textbox_broadcast.Size = new System.Drawing.Size(203, 22);
             this.textbox_broadcast.TabIndex = 14;
+            this.textbox_broadcast.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_broadcast_KeyDown);
             // 
             // DetailedPatientView
             // 
@@ -161,6 +164,7 @@
             this.Controls.Add(this.button_file);
             this.Controls.Add(this.chart_mainchart);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "DetailedPatientView";
             this.Text = "DetailedPatientView";
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).EndInit();

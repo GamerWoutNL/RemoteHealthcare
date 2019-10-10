@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -205,6 +201,28 @@ namespace DoktorApp
                 throw new NotImplementedException();
             }
             
+        }
+
+        private void textbox_broadcast_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Console.WriteLine("Enter pressed!");
+                throw new NotImplementedException();
+            }
+
+        }
+
+        private void combobox_clientselection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine(combobox_clientselection.SelectedIndex);
+            // throw new NotImplementedException();
+        }
+
+        private void button_sendbroadcast_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Send button pressed!");
+            throw new NotImplementedException();
         }
 
         // /// // /// // /// // /// 
