@@ -76,21 +76,8 @@ namespace Server
         private void HandlePacket(string packet)
         {
             // test purposes, ignore the following:
-            //string etValue = GetValueByTag(TagErgo.ET, packet);
-            //string dtValue = GetValueByTag(TagErgo.DT, packet);
-            //string spValue = GetValueByTag(TagErgo.SP, packet);
-            //string hrValue = GetValueByTag(TagErgo.HR, packet);
-            //string ecValue = GetValueByTag(TagErgo.EC, packet);
-            //string icValue = GetValueByTag(TagErgo.IC, packet);
-            //string apValue = GetValueByTag(TagErgo.AP, packet);
-            //string ipValue = GetValueByTag(TagErgo.IP, packet);
-            //string idValue = GetValueByTag(TagErgo.ID, packet);
-            //string tsValue = GetValueByTag(TagErgo.TS, packet);
-
             string mtValue = GetValueByTag(TagErgo.MT, packet);
-            //string mtValue = "bla";
             string idValue = GetValueByTag(TagErgo.ID, packet);
-
 			string tsValue = GetValueByTag(TagErgo.TS, packet);
 
             // Fastest way to handle the data.
