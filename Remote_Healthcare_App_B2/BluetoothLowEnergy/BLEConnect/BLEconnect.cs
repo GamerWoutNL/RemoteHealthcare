@@ -186,8 +186,13 @@ namespace ErgoConnect
 
 		private void SendResistance(BLE ble, double percentage)
 		{
-			byte[] resistance = { 0xA4, 0x09, 0x4E, 0x05, 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2),0};
-            byte checksum = BLEDecoder.GetXorValue(resistance);
+			byte[] resistance = { 0xA4, 0x09, 0x4E, 0x05, 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)(percentage * 2), 0};
+            byte[] calculate = new byte[12];
+            for (int i =1; i<resistance.Length; i++)
+            {
+                calculate[i-1] = resistance[i];
+            }
+            byte checksum = BLEDecoder.GetXorValue(calculate);
             resistance[resistance.Length] = checksum;
 			ble.WriteCharacteristic(serviceNumber, resistance);
 		}

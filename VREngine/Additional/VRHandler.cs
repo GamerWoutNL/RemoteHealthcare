@@ -54,27 +54,22 @@ namespace VREngine
 
             //Setting up parent and startposition.
             MoveVRParts(new VRPoint3D(0.9, -0.2, -0.44), new VRPoint3D(0, 90, 0), 1);
-            MoveCar(new VRPoint3D(-19.30, 22.00, -13.40), new VRPoint3D(0, 0, 0), 1);
+            MoveCar(new VRPoint3D(-19.30, 22.00, -13.40), new VRPoint3D(0,0,0), 1);
             MakeErgoParent();
 
             //Set route:
-            SetRoute(routeHandler.routePath[routeHandler.currentRoute], new VRPoint3D(-19.3, 22.0, -13.4));
-           
+            //SetRoute(routeHandler.routePath[routeHandler.currentRoute], new VRPoint3D(-19.3, 22.0, -13.4));
+
 
             if (false) // Enable for testing purposes.
                 while (true)
                     FindVRParts();
 
-            if (true) // Enable to test route.
-                while (true)
-                {
-                    VRPoint3D currentPosition = GetCarCoords();
-                    bool reached = routeHandler.CheckDestinationReached(currentPosition);
-                    if (reached)
-                        if (routeHandler.currentRoute < routeHandler.routePath.Count)
-                            SetRoute(routeHandler.routePath[routeHandler.currentRoute], currentPosition);
-                    System.Threading.Thread.Sleep(20);
-                }
+           
+
+            string ID;
+            ID = AddRouteFunction(routeHandler.GetRouteStart());
+            SetRoute(ID);
         }
 
         //Organized code start:
@@ -191,14 +186,35 @@ namespace VREngine
         {
             VRPoint3D endPos = route.endPos;
             double speed = 10;
-            function.DynaSceneNodeMoveTo(this.vRData.uuidVehicle, null, endPos, "XY", "linear", true, speed, false);
+            function.DynaSceneNodeMoveTo(this.vRData.uuidVehicle, null, endPos, "XYZ", "linear", true, speed, false);
             if (route.rotation != null)
                 MoveCar(currentPos, route.rotation, 1);
         }
 
-        public void AddRoute()
+        public void SetRoute(string routeID, VRPoint3D rotation = null)
         {
-            //function.DynaRouteAdd();
+            rotation = new VRPoint3D(0,Math.PI*1.5,0); // was Math.PI/180*90 overal
+            if (rotation == null)
+                function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 10, 0, "XYZ", 0, false, new VRPoint3D(0, 0, 0), new VRPoint3D(0, 0, 0));
+            else
+                function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 10, 0, "XYZ", 1.0, false, rotation, new VRPoint3D(0, 0, 0));
+        }
+
+        public string AddRouteToCrossing()
+        {
+            function.DynaRouteAdd(routeHandler.GetRouteStart());
+            //Receive route response from server.
+            dynamic responseRoute = client.SearchResponses(IDOperations.routeAdd);
+            Console.WriteLine(responseRoute);
+            return responseRoute.data.data.data.uuid;
+        }
+
+
+        public string AddRouteFunction(List<Route> routeHandlerRoute)
+        {
+            function.DynaRouteAdd(routeHandlerRoute);
+            dynamic responseRoute = client.SearchResponses(IDOperations.routeAdd);
+            return responseRoute.data.data.data.uuid;
         }
 
         public VRPoint3D GetCarCoords()

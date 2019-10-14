@@ -12,11 +12,6 @@ namespace VREngine.Routes
         public VRPoint3D endPos { get; set; }
         public VRPoint3D rotation { get; set; }
         public double resistancePenalty { get; set; }
-        public Route(VRPoint3D endPos, double resistancePenalty)
-        {
-            this.endPos = endPos;
-            this.resistancePenalty = resistancePenalty;
-        }
 
         public Route(VRPoint3D endPos, VRPoint3D rotation, double resistancePenalty)
         {
