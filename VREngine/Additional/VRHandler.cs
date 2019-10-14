@@ -45,28 +45,22 @@ namespace VREngine
         {
             function.DynaSceneReset();
             CreateEnvironment();
+
+            //Retrieving info.
             FindVRParts();
             FindEverything();
-
-
-
-            // MoveVRParts(new VRPoint3D(-18.40, 21.80, -13.84), new VRPoint3D(0,90,0), 1);
+            //End of retrieving info.
 
             //Setting up parent and startposition.
             MoveVRParts(new VRPoint3D(0.9, -0.2, -0.44), new VRPoint3D(0, 90, 0), 1);
             MoveCar(new VRPoint3D(-19.30, 22.00, -13.40), new VRPoint3D(0,0,0), 1);
             MakeErgoParent();
 
-            //Set route:
-            //SetRoute(routeHandler.routePath[routeHandler.currentRoute], new VRPoint3D(-19.3, 22.0, -13.4));
-
-
             if (false) // Enable for testing purposes.
                 while (true)
                     FindVRParts();
 
-           
-
+            //Setting the route.
             string ID;
             ID = AddRouteFunction(routeHandler.GetRouteStart());
             SetRoute(ID);
@@ -180,15 +174,6 @@ namespace VREngine
             this.vRData.uuidHead = uuidHead;
             //End of saving the uuid of the right hand node.
             //End of find head action.
-        }
-
-        public void SetRoute(Route route, VRPoint3D currentPos)
-        {
-            VRPoint3D endPos = route.endPos;
-            double speed = 10;
-            function.DynaSceneNodeMoveTo(this.vRData.uuidVehicle, null, endPos, "XYZ", "linear", true, speed, false);
-            if (route.rotation != null)
-                MoveCar(currentPos, route.rotation, 1);
         }
 
         public void SetRoute(string routeID, VRPoint3D rotation = null)
