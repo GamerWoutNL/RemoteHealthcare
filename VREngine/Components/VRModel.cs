@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRModel : VRComponent
+    public class VRModel : VRComponent
     {
         public string fileName;
         public bool cullBackFaces;

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Additional\VRData.cs" />
     <Compile Include="Components\VRAnimation.cs" />
     <Compile Include="Components\VRColor.cs" />
     <Compile Include="Components\VRComponent.cs" />
@@ -66,8 +67,10 @@
     <Compile Include="Functions\Function.cs" />
     <Compile Include="Additional\ArrayHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VRHandler.cs" />
+    <Compile Include="Additional\VRHandler.cs" />
     <Compile Include="Additional\VRHelper.cs" />
+    <Compile Include="Routes\Route.cs" />
+    <Compile Include="Routes\RouteHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
