@@ -53,6 +53,7 @@
     <Compile Include="DetailedPatientView.Designer.cs">
       <DependentUpon>DetailedPatientView.cs</DependentUpon>
     </Compile>
+    <Compile Include="HeartrateDatapoint.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +68,7 @@
     <Compile Include="SmallPatientView.Designer.cs">
       <DependentUpon>SmallPatientView.cs</DependentUpon>
     </Compile>
+    <Compile Include="SpeedDataPoint.cs" />
     <EmbeddedResource Include="DetailedPatientView.resx">
       <DependentUpon>DetailedPatientView.cs</DependentUpon>
     </EmbeddedResource>
