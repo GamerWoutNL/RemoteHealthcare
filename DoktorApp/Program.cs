@@ -16,7 +16,7 @@ namespace DoktorApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DetailedPatientView());
+            Application.Run(new MainView());
         }
     }
 }
