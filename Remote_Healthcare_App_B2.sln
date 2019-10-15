@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C291ECCB-D913-43BD-B2DF-3089F064957A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoktorApp", "DoktorApp\DoktorApp.csproj", "{D39E7F9E-7424-4957-8D73-A607574C31DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{31AF1145-7E12-4807-B630-1A9011C93CFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,12 +44,12 @@ Global
 		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D39E7F9E-7424-4957-8D73-A607574C31DC}.ClientServer|Any CPU.ActiveCfg = Release|Any CPU
-		{D39E7F9E-7424-4957-8D73-A607574C31DC}.ClientServer|Any CPU.Build.0 = Release|Any CPU
-		{D39E7F9E-7424-4957-8D73-A607574C31DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D39E7F9E-7424-4957-8D73-A607574C31DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D39E7F9E-7424-4957-8D73-A607574C31DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D39E7F9E-7424-4957-8D73-A607574C31DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31AF1145-7E12-4807-B630-1A9011C93CFE}.ClientServer|Any CPU.ActiveCfg = Release|Any CPU
+		{31AF1145-7E12-4807-B630-1A9011C93CFE}.ClientServer|Any CPU.Build.0 = Release|Any CPU
+		{31AF1145-7E12-4807-B630-1A9011C93CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31AF1145-7E12-4807-B630-1A9011C93CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31AF1145-7E12-4807-B630-1A9011C93CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31AF1145-7E12-4807-B630-1A9011C93CFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
