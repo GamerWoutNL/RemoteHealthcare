@@ -45,7 +45,7 @@ namespace Server
 		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
-        private string totalBuffer; // Should use ErgoID as a key.
+        private string totalBuffer;
 
         public ServerClient(TcpClient client, Server server)
         {
