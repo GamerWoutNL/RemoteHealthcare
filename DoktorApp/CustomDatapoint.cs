@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace DoktorApp
 {
-    class SpeedDataPoint
+    abstract class CustomDatapoint
     {
-        public DateTime timestamp { get; set; }
-        public double speedData { get; set; }
 
-        public SpeedDataPoint(DateTime timestamp, double speedData)
+        public DateTime timestamp { get; set; }
+        public double data { get; set; }
+
+        public CustomDatapoint(DateTime timestamp, double data)
         {
             this.timestamp = timestamp;
-            this.speedData = speedData;
+            this.data = data;
         }
+
     }
 }
