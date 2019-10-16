@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using DoktorApp.Communication;
 
 namespace DoktorApp
 {
     public partial class DetailedPatientView : Form
     {
-
+		private Client client;
         FlowLayoutPanel chartpanel;
         Dictionary<DataTag, Chart> chartlist;
         DummyData data = new DummyData();
@@ -21,9 +22,9 @@ namespace DoktorApp
 
 
      
-        public DetailedPatientView()
+        public DetailedPatientView(Client client)
         {
-            
+			this.client = client;
             InitializeComponent();
             chartpanel = flowLayoutPanel1;
 
@@ -218,8 +219,7 @@ namespace DoktorApp
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Stop button pressed!");
-            throw new NotImplementedException();
+			this.client.Write("<MT>doctor<AC>login<UN>doc1<PW>beertjes123<EOF>");
         }
 
         // /// // /// // /// // /// 

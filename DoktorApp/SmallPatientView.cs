@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using DoktorApp.Communication;
 
 namespace DoktorApp
 {
     public partial class SmallPatientView : UserControl
     {
+		private Client client;
 
         public string patientName { get; set; }
         public string patientNumber { get; set; }
@@ -30,8 +32,9 @@ namespace DoktorApp
             InitializeComponent();
         }
 
-        public SmallPatientView(string PatientName, string PatientNumber)
+        public SmallPatientView(string PatientName, string PatientNumber, Client client)
         {
+			this.client = client;
             InitializeComponent();
             this.PatientNameLabel.Text = $"Patient naam: {PatientName}";
             this.PatientNumberLabel.Text = $"Patient nummer: {PatientNumber}";
@@ -48,7 +51,7 @@ namespace DoktorApp
 
         private void PatientNameLabel_Click(object sender, EventArgs e)
         {
-            DetailedPatientView patientView = new DetailedPatientView();
+            DetailedPatientView patientView = new DetailedPatientView(client);
             patientView.Show();
         }
 

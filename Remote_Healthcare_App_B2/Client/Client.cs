@@ -39,7 +39,7 @@ namespace Client
         private void OnRead(IAsyncResult ar)
         {
             Console.WriteLine("Data received");
-            //server response handling
+            //server response handling, for example: SetResistance
         }
 
 		public void Write(string ergoData)

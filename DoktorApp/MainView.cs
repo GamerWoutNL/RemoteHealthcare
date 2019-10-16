@@ -13,16 +13,13 @@ namespace DoktorApp
 {
     public partial class MainView : Form
     {
-		private Client client;
         public MainView(Client client)
         {
-			this.client = client;
-
             InitializeComponent();
 
             //when client connects
-            SmallPatientView smallPatientView1 = new SmallPatientView("Test", "123");
-            SmallPatientView smallPatientView2 = new SmallPatientView("Test2", "1234");
+            SmallPatientView smallPatientView1 = new SmallPatientView("Test", "123", client);
+            SmallPatientView smallPatientView2 = new SmallPatientView("Test2", "1234", client);
             this.FlowPanelMainView.Controls.Add(smallPatientView1);
             this.FlowPanelMainView.Controls.Add(smallPatientView2);
 

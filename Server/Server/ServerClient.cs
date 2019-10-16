@@ -24,6 +24,9 @@ namespace Server
 
         // Extra
         EOF, // End Of File
+		AC, //action
+		UN, //username
+		PW, //password
         ID,  // Tag of Ergometer / simulator ID
         TS,  // Timestamp
         MT   //The Message type of the message
@@ -88,20 +91,21 @@ namespace Server
             //string tsValue = GetValueByTag(TagErgo.TS, packet);
 
             string mtValue = GetValueByTag(TagErgo.MT, packet);
-            //string mtValue = "bla";
-            string idValue = GetValueByTag(TagErgo.ID, packet);
-
-			string tsValue = GetValueByTag(TagErgo.TS, packet);
 
             // Fastest way to handle the data.
             foreach (TagErgo tag in (TagErgo[])Enum.GetValues(typeof(TagErgo)))
             {
                 switch (mtValue)
                 {
+					case "data":
+						string idValue = GetValueByTag(TagErgo.ID, packet);
+						string tsValue = GetValueByTag(TagErgo.TS, packet);
+						this.HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
+						break;
+					case "doctor":
+						this.HandleInputDoctor(tag, GetValueByTag(tag, packet));
+						break;
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
-                    default:
-                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
-                        break;
                 }
             }
         }
@@ -109,7 +113,7 @@ namespace Server
         private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp)
         {
             Console.WriteLine("Running");
-            if (value != String.Empty)
+            if (value != null)
             {
                 ClientData clientData;
                 if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
@@ -148,10 +152,9 @@ namespace Server
             }
         }
 
-        private void HandleInputDoctor()
+        private void HandleInputDoctor(TagErgo tag, string value)
         {
-            throw new NotImplementedException();
-        }
+		}
 
         private void HandleInputVR()
         {
@@ -198,7 +201,7 @@ namespace Server
                 }
                // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
             }
-            return String.Empty;
+			return null;
         }
     }
 }

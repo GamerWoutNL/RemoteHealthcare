@@ -14,7 +14,8 @@ namespace Server
     {
 		private TcpListener listener;
 		private List<ServerClient> clients;
-		public Dictionary<String, ClientData> clientDatas { get; set; }
+		private ServerClient doctor;
+		public Dictionary<string, ClientData> clientDatas { get; set; }
 
 		static void Main(string[] args)
         {
