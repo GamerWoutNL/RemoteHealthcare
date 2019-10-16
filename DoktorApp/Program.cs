@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoktorApp.Data_Management;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +15,15 @@ namespace DoktorApp
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainView());
+
+            PatientStorage patientStorage = new PatientStorage("Test", "123");
+            patientStorage.AddHeartrateDataPoint(DateTime.Now.ToString("s"), "78.8");
+
+
+
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new MainView());
         }
     }
 }

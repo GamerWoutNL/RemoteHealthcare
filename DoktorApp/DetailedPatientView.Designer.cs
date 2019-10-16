@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailedPatientView));
             this.chart_mainchart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button_file = new System.Windows.Forms.Button();
@@ -49,23 +49,25 @@
             // 
             // chart_mainchart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart_mainchart.ChartAreas.Add(chartArea4);
-            this.chart_mainchart.Location = new System.Drawing.Point(380, 176);
+            chartArea1.Name = "ChartArea1";
+            this.chart_mainchart.ChartAreas.Add(chartArea1);
+            this.chart_mainchart.Location = new System.Drawing.Point(285, 143);
+            this.chart_mainchart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chart_mainchart.Name = "chart_mainchart";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Name = "Series1";
-            this.chart_mainchart.Series.Add(series4);
-            this.chart_mainchart.Size = new System.Drawing.Size(817, 480);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Name = "Series1";
+            this.chart_mainchart.Series.Add(series1);
+            this.chart_mainchart.Size = new System.Drawing.Size(613, 390);
             this.chart_mainchart.TabIndex = 7;
             this.chart_mainchart.Text = "chart1";
             // 
             // button_file
             // 
-            this.button_file.Location = new System.Drawing.Point(1098, 698);
+            this.button_file.Location = new System.Drawing.Point(824, 567);
+            this.button_file.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_file.Name = "button_file";
-            this.button_file.Size = new System.Drawing.Size(99, 26);
+            this.button_file.Size = new System.Drawing.Size(74, 21);
             this.button_file.TabIndex = 8;
             this.button_file.Text = "Open File";
             this.button_file.UseVisualStyleBackColor = true;
@@ -73,18 +75,20 @@
             // 
             // textbox_message
             // 
-            this.textbox_message.Location = new System.Drawing.Point(380, 125);
+            this.textbox_message.Location = new System.Drawing.Point(285, 102);
+            this.textbox_message.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textbox_message.Name = "textbox_message";
-            this.textbox_message.Size = new System.Drawing.Size(203, 22);
+            this.textbox_message.Size = new System.Drawing.Size(153, 20);
             this.textbox_message.TabIndex = 9;
             this.textbox_message.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_message_KeyDown);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1244, 29);
+            this.pictureBox1.Location = new System.Drawing.Point(933, 24);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 118);
+            this.pictureBox1.Size = new System.Drawing.Size(75, 96);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
@@ -96,17 +100,19 @@
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.DataBindings.Add(new System.Windows.Forms.Binding("FlowDirection", global::DoktorApp.Properties.Settings.Default, "flowtopdown", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.flowLayoutPanel1.FlowDirection = global::DoktorApp.Properties.Settings.Default.flowtopdown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 29);
-            this.flowLayoutPanel1.MaximumSize = new System.Drawing.Size(300, 700);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(9, 24);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel1.MaximumSize = new System.Drawing.Size(225, 569);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(300, 700);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(225, 569);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // button_sendmessage
             // 
-            this.button_sendmessage.Location = new System.Drawing.Point(589, 125);
+            this.button_sendmessage.Location = new System.Drawing.Point(442, 102);
+            this.button_sendmessage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_sendmessage.Name = "button_sendmessage";
-            this.button_sendmessage.Size = new System.Drawing.Size(75, 26);
+            this.button_sendmessage.Size = new System.Drawing.Size(56, 21);
             this.button_sendmessage.TabIndex = 11;
             this.button_sendmessage.Text = "Send";
             this.button_sendmessage.UseVisualStyleBackColor = true;
@@ -114,9 +120,10 @@
             // 
             // button_sendbroadcast
             // 
-            this.button_sendbroadcast.Location = new System.Drawing.Point(1163, 82);
+            this.button_sendbroadcast.Location = new System.Drawing.Point(872, 67);
+            this.button_sendbroadcast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_sendbroadcast.Name = "button_sendbroadcast";
-            this.button_sendbroadcast.Size = new System.Drawing.Size(75, 26);
+            this.button_sendbroadcast.Size = new System.Drawing.Size(56, 21);
             this.button_sendbroadcast.TabIndex = 15;
             this.button_sendbroadcast.Text = "Send";
             this.button_sendbroadcast.UseVisualStyleBackColor = true;
@@ -124,18 +131,20 @@
             // 
             // textbox_broadcast
             // 
-            this.textbox_broadcast.Location = new System.Drawing.Point(959, 84);
+            this.textbox_broadcast.Location = new System.Drawing.Point(719, 68);
+            this.textbox_broadcast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textbox_broadcast.Name = "textbox_broadcast";
-            this.textbox_broadcast.Size = new System.Drawing.Size(203, 22);
+            this.textbox_broadcast.Size = new System.Drawing.Size(153, 20);
             this.textbox_broadcast.TabIndex = 14;
             this.textbox_broadcast.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_broadcast_KeyDown);
             // 
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(682, 65);
+            this.pictureBox2.Location = new System.Drawing.Point(512, 53);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(94, 86);
+            this.pictureBox2.Size = new System.Drawing.Size(70, 70);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 16;
             this.pictureBox2.TabStop = false;
@@ -145,18 +154,19 @@
             // 
             this.Text_DoctorID.BackColor = System.Drawing.SystemColors.Info;
             this.Text_DoctorID.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Text_DoctorID.Location = new System.Drawing.Point(959, 44);
+            this.Text_DoctorID.Location = new System.Drawing.Point(719, 36);
+            this.Text_DoctorID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Text_DoctorID.Name = "Text_DoctorID";
             this.Text_DoctorID.ReadOnly = true;
-            this.Text_DoctorID.Size = new System.Drawing.Size(279, 15);
+            this.Text_DoctorID.Size = new System.Drawing.Size(209, 13);
             this.Text_DoctorID.TabIndex = 17;
             this.Text_DoctorID.Text = "Replace With Doctor ID";
             // 
             // DetailedPatientView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1386, 763);
+            this.ClientSize = new System.Drawing.Size(1040, 620);
             this.Controls.Add(this.Text_DoctorID);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button_sendbroadcast);
@@ -168,8 +178,10 @@
             this.Controls.Add(this.chart_mainchart);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "DetailedPatientView";
             this.Text = "DetailedPatientView";
+            this.Load += new System.EventHandler(this.DetailedPatientView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
