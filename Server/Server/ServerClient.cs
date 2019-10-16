@@ -10,8 +10,10 @@ namespace Server
 {
     public enum TagErgo
     {
-        // Page 16
-        ET, // Elapsed time
+		AC, //action
+
+			// Page 16
+		ET, // Elapsed time
         DT, // Distance travelled
         SP, // Speed
         HR, // Heartrate
@@ -24,7 +26,6 @@ namespace Server
 
         // Extra
         EOF, // End Of File
-		AC, //action
 		UN, //username
 		PW, //password
         ID,  // Tag of Ergometer / simulator ID
@@ -92,6 +93,11 @@ namespace Server
 
             string mtValue = GetValueByTag(TagErgo.MT, packet);
 
+			if (mtValue == "doctor")
+			{
+				this.HandleInputDoctor(packet);
+			}
+
             // Fastest way to handle the data.
             foreach (TagErgo tag in (TagErgo[])Enum.GetValues(typeof(TagErgo)))
             {
@@ -102,9 +108,6 @@ namespace Server
 						string tsValue = GetValueByTag(TagErgo.TS, packet);
 						this.HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
 						break;
-					case "doctor":
-						this.HandleInputDoctor(tag, GetValueByTag(tag, packet));
-						break;
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
                 }
             }
@@ -112,7 +115,6 @@ namespace Server
 
         private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp)
         {
-            Console.WriteLine("Running");
             if (value != null)
             {
                 ClientData clientData;
@@ -152,8 +154,42 @@ namespace Server
             }
         }
 
-        private void HandleInputDoctor(TagErgo tag, string value)
+        private void HandleInputDoctor(string packet)
         {
+			string action = this.GetValueByTag(TagErgo.AC, packet);
+
+			if (action == "login")
+			{
+				this.HandleDoctorLogin(packet);
+			}
+			else if (action == "brake")
+			{
+				this.HandleEmergencyBrake(packet);
+			}
+			else if (action == "resistance")
+			{
+				this.HandleSetResistance(packet);
+			}
+		}
+
+		private void HandleDoctorLogin(string packet)
+		{
+			Console.WriteLine(packet);
+			throw new NotImplementedException();
+		}
+
+		private void HandleEmergencyBrake(string packet)
+		{
+			Console.WriteLine(packet);
+
+			// Packet:
+			// <MT>doctor<AC>brake<ID>00472<EOF>
+		}
+
+		private void HandleSetResistance(string packet)
+		{
+			Console.WriteLine(packet);
+			throw new NotImplementedException();
 		}
 
         private void HandleInputVR()

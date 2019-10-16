@@ -219,7 +219,8 @@ namespace DoktorApp
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
-			this.client.Write("<MT>doctor<AC>login<UN>doc1<PW>beertjes123<EOF>");
+			string bikeID = "00472";
+			this.client.Write($"<MT>doctor<AC>brake<ID>{bikeID}<EOF>");
         }
 
         // /// // /// // /// // /// 
