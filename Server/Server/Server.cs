@@ -24,7 +24,7 @@ namespace Server
 
         Server()
         {
-			this.clientDatas = new Dictionary<String, ClientData>();
+			this.clientDatas = new Dictionary<string, ClientData>();
 			this.clients = new List<ServerClient>();
 
 			this.listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
