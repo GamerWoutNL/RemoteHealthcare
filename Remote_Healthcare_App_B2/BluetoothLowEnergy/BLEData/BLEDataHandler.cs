@@ -13,15 +13,19 @@ namespace ErgoConnect
     {
         public List<BLEData> _bleData { get; set; }
         private string ergoID;
+        private string patientName;
+        private string patientNumber;
         private int heartrate;
 
         /// <summary>
         /// The constructor needs a serial number. ErgoID is set, so this is known to the class from now on.
         /// </summary>
         /// <param name="ergometerSerialLastFiveNumbers"></param>
-        public BLEDataHandler(System.String ergometerSerialLastFiveNumbers) // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
+        public BLEDataHandler(System.String ergometerSerialLastFiveNumbers, System.String patientName, System.String patientNumber) // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
         {
             this._bleData = new List<BLEData>();
+            this.patientName = patientName;
+            this.patientNumber = patientNumber;
             ergoID = ergometerSerialLastFiveNumbers;
         }
 
@@ -71,7 +75,7 @@ namespace ErgoConnect
         public string ReadLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
-            return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("h:mm:ss")}<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
+            return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("s")}<{Tag.PNA.ToString()}>{patientName}<{Tag.PNU.ToString()}>{patientNumber}<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
         }
     }
 }

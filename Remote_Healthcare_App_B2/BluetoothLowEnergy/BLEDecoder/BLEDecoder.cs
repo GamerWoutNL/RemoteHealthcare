@@ -38,11 +38,15 @@ namespace ErgoConnect
             return xorValue == data[data.Length - 1];
         }
 
-        public static byte GetXorValue(byte[] data)
+        public static byte GetXorValue(byte[] data, bool getResistance = false)
         {
             byte xorValue = 0;
-            for (int i = 0; i < data.Length - 1; i++)
-                xorValue ^= data[i];
+            if (!getResistance)
+                for (int i = 0; i < data.Length - 1; i++)
+                    xorValue ^= data[i];
+            else
+                for (int i = 1; i < data.Length - 1; i++)
+                    xorValue ^= data[i];
             if (printChecksum)
                 Console.WriteLine($"Xorvalue: {xorValue} Checksum: {data[data.Length - 1]}");
             return xorValue;

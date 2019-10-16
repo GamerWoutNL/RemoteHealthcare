@@ -25,16 +25,20 @@ namespace ErgoConnect
         private List<byte[]> _bytesErgo = new List<byte[]>();
         private List<byte[]> _bytesHeartRate = new List<byte[]>();
         private string _ergoID;
+        private string _patientName;
+        private string _patientNumber;
 		private IClient _iClient;
 
 		/// <summary>
 		/// The ergoID is needed to define the save location of the Ergometer data.
 		/// </summary>
 		/// <param name="ergoID"></param>
-		public BLESimulator(string ergoID, IClient iClient)
+		public BLESimulator(string ergoID, IClient iClient, string patientName, string patientNumber)
         {
             this._ergoID = ergoID;
 			this._iClient = iClient;
+            this._patientName = patientName;
+            this._patientNumber = patientNumber;
         }
 
 		/// <summary>
@@ -53,7 +57,7 @@ namespace ErgoConnect
 
         public void RunSimulator()
         {
-            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID);
+            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID, _patientName, _patientNumber);
             int i = 0;
             List<byte[]> data = new List<byte[]>();
             while (true)
@@ -177,8 +181,6 @@ namespace ErgoConnect
         /// <param name="newFile"></param>
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
-            //Console.WriteLine("Path: " + pathToFile);
-            
             using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.File.Exists(pathToFile) ? System.IO.FileMode.Truncate : System.IO.FileMode.Create))
             {
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
