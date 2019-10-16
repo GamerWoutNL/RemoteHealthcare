@@ -13,7 +13,7 @@ namespace Server
 {
     class ServerClient
     {
-        private TcpClient tcpclient;
+        private TcpClient client;
 		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
@@ -21,8 +21,8 @@ namespace Server
 
         public ServerClient(TcpClient client, Server server)
         {
-            this.tcpclient = client;
-            this.stream = client.GetStream();
+            this.client = client;
+            this.stream = this.client.GetStream();
 			this.server = server;
             this.buffer = new byte[1024];
             this.totalBuffer = string.Empty;
