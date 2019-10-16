@@ -5,13 +5,16 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Server
 {
     public enum TagErgo
     {
-        // Page 16
-        ET, // Elapsed time
+		AC, //action
+
+			// Page 16
+		ET, // Elapsed time
         DT, // Distance travelled
         SP, // Speed
         HR, // Heartrate
@@ -24,6 +27,8 @@ namespace Server
 
         // Extra
         EOF, // End Of File
+		UN, //username
+		PW, //password
         ID,  // Tag of Ergometer / simulator ID
         TS,  // Timestamp
         MT   //The Message type of the message
@@ -45,7 +50,7 @@ namespace Server
 		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
-        private string totalBuffer; // Should use ErgoID as a key.
+        private string totalBuffer;
 
         public ServerClient(TcpClient client, Server server)
         {
@@ -73,6 +78,12 @@ namespace Server
             this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
+		public void Write(string message)
+		{
+			this.stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+			this.stream.Flush();
+		}
+
         private void HandlePacket(string packet)
         {
             // test purposes, ignore the following:
@@ -88,28 +99,30 @@ namespace Server
             //string tsValue = GetValueByTag(TagErgo.TS, packet);
 
             string mtValue = GetValueByTag(TagErgo.MT, packet);
-            //string mtValue = "bla";
-            string idValue = GetValueByTag(TagErgo.ID, packet);
 
-			string tsValue = GetValueByTag(TagErgo.TS, packet);
+			if (mtValue == "doctor")
+			{
+				this.HandleInputDoctor(packet);
+			}
 
             // Fastest way to handle the data.
             foreach (TagErgo tag in (TagErgo[])Enum.GetValues(typeof(TagErgo)))
             {
                 switch (mtValue)
                 {
+					case "data":
+						string idValue = GetValueByTag(TagErgo.ID, packet);
+						string tsValue = GetValueByTag(TagErgo.TS, packet);
+						this.HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
+						break;
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
-                    default:
-                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
-                        break;
                 }
             }
         }
 
         private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp)
         {
-            Console.WriteLine("Running");
-            if (value != String.Empty)
+            if (value != null)
             {
                 ClientData clientData;
                 if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
@@ -144,14 +157,52 @@ namespace Server
                         clientData.AddIP(value, timestamp);
                         break;
                 }
-                Console.WriteLine(clientData.ToString());
             }
         }
 
-        private void HandleInputDoctor()
+        private void HandleInputDoctor(string packet)
         {
-            throw new NotImplementedException();
-        }
+			string action = this.GetValueByTag(TagErgo.AC, packet);
+
+			if (action == "login")
+			{
+				this.HandleDoctorLogin(packet);
+			}
+			else if (action == "brake")
+			{
+				this.HandleEmergencyBrake(packet);
+			}
+			else if (action == "resistance")
+			{
+				this.HandleSetResistance(packet);
+			}
+		}
+
+		private void HandleDoctorLogin(string packet)
+		{
+			// TODO: Check if doctors password is valid
+
+			Console.WriteLine(packet);
+			this.server.doctor = this;
+			this.server.streaming = true;
+
+			new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
+		}
+
+		private void HandleEmergencyBrake(string packet)
+		{
+			Console.WriteLine(packet);
+			string bikeID = GetValueByTag(TagErgo.ID, packet);
+
+			// Packet:
+			// <MT>doctor<AC>brake<ID>00472<EOF>
+		}
+
+		private void HandleSetResistance(string packet)
+		{
+			Console.WriteLine(packet);
+			throw new NotImplementedException();
+		}
 
         private void HandleInputVR()
         {
@@ -198,7 +249,7 @@ namespace Server
                 }
                // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
             }
-            return String.Empty;
+			return null;
         }
     }
 }

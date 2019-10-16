@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChartUtils.cs" />
+    <Compile Include="Communication\Client.cs" />
     <Compile Include="CustomDatapoint.cs" />
     <Compile Include="DetailedPatientView.cs">
       <SubType>Form</SubType>
@@ -121,6 +122,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\unknown1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Server\Server.csproj">
+      <Project>{c291eccb-d913-43bd-b2df-3089f064957a}</Project>
+      <Name>Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -32,7 +32,7 @@ namespace Server
 
         public override string ToString()
         {
-			return $"Elapsed Time: {_elapsedTime.Count()} \nDistance Travelled: {_distanceTravelled.Count()} \nSpeed: {_speed.Count()} \nHeartrate: {_heartRate.Count()} \nEvent count: {_eventCount.Count()} \nInstanteous cadence: {_instanteousCadance.Count()} \nAccumulated power: {_accumulatedPower.Count()} \nInstanteous power: {_instanteousPower.Count()} \nTimestamp: {_elapsedTime.Count()}"; ;
+			return $"<ET>{_elapsedTime.Last()}<DT>{_distanceTravelled.Last()}<SP>{_speed.Last()}<HR>{_heartRate.Last()}<EC>{_eventCount.Last()}<IC>{_instanteousCadance.Last()}<AC>{_accumulatedPower.Last()}<IP>{_instanteousPower.Last()}<TS>{_elapsedTime.Last()}<EOF>"; ;
         }
 
 		public void AddET(string et, string datetime)
