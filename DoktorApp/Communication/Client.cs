@@ -30,6 +30,12 @@ namespace DoktorApp.Communication
 		MT   //The Message type of the message
 	}
 
+	public enum TagDoctor
+	{
+		SR, //SetResistance
+		GD //GET data request
+	}
+
 	public class Client
 	{
 		private TcpClient client;
@@ -40,11 +46,8 @@ namespace DoktorApp.Communication
 		public Client()
 		{
 			this.client = new TcpClient();
-			this.stream = client.GetStream();
 			this.buffer = new byte[1024];
 			this.totalBuffer = string.Empty;
-
-			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
 		}
 
 		private void OnRead(IAsyncResult ar)
@@ -56,10 +59,10 @@ namespace DoktorApp.Communication
 
 			while (totalBuffer.Contains(eof))
 			{
-				string packet = totalBuffer.Substring(0, totalBuffer.IndexOf(eof) + 5);
-				totalBuffer = totalBuffer.Substring(packet.IndexOf(eof) + 5);
+				string packet = totalBuffer.Substring(0, totalBuffer.IndexOf(eof) + eof.Length);
+				totalBuffer = totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
 
-				HandlePacket(packet);
+				this.HandlePacket(packet);
 			}
 
 			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
@@ -80,6 +83,8 @@ namespace DoktorApp.Communication
 		{
 			this.client.Connect(server, port);
 			this.stream = this.client.GetStream();
+
+			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
 		}
 
 		public void Disconnect()

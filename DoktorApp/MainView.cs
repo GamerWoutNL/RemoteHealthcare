@@ -7,16 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DoktorApp.Communication;
 
 namespace DoktorApp
 {
     public partial class MainView : Form
     {
-        public MainView()
+		private Client client;
+        public MainView(Client client)
         {
+			this.client = client;
+
             InitializeComponent();
-
-
 
             //when client connects
             SmallPatientView smallPatientView1 = new SmallPatientView("Test", "123");
