@@ -28,35 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailedPatientView));
             this.chart_mainchart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button_file = new System.Windows.Forms.Button();
             this.textbox_message = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button_sendmessage = new System.Windows.Forms.Button();
-            this.button_sendbroadcast = new System.Windows.Forms.Button();
-            this.textbox_broadcast = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.Text_DoctorID = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID();
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // chart_mainchart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chart_mainchart.ChartAreas.Add(chartArea4);
+            chartArea1.Name = "ChartArea1";
+            this.chart_mainchart.ChartAreas.Add(chartArea1);
             this.chart_mainchart.Location = new System.Drawing.Point(380, 176);
             this.chart_mainchart.Name = "chart_mainchart";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Name = "Series1";
-            this.chart_mainchart.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Name = "Series1";
+            this.chart_mainchart.Series.Add(series1);
             this.chart_mainchart.Size = new System.Drawing.Size(817, 480);
             this.chart_mainchart.TabIndex = 7;
             this.chart_mainchart.Text = "chart1";
@@ -78,16 +74,6 @@
             this.textbox_message.Size = new System.Drawing.Size(203, 22);
             this.textbox_message.TabIndex = 9;
             this.textbox_message.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_message_KeyDown);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1244, 29);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 118);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
             // 
             // flowLayoutPanel1
             // 
@@ -112,24 +98,6 @@
             this.button_sendmessage.UseVisualStyleBackColor = true;
             this.button_sendmessage.Click += new System.EventHandler(this.button_sendbutton_Click);
             // 
-            // button_sendbroadcast
-            // 
-            this.button_sendbroadcast.Location = new System.Drawing.Point(1163, 82);
-            this.button_sendbroadcast.Name = "button_sendbroadcast";
-            this.button_sendbroadcast.Size = new System.Drawing.Size(75, 26);
-            this.button_sendbroadcast.TabIndex = 15;
-            this.button_sendbroadcast.Text = "Send";
-            this.button_sendbroadcast.UseVisualStyleBackColor = true;
-            this.button_sendbroadcast.Click += new System.EventHandler(this.button_sendbroadcast_Click);
-            // 
-            // textbox_broadcast
-            // 
-            this.textbox_broadcast.Location = new System.Drawing.Point(959, 84);
-            this.textbox_broadcast.Name = "textbox_broadcast";
-            this.textbox_broadcast.Size = new System.Drawing.Size(203, 22);
-            this.textbox_broadcast.TabIndex = 14;
-            this.textbox_broadcast.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_broadcast_KeyDown);
-            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
@@ -141,28 +109,22 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.Button_Stop_Click);
             // 
-            // Text_DoctorID
+            // doctorID1
             // 
-            this.Text_DoctorID.BackColor = System.Drawing.SystemColors.Info;
-            this.Text_DoctorID.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Text_DoctorID.Location = new System.Drawing.Point(959, 44);
-            this.Text_DoctorID.Name = "Text_DoctorID";
-            this.Text_DoctorID.ReadOnly = true;
-            this.Text_DoctorID.Size = new System.Drawing.Size(279, 15);
-            this.Text_DoctorID.TabIndex = 17;
-            this.Text_DoctorID.Text = "Replace With Doctor ID";
+            this.doctorID1.BackColor = System.Drawing.Color.Silver;
+            this.doctorID1.Location = new System.Drawing.Point(1012, 2);
+            this.doctorID1.Name = "doctorID1";
+            this.doctorID1.Size = new System.Drawing.Size(372, 124);
+            this.doctorID1.TabIndex = 17;
             // 
             // DetailedPatientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1386, 763);
-            this.Controls.Add(this.Text_DoctorID);
+            this.Controls.Add(this.doctorID1);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.button_sendbroadcast);
-            this.Controls.Add(this.textbox_broadcast);
             this.Controls.Add(this.button_sendmessage);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textbox_message);
             this.Controls.Add(this.button_file);
             this.Controls.Add(this.chart_mainchart);
@@ -171,7 +133,6 @@
             this.Name = "DetailedPatientView";
             this.Text = "DetailedPatientView";
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -184,12 +145,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_mainchart;
         private System.Windows.Forms.Button button_file;
         private System.Windows.Forms.TextBox textbox_message;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button_sendmessage;
-        private System.Windows.Forms.Button button_sendbroadcast;
-        private System.Windows.Forms.TextBox textbox_broadcast;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.TextBox Text_DoctorID;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private User_Controlls.DoctorID doctorID1;
     }
 }

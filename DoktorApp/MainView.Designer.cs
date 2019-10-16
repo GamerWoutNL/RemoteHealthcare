@@ -28,45 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.FlowPanelMainView = new System.Windows.Forms.FlowLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::DoktorApp.Properties.Resources.unknown1;
-            this.pictureBox1.Location = new System.Drawing.Point(892, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 110);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // FlowPanelMainView
             // 
-            this.FlowPanelMainView.Location = new System.Drawing.Point(12, 128);
+            this.FlowPanelMainView.Location = new System.Drawing.Point(16, 158);
+            this.FlowPanelMainView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.FlowPanelMainView.Name = "FlowPanelMainView";
-            this.FlowPanelMainView.Size = new System.Drawing.Size(980, 550);
+            this.FlowPanelMainView.Size = new System.Drawing.Size(1307, 677);
             this.FlowPanelMainView.TabIndex = 1;
+            // 
+            // doctorID1
+            // 
+            this.doctorID1.BackColor = System.Drawing.Color.Silver;
+            this.doctorID1.Location = new System.Drawing.Point(997, 7);
+            this.doctorID1.Name = "doctorID1";
+            this.doctorID1.Size = new System.Drawing.Size(373, 127);
+            this.doctorID1.TabIndex = 2;
             // 
             // MainView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1030, 816);
+            this.ClientSize = new System.Drawing.Size(1373, 1004);
+            this.Controls.Add(this.doctorID1);
             this.Controls.Add(this.FlowPanelMainView);
-            this.Controls.Add(this.pictureBox1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainView";
             this.Text = "MainView";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.FlowLayoutPanel FlowPanelMainView;
+        private User_Controlls.DoctorID doctorID1;
     }
 }

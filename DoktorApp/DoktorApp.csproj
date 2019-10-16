@@ -69,7 +69,6 @@
     <Compile Include="SmallPatientView.Designer.cs">
       <DependentUpon>SmallPatientView.cs</DependentUpon>
     </Compile>
-    <Compile Include="SpeedDataPoint.cs" />
     <Compile Include="User Controlls\DoctorID.cs">
       <SubType>UserControl</SubType>
     </Compile>

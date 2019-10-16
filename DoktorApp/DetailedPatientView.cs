@@ -29,7 +29,7 @@ namespace DoktorApp
 
             //Set placeholders for textboxes
             SetPlaceHolder(textbox_message, "Type message:");
-            SetPlaceHolder(textbox_broadcast, "Broadcast:");
+            
 
             /////Creates Charts for every DataTag
             chartlist = new Dictionary<DataTag, Chart>();
