@@ -69,6 +69,12 @@
       <DependentUpon>SmallPatientView.cs</DependentUpon>
     </Compile>
     <Compile Include="SpeedDataPoint.cs" />
+    <Compile Include="User Controlls\DoctorID.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Controlls\DoctorID.Designer.cs">
+      <DependentUpon>DoctorID.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="DetailedPatientView.resx">
       <DependentUpon>DetailedPatientView.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +93,9 @@
     </Compile>
     <EmbeddedResource Include="SmallPatientView.resx">
       <DependentUpon>SmallPatientView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controlls\DoctorID.resx">
+      <DependentUpon>DoctorID.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
