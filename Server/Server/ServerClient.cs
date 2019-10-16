@@ -32,7 +32,7 @@ namespace Server
 
         private void OnRead(IAsyncResult ar)
         {
-            int count = stream.EndRead(ar);
+            int count = this.stream.EndRead(ar);
 			this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
 
             string eof = $"<{Tag.EOF.ToString()}>";
@@ -55,6 +55,8 @@ namespace Server
 
 		private void HandlePacket(string packet)
         {
+			//Console.WriteLine(packet); return;
+
             // test purposes, ignore the following:
             //string etValue = GetValueByTag(TagErgo.ET, packet);
             //string dtValue = GetValueByTag(TagErgo.DT, packet);

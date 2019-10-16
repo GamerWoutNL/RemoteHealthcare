@@ -40,26 +40,19 @@ namespace Server.Data
 			string plaintext = null;
 			byte[] keyBytes = GetKeyBytes(key);
 
-			try
+			using (AesManaged aes = new AesManaged())
 			{
-				using (AesManaged aes = new AesManaged())
+				ICryptoTransform decryptor = aes.CreateDecryptor(keyBytes, IV);
+				using (MemoryStream ms = new MemoryStream(cipherText))
 				{
-					ICryptoTransform decryptor = aes.CreateDecryptor(keyBytes, IV);
-					using (MemoryStream ms = new MemoryStream(cipherText))
+					using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
 					{
-						using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+						using (StreamReader reader = new StreamReader(cs))
 						{
-							using (StreamReader reader = new StreamReader(cs))
-							{
-								plaintext = reader.ReadToEnd();
-							}
+							plaintext = reader.ReadToEnd();
 						}
 					}
 				}
-			}
-			catch (CryptographicException)
-			{
-				throw;
 			}
 
 			return plaintext;

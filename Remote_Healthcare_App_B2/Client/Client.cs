@@ -42,8 +42,8 @@ namespace Client
 
         private void OnRead(IAsyncResult ar)
         {
-			int bytesRead = this._stream.EndRead(ar);
-			this.totalBuffer += Encoding.ASCII.GetString(this._buffer, 0, bytesRead);
+			int count = this._stream.EndRead(ar);
+			this.totalBuffer += Encrypter.Decrypt(this._buffer.SubArray(0, count), "password123");
 
 			string eof = $"<{Tag.EOF.ToString()}>";
 			while (totalBuffer.Contains(eof))

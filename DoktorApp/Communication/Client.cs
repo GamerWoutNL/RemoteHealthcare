@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using Server;
+using Server.Data;
 
 namespace DoktorApp.Communication
 {
@@ -25,8 +26,8 @@ namespace DoktorApp.Communication
 
 		private void OnRead(IAsyncResult ar)
 		{
-			int bytesRead = this.stream.EndRead(ar);
-			this.totalBuffer += Encoding.ASCII.GetString(this.buffer, 0, bytesRead);
+			int count = stream.EndRead(ar);
+			this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
 
 			string eof = $"<{Tag.EOF.ToString()}>";
 
@@ -49,7 +50,8 @@ namespace DoktorApp.Communication
 
 		public void Write(string message)
 		{
-			this.stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+			byte[] encrypted = Encrypter.Encrypt(message, "password123");
+			this.stream.Write(encrypted, 0, encrypted.Length);
 			this.stream.Flush();
 		}
 
