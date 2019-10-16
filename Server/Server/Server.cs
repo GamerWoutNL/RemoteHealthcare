@@ -13,28 +13,23 @@ namespace Server
     class Server
     {
 		private TcpListener listener;
-		private List<ServerClient> clients = new List<ServerClient>();
+		private List<ServerClient> clients;
+		public Dictionary<String, ClientData> clientDatas { get; set; }
 
 		static void Main(string[] args)
         {
-			//new Server();
-
-			string test = "dikkigheid kent geen tijd";
-
-			byte[] encrypted = Encrypter.Encrypt(test, "dikkig");
-
-			string dik = Encoding.ASCII.GetString(encrypted);
-			Console.WriteLine(Encrypter.Decrypt(Encoding.ASCII.GetBytes(dik), "dikkig"));
-
-
+			new Server();
 			Console.ReadKey();
 		}
 
         Server()
         {
-            listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
-            listener.Start();
-            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+			this.clientDatas = new Dictionary<String, ClientData>();
+			this.clients = new List<ServerClient>();
+
+			this.listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
+            this.listener.Start();
+            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
         }
 
@@ -42,9 +37,9 @@ namespace Server
         {
             TcpClient newClient = listener.EndAcceptTcpClient(ar);
             Console.WriteLine("New client connected");
-            clients.Add(new ServerClient(newClient));
+            this.clients.Add(new ServerClient(newClient, this));
 
-            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
     }
 }

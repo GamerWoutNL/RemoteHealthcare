@@ -42,18 +42,18 @@ namespace Server
     class ServerClient
     {
         private TcpClient tcpclient;
+		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
-        private string totalBuffer;
-        private Dictionary<String, ClientData> clientDatas; // Should use ErgoID as a key.
+        private string totalBuffer; // Should use ErgoID as a key.
 
-        public ServerClient(TcpClient client)
+        public ServerClient(TcpClient client, Server server)
         {
             this.tcpclient = client;
             this.stream = client.GetStream();
+			this.server = server;
             this.buffer = new byte[1024];
             this.totalBuffer = String.Empty;
-            this.clientDatas = new Dictionary<String, ClientData>();
             this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
@@ -112,10 +112,10 @@ namespace Server
             if (value != String.Empty)
             {
                 ClientData clientData;
-                if (!clientDatas.TryGetValue(ergoID, out clientData))
+                if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
                 {
                     clientData = new ClientData();
-                    clientDatas.Add(ergoID, clientData);
+					this.server.clientDatas.Add(ergoID, clientData);
                 }
                 switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
                 {
