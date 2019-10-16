@@ -71,7 +71,7 @@ namespace ErgoConnect
         public string ReadLastData()
         {
             BLEData data = _bleData[_bleData.Count - 1];
-            return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("s")}<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
+            return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("h:mm:ss")}<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
         }
     }
 }
