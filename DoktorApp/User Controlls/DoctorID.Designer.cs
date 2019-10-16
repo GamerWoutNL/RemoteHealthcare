@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DoctorID));
             this.PictureBox_Doctor = new System.Windows.Forms.PictureBox();
             this.Label_DoctorID = new System.Windows.Forms.Label();
-            this.textbox_broadcast = new System.Windows.Forms.TextBox();
             this.button_sendbroadcast = new System.Windows.Forms.Button();
+            this.textbox_broadcast = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Doctor)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,13 +56,6 @@
             this.Label_DoctorID.TabIndex = 1;
             this.Label_DoctorID.Text = "ReplaceWithDoctorID";
             // 
-            // textbox_broadcast
-            // 
-            this.textbox_broadcast.Location = new System.Drawing.Point(11, 50);
-            this.textbox_broadcast.Name = "textbox_broadcast";
-            this.textbox_broadcast.Size = new System.Drawing.Size(188, 22);
-            this.textbox_broadcast.TabIndex = 15;
-            // 
             // button_sendbroadcast
             // 
             this.button_sendbroadcast.Location = new System.Drawing.Point(11, 78);
@@ -72,6 +65,13 @@
             this.button_sendbroadcast.Text = "Send";
             this.button_sendbroadcast.UseVisualStyleBackColor = true;
             this.button_sendbroadcast.Click += new System.EventHandler(this.button_sendbroadcast_Click);
+            // 
+            // textbox_broadcast
+            // 
+            this.textbox_broadcast.Location = new System.Drawing.Point(11, 50);
+            this.textbox_broadcast.Name = "textbox_broadcast";
+            this.textbox_broadcast.Size = new System.Drawing.Size(188, 22);
+            this.textbox_broadcast.TabIndex = 15;
             // 
             // DoctorID
             // 
@@ -94,7 +94,7 @@
 
         private System.Windows.Forms.PictureBox PictureBox_Doctor;
         private System.Windows.Forms.Label Label_DoctorID;
-        private System.Windows.Forms.TextBox textbox_broadcast;
         private System.Windows.Forms.Button button_sendbroadcast;
+        private System.Windows.Forms.TextBox textbox_broadcast;
     }
 }

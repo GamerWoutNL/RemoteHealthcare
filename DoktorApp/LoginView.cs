@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DoktorApp.User_Controlls
+namespace DoktorApp
 {
-    public partial class DoctorID : UserControl
+    public partial class LoginView : Form
     {
-        public DoctorID()
+        MainView mainview;
+        public LoginView(object obj)
         {
+            mainview = obj as MainView;
             InitializeComponent();
-            SetPlaceHolder(textbox_broadcast, "Broadcast:");
-        }
+            SetPlaceHolder(textbox_Username, "Username");
+            SetPlaceHolder(textbox_Username, "Password");
 
-        private void button_sendbroadcast_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Send button pressed!");
-            throw new NotImplementedException();
+
         }
 
         /// <summary>
@@ -50,6 +49,28 @@ namespace DoktorApp.User_Controlls
             };
         }
 
+        private void Button_Login_Click(object sender, EventArgs e)
+        {
 
+            
+            Console.WriteLine("Login Button Pressed");
+
+            mainview.LoginTrue();
+            this.Close();
+
+            throw new NotImplementedException();
+
+
+        }
+
+        private void button_quit_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Quit Button Pressed");
+
+            mainview.QuitTrue();
+            this.Close();
+        }
     }
+
+
 }
