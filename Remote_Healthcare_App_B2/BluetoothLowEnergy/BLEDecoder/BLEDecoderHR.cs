@@ -18,7 +18,7 @@ namespace ErgoConnect
         /// <param name="bLEDataHandler"></param>
         public static void Decrypt(byte[] rawData, BLEDataHandler bLEDataHandler)
         {
-          ;
+          
             //byte[] checksum = { rawData[rawData.Length - 1] };
             //bool isCorrect = CheckXorValue(rawData, checksum);
 
