@@ -59,8 +59,6 @@ namespace DoktorApp
             this.Close();
 
             throw new NotImplementedException();
-
-
         }
 
         private void button_quit_Click(object sender, EventArgs e)
