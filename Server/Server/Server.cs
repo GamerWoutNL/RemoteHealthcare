@@ -5,35 +5,41 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Server.Data;
+using System.Security.Cryptography;
 
 namespace Server
 {
     class Server
     {
-		TcpListener listener;
-		private List<ServerClient> clients = new List<ServerClient>();
+		private TcpListener listener;
+		private List<ServerClient> clients;
+		public Dictionary<String, ClientData> clientDatas { get; set; }
 
 		static void Main(string[] args)
         {
-            new Server();
-        }
+			new Server();
+			Console.ReadKey();
+		}
 
         Server()
         {
-            listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
-            listener.Start();
-            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+			this.clientDatas = new Dictionary<string, ClientData>();
+			this.clients = new List<ServerClient>();
+
+			this.listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
+            this.listener.Start();
+            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
-            Console.ReadKey();
         }
 
         private void OnConnect(IAsyncResult ar)
         {
             TcpClient newClient = listener.EndAcceptTcpClient(ar);
             Console.WriteLine("New client connected");
-            clients.Add(new ServerClient(newClient));
+            this.clients.Add(new ServerClient(newClient, this));
 
-            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
     }
 }
