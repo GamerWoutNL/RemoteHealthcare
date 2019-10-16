@@ -6,44 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading;
+using Server;
 
 namespace Server
 {
-    public enum TagErgo
-    {
-		AC, //action
-
-			// Page 16
-		ET, // Elapsed time
-        DT, // Distance travelled
-        SP, // Speed
-        HR, // Heartrate
-
-        // Page 25
-        EC, // Event count
-        IC, // Instanteous cadence
-        AP, // Accumulated power
-        IP, // Instanteous power
-
-        // Extra
-        EOF, // End Of File
-		UN, //username
-		PW, //password
-        ID,  // Tag of Ergometer / simulator ID
-        TS,  // Timestamp
-        MT   //The Message type of the message
-    }
-
-    public enum TagDoctor
-    {
-
-    }
-
-    public enum TagVR
-    {
-
-    }
-
     class ServerClient
     {
         private TcpClient tcpclient;
@@ -66,7 +32,7 @@ namespace Server
         {
             int receivedBytes = stream.EndRead(ar);
             this.totalBuffer += Encoding.ASCII.GetString(buffer, 0, receivedBytes);
-            string eof = $"<{TagErgo.EOF.ToString()}>";
+            string eof = $"<{Tag.EOF.ToString()}>";
 
             while (totalBuffer.Contains(eof))
             {
@@ -98,7 +64,7 @@ namespace Server
             //string idValue = GetValueByTag(TagErgo.ID, packet);
             //string tsValue = GetValueByTag(TagErgo.TS, packet);
 
-            string mtValue = GetValueByTag(TagErgo.MT, packet);
+            string mtValue = TagDecoder.GetValueByTag(Tag.MT, packet);
 
 			if (mtValue == "doctor")
 			{
@@ -106,21 +72,21 @@ namespace Server
 			}
 
             // Fastest way to handle the data.
-            foreach (TagErgo tag in (TagErgo[])Enum.GetValues(typeof(TagErgo)))
+            foreach (Tag tag in (Tag[])Enum.GetValues(typeof(Tag)))
             {
                 switch (mtValue)
                 {
 					case "data":
-						string idValue = GetValueByTag(TagErgo.ID, packet);
-						string tsValue = GetValueByTag(TagErgo.TS, packet);
-						this.HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
+						string idValue = TagDecoder.GetValueByTag(Tag.ID, packet);
+						string tsValue = TagDecoder.GetValueByTag(Tag.TS, packet);
+						this.HandleInputErgo(tag, TagDecoder.GetValueByTag(tag, packet), idValue, tsValue);
 						break;
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
                 }
             }
         }
 
-        private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp)
+        private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp)
         {
             if (value != null)
             {
@@ -132,28 +98,28 @@ namespace Server
                 }
                 switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
                 {
-                    case TagErgo.ET:
+                    case Tag.ET:
                         clientData.AddET(value, timestamp);
                         break;
-                    case TagErgo.DT:
+                    case Tag.DT:
                         clientData.AddDT(value, timestamp);
                         break;
-                    case TagErgo.SP:
+                    case Tag.SP:
                         clientData.AddSP(value, timestamp);
                         break;
-                    case TagErgo.HR:
+                    case Tag.HR:
                         clientData.AddHR(value, timestamp);
                         break;
-                    case TagErgo.EC:
+                    case Tag.EC:
                         clientData.AddEC(value, timestamp);
                         break;
-                    case TagErgo.IC:
+                    case Tag.IC:
                         clientData.AddIC(value, timestamp);
                         break;
-                    case TagErgo.AP:
+                    case Tag.AP:
                         clientData.AddAP(value, timestamp);
                         break;
-                    case TagErgo.IP:
+                    case Tag.IP:
                         clientData.AddIP(value, timestamp);
                         break;
                 }
@@ -162,7 +128,7 @@ namespace Server
 
         private void HandleInputDoctor(string packet)
         {
-			string action = this.GetValueByTag(TagErgo.AC, packet);
+			string action = TagDecoder.GetValueByTag(Tag.AC, packet);
 
 			if (action == "login")
 			{
@@ -192,7 +158,7 @@ namespace Server
 		private void HandleEmergencyBrake(string packet)
 		{
 			Console.WriteLine(packet);
-			string bikeID = GetValueByTag(TagErgo.ID, packet);
+			string bikeID = TagDecoder.GetValueByTag(Tag.ID, packet);
 
 			// Packet:
 			// <MT>doctor<AC>brake<ID>00472<EOF>
@@ -207,49 +173,6 @@ namespace Server
         private void HandleInputVR()
         {
             throw new NotImplementedException();
-        }
-
-        private string GetValueByTag(TagErgo tag, string packet)
-        {
-            char openTag = '<';
-            char closeTag = '>';
-            if (tag != TagErgo.EOF)
-            {
-                string completeTag = $"{openTag}{tag.ToString()}{closeTag}";
-                if (packet.Contains(completeTag))
-                {
-                  //  Console.WriteLine("Found and processed tag! {tag.ToString()}");
-                    int startPosition = -1;
-                    int endPosition = -1;
-                    for (int i = packet.IndexOf(completeTag); i < packet.Length; i++)
-                    {
-                        char characterAtIndex = packet[i];
-                        if (characterAtIndex == closeTag && i + 1 < packet.Length)
-                        {
-                            startPosition = i + 1;
-                            break;
-                        }
-                    }
-                    for (int i = startPosition; i < packet.Length; i++)
-                    {
-                        char characterAtIndex = packet[i];
-                        if (characterAtIndex == openTag && i - 1 >= 0)
-                        {
-                            endPosition = i;
-                            break;
-                        }
-                    }
-                    try
-                    {
-                        string value = packet.Substring(startPosition, endPosition - startPosition);
-                        //Console.WriteLine($"Found value corresponding with tag : {completeTag}{value}");
-                        return value;
-                    }
-                    catch (ArgumentOutOfRangeException e) { Console.WriteLine($"Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed any code? {e.ToString()}"); }
-                }
-               // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
-            }
-			return null;
         }
     }
 }

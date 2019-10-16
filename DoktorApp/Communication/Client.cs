@@ -5,37 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using Server;
 
 namespace DoktorApp.Communication
 {
-
-	public enum TagErgo
-	{
-		// Page 16
-		ET, // Elapsed time
-		DT, // Distance travelled
-		SP, // Speed
-		HR, // Heartrate
-
-		// Page 25
-		EC, // Event count
-		IC, // Instanteous cadence
-		AP, // Accumulated power
-		IP, // Instanteous power
-
-		// Extra
-		EOF, // End Of File
-		ID,  // Tag of Ergometer / simulator ID
-		TS,  // Timestamp
-		MT   //The Message type of the message
-	}
-
-	public enum TagDoctor
-	{
-		SR, //SetResistance
-		GD //GET data request
-	}
-
 	public class Client
 	{
 		private TcpClient client;
@@ -55,7 +28,7 @@ namespace DoktorApp.Communication
 			int bytesRead = this.stream.EndRead(ar);
 			this.totalBuffer += Encoding.ASCII.GetString(this.buffer, 0, bytesRead);
 
-			string eof = $"<{TagErgo.EOF.ToString()}>";
+			string eof = $"<{Tag.EOF.ToString()}>";
 
 			while (totalBuffer.Contains(eof))
 			{
