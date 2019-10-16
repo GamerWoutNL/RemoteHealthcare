@@ -41,9 +41,11 @@
             this.button_backbutton = new System.Windows.Forms.PictureBox();
             this.button_sendbroadcast = new System.Windows.Forms.Button();
             this.textbox_broadcast = new System.Windows.Forms.TextBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.button_backbutton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // chart_mainchart
@@ -149,11 +151,23 @@
             this.textbox_broadcast.TabIndex = 14;
             this.textbox_broadcast.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_broadcast_KeyDown);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(682, 65);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(94, 86);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 16;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.Button_Stop_Click);
+            // 
             // DetailedPatientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1386, 763);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button_sendbroadcast);
             this.Controls.Add(this.textbox_broadcast);
             this.Controls.Add(this.button_backbutton);
@@ -170,6 +184,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.button_backbutton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -187,5 +202,6 @@
         private System.Windows.Forms.PictureBox button_backbutton;
         private System.Windows.Forms.Button button_sendbroadcast;
         private System.Windows.Forms.TextBox textbox_broadcast;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

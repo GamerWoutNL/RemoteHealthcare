@@ -225,6 +225,12 @@ namespace DoktorApp
             throw new NotImplementedException();
         }
 
+        private void Button_Stop_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Stop button pressed!");
+            throw new NotImplementedException();
+        }
+
         // /// // /// // /// // /// 
         //
         // /// // /// // /// // /// 
