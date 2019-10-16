@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Server;
+using Server.Data;
 
 namespace Client
 {
@@ -45,7 +46,6 @@ namespace Client
 			this.totalBuffer += Encoding.ASCII.GetString(this._buffer, 0, bytesRead);
 
 			string eof = $"<{Tag.EOF.ToString()}>";
-
 			while (totalBuffer.Contains(eof))
 			{
 				string packet = totalBuffer.Substring(0, totalBuffer.IndexOf(eof) + eof.Length);
@@ -53,6 +53,7 @@ namespace Client
 
 				this.HandlePacket(packet);
 			}
+
 			this._stream.BeginRead(this._buffer, 0, this._buffer.Length, new AsyncCallback(OnRead), null);
 		}
 
@@ -81,9 +82,10 @@ namespace Client
 			//TODO: Set the resistance of the bike with this integer
 		}
 
-		public void Write(string ergoData)
+		public void Write(string message)
 		{
-			this._stream.Write(Encoding.ASCII.GetBytes(ergoData), 0, ergoData.Length);
+			byte[] encrypted = Encrypter.Encrypt(message, "password123");
+			this._stream.Write(encrypted, 0, encrypted.Length);
 			this._stream.Flush();
 		}
 	}

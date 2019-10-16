@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading;
 using Server;
+using Server.Data;
 
 namespace Server
 {
@@ -24,33 +25,35 @@ namespace Server
             this.stream = client.GetStream();
 			this.server = server;
             this.buffer = new byte[1024];
-            this.totalBuffer = String.Empty;
-            this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            this.totalBuffer = string.Empty;
+
+            this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
         private void OnRead(IAsyncResult ar)
         {
-            int receivedBytes = stream.EndRead(ar);
-            this.totalBuffer += Encoding.ASCII.GetString(buffer, 0, receivedBytes);
-            string eof = $"<{Tag.EOF.ToString()}>";
+            int count = stream.EndRead(ar);
+			this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
 
-            while (totalBuffer.Contains(eof))
+            string eof = $"<{Tag.EOF.ToString()}>";
+            while (this.totalBuffer.Contains(eof))
             {
-                string packet = totalBuffer.Substring(0, totalBuffer.IndexOf(eof) + 5);
-                totalBuffer = totalBuffer.Substring(packet.IndexOf(eof) + 5);
+                string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
+                this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
 
                 HandlePacket(packet);
             }
-            this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
 		public void Write(string message)
 		{
-			this.stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+			byte[] encrypted = Encrypter.Encrypt(message, "password123");
+			this.stream.Write(encrypted, 0, encrypted.Length);
 			this.stream.Flush();
 		}
 
-        private void HandlePacket(string packet)
+		private void HandlePacket(string packet)
         {
             // test purposes, ignore the following:
             //string etValue = GetValueByTag(TagErgo.ET, packet);

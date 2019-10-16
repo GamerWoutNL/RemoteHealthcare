@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server.Data
 {
-	public class Encrypter
+	public static class Encrypter
 	{
 		private static byte[] IV = { 187, 165, 69, 255, 230, 174, 56, 74, 46, 87, 255, 203, 93, 21, 168, 114 };
 
@@ -59,7 +59,7 @@ namespace Server.Data
 			}
 			catch (CryptographicException)
 			{
-				return Encoding.ASCII.GetString(cipherText);
+				throw;
 			}
 
 			return plaintext;
@@ -75,6 +75,13 @@ namespace Server.Data
 				result[i++] = b;
 			}
 
+			return result;
+		}
+
+		public static T[] SubArray<T>(this T[] data, int index, int length)
+		{
+			T[] result = new T[length];
+			Array.Copy(data, index, result, 0, length);
 			return result;
 		}
 	}
