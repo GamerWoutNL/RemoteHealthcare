@@ -31,10 +31,6 @@ namespace DoktorApp
             SetPlaceHolder(textbox_message, "Type message:");
             SetPlaceHolder(textbox_broadcast, "Broadcast:");
 
-            //Set datasource for clientselection
-            combobox_clientselection.DataSource = data.clientdata;
-            combobox_clientselection.DisplayMember = "Name";
-
             /////Creates Charts for every DataTag
             chartlist = new Dictionary<DataTag, Chart>();
             for (int i = 0; i < 8; i++)
@@ -213,15 +209,16 @@ namespace DoktorApp
 
         }
 
-        private void combobox_clientselection_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Console.WriteLine(combobox_clientselection.SelectedIndex);
-            // throw new NotImplementedException();
-        }
 
         private void button_sendbroadcast_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Send button pressed!");
+            throw new NotImplementedException();
+        }
+
+        private void Button_Stop_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Stop button pressed!");
             throw new NotImplementedException();
         }
 
