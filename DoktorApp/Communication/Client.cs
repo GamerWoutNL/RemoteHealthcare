@@ -70,6 +70,7 @@ namespace DoktorApp.Communication
 
 		private void HandlePacket(string packet)
 		{
+			// HERE IS RAW DATA BEING DROPPED
 			Console.WriteLine(packet);
 		}
 

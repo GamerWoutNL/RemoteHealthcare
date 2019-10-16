@@ -16,5 +16,10 @@ namespace Server.Data
             this.time = time;
             this.data = data;
         }
-    }
+
+		public override string ToString()
+		{
+			return this.data;
+		}
+	}
 }

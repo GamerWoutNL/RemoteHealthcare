@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Server
 {
@@ -76,6 +77,12 @@ namespace Server
             }
             this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
+
+		public void Write(string message)
+		{
+			this.stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+			this.stream.Flush();
+		}
 
         private void HandlePacket(string packet)
         {
@@ -150,7 +157,6 @@ namespace Server
                         clientData.AddIP(value, timestamp);
                         break;
                 }
-                Console.WriteLine(clientData.ToString());
             }
         }
 
@@ -174,13 +180,19 @@ namespace Server
 
 		private void HandleDoctorLogin(string packet)
 		{
+			// TODO: Check if doctors password is valid
+
 			Console.WriteLine(packet);
-			throw new NotImplementedException();
+			this.server.doctor = this;
+			this.server.streaming = true;
+
+			new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
 		}
 
 		private void HandleEmergencyBrake(string packet)
 		{
 			Console.WriteLine(packet);
+			string bikeID = GetValueByTag(TagErgo.ID, packet);
 
 			// Packet:
 			// <MT>doctor<AC>brake<ID>00472<EOF>
