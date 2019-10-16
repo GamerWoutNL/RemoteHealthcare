@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoktorApp
 {
-    abstract class CustomDatapoint
+    class CustomDatapoint
     {
 
         public DateTime timestamp { get; set; }

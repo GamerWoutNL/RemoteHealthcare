@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Client;
 using ErgoConnect.BluetoothLowEnergy;
 
@@ -18,11 +19,15 @@ namespace ErgoConnect
 
         public static void Main(string[] args)
         {
-			new Program("01249");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new LogInScreen());
         }
 
-		public Program(string ergoID)
+        public Program(string ergoID)
 		{
+            
+            
 			this.ergoID = ergoID;
 			this.client = new Client.Client(1024);
 			client.Connect("localhost", 1717, ergoID);
@@ -32,6 +37,7 @@ namespace ErgoConnect
 
 			Console.Read();
 			client.Disconnect();
+            
 		}
 		public void Create()
 		{

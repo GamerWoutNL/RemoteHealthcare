@@ -18,8 +18,8 @@ namespace Server
 
 		static void Main(string[] args)
         {
-			new Server();
-			Console.ReadKey();
+            new Server();
+            Console.ReadKey();
 		}
 
         Server()

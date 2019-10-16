@@ -38,8 +38,8 @@ namespace DoktorApp
             
             this.HeartrateChart.Series.Clear();
 
-           // AddHeartrateDataPoint(new HeartrateDatapoint(new DateTime(2017, 05, 17, 12, 12, 12), 89));
-            //AddHeartrateDataPoint(new HeartrateDatapoint(DateTime.Now, 78));
+            AddHeartrateDataPoint(new CustomDatapoint(new DateTime(2017, 05, 17, 12, 12, 12), 89.0));
+            AddHeartrateDataPoint(new CustomDatapoint(DateTime.Now, 78.0));
             
             
             
@@ -54,6 +54,9 @@ namespace DoktorApp
 
         private void AddHeartrateDataPoint(CustomDatapoint hrPoint)
         {
+
+            ChartUtils.addDatapointToListForChart(hrPoint, this.heartrateDatapoints, this.HeartrateChart);
+            /*
             this.heartrateDatapoints.Add(hrPoint);
             //this.heartrateDatapoints.OrderByDescending(heartrateDatapoint => heartrateDatapoint.timestamp);
             this.heartrateDatapoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
@@ -73,10 +76,16 @@ namespace DoktorApp
             }
 
             this.HeartrateChart.Series.Add(heartrateSeries);
+            */
         }
 
         private void AddSpeedDataPoint(CustomDatapoint speedDataPoint)
         {
+
+            ChartUtils.addDatapointToListForChart(speedDataPoint, this.SpeedDataPoints, this.SpeedChart);
+
+
+            /*
             this.speedDataPoints.Add(speedDataPoint);
             this.speedDataPoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
 
@@ -94,6 +103,7 @@ namespace DoktorApp
             }
 
             this.SpeedChart.Series.Add(speedSeries);
+            */
         }
 
     }

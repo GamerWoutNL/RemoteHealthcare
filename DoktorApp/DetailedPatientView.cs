@@ -17,7 +17,7 @@ namespace DoktorApp
         /// <summary>
         /// Datatags that can be recieved from the bike
         /// </summary>
-        public enum DataTag{ID, ET, DT, SP, HR, EC, IC, AP, IP}
+        public enum DataTag{DT, SP, HR, IC, AP, IP}
 
 
      
@@ -33,9 +33,9 @@ namespace DoktorApp
 
             /////Creates Charts for every DataTag
             chartlist = new Dictionary<DataTag, Chart>();
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 6; i++)
             {
-                chartlist.Add(DataTag.ID+i, AddChartInList(GetNamefromTag(DataTag.ID+i)));
+                chartlist.Add(DataTag.DT+i, AddChartInList(GetNamefromTag(DataTag.DT+i)));
             }
             ChangeMainChart(chartlist[DataTag.HR]);
             /////
@@ -116,18 +116,12 @@ namespace DoktorApp
         {
             switch (tag)
             {
-                case DataTag.ID:
-                    return "Identification"; break;
-                case DataTag.ET:
-                    return "Elapsed Time"; break;
                 case DataTag.DT:
                     return "Distance Traveled"; break;
                 case DataTag.SP:
                     return "Speed"; break;
                 case DataTag.HR:
                     return "HeartRate"; break;
-                case DataTag.EC:
-                    return "Event Count"; break;
                 case DataTag.IC:
                     return "Instantanious Cadence"; break;
                 case DataTag.AP:
@@ -220,6 +214,11 @@ namespace DoktorApp
         {
             Console.WriteLine("Stop button pressed!");
             throw new NotImplementedException();
+        }
+
+        private void DetailedPatientView_Load(object sender, EventArgs e)
+        {
+
         }
 
         // /// // /// // /// // /// 
