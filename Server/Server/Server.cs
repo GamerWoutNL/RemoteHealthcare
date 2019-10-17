@@ -37,7 +37,7 @@ namespace Server
         {
             TcpClient newClient = listener.EndAcceptTcpClient(ar);
             Console.WriteLine("New client connected");
-            clients.Add(new ServerClient(newClient));
+            clients.Add(new ServerClient(newClient, this));
 
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }

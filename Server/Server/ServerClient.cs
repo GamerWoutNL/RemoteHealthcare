@@ -22,7 +22,7 @@ namespace Server
         private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 		public string ergoID { get; set; }
 
-        public ServerClient(TcpClient client)
+        public ServerClient(TcpClient client, Server server)
         {
             this.client = client;
             this.stream = this.client.GetStream();
@@ -30,9 +30,9 @@ namespace Server
             this.buffer = new byte[1024];
             this.totalBuffer = string.Empty;
 			this.ergoID = string.Empty;
+			this.clientDatas = new Dictionary<String, ClientData>();
 
-            this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
-            this.clientDatas = new Dictionary<String, ClientData>();
+			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
         private void OnRead(IAsyncResult ar)
