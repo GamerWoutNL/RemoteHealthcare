@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.329
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ergometer", "Remote_Healthcare_App_B2\Ergometer.csproj", "{FE90096F-274D-43E9-AE78-57665C500FB2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VREngine", "VREngine\VREngine.csproj", "{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C291ECCB-D913-43BD-B2DF-3089F064957A}"
 EndProject
@@ -24,12 +22,6 @@ Global
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE90096F-274D-43E9-AE78-57665C500FB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.ClientServer|Any CPU.ActiveCfg = Release|Any CPU
-		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.ClientServer|Any CPU.Build.0 = Release|Any CPU
-		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C291ECCB-D913-43BD-B2DF-3089F064957A}.ClientServer|Any CPU.ActiveCfg = ClientServer|Any CPU
 		{C291ECCB-D913-43BD-B2DF-3089F064957A}.ClientServer|Any CPU.Build.0 = ClientServer|Any CPU
 		{C291ECCB-D913-43BD-B2DF-3089F064957A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -6,24 +6,26 @@ using System.Threading.Tasks;
 using Client;
 using ErgoConnect.BluetoothLowEnergy;
 using Server;
+using VREngine;
 
 namespace ErgoConnect
 {
     /// <summary>
     /// The Program class starts up the application. You can use the simulator to receive data without having physical access to an Ergometer / HR-sensor.
     /// </summary>
-    class Program : ISim
+    public class Program : ISim
     {
 		private Client.Client client;
 		private string ergoID;
         private string patientName;
         private string patientNumber;
+        private VRHandler VRHandler;
 
         public static void Main(string[] args)
         {
             string patientName = "Dustin";
             string patientNumber = "81";
-			new Program("01249", patientName, patientNumber);
+			Program program = new Program("01249", patientName, patientNumber); 
         }
 
 		public Program(string ergoID, string patientName, string patientNumber)
@@ -50,10 +52,13 @@ namespace ErgoConnect
             //    ergo.SetResistance(nr);
             //    Console.WriteLine("Written resistance on bike");
             //}
-			Console.Read();
+
+            this.VRHandler = new VRHandler(this);
+            Console.Read();
 			client.Disconnect();
 		}
-		public void Create()
+
+        public void Create()
 		{
 			Console.WriteLine("No connection with bike, using simulator.");
 			BLESimulator simulator = new BLESimulator(ergoID, client, patientName, patientNumber);

@@ -55,18 +55,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEConnect\BLEConnect.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEData\BLEData.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoder.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoderErgo.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEData\BLEDataHandler.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEData\BLEDataPage16.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEData\BLEDataPage25.cs" />
-    <Compile Include="BluetoothLowEnergy\BLEDecoder\BLEDecoderHR.cs" />
-    <Compile Include="BluetoothLowEnergy\BLESimulator\BLESimulator.cs" />
-    <Compile Include="BluetoothLowEnergy\ISim.cs" />
-    <Compile Include="Client\Client.cs" />
-    <Compile Include="Client\IClient.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEConnect\BLEConnect.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEData\BLEData.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEDecoder\BLEDecoder.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEDecoder\BLEDecoderErgo.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEData\BLEDataHandler.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEData\BLEDataPage16.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEData\BLEDataPage25.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLEDecoder\BLEDecoderHR.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\BLESimulator\BLESimulator.cs" />
+    <Compile Include="ErgoClient\BluetoothLowEnergy\ISim.cs" />
+    <Compile Include="ErgoClient\Client\Client.cs" />
+    <Compile Include="ErgoClient\Client\IClient.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +75,26 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VR\Additional\ArrayHelper.cs" />
+    <Compile Include="VR\Additional\VRData.cs" />
+    <Compile Include="VR\Additional\VRHandler.cs" />
+    <Compile Include="VR\Additional\VRHelper.cs" />
+    <Compile Include="VR\Components\VRAnimation.cs" />
+    <Compile Include="VR\Components\VRColor.cs" />
+    <Compile Include="VR\Components\VRComponent.cs" />
+    <Compile Include="VR\Components\VRLine.cs" />
+    <Compile Include="VR\Components\VRModel.cs" />
+    <Compile Include="VR\Components\VRPanel.cs" />
+    <Compile Include="VR\Components\VRPoint2D.cs" />
+    <Compile Include="VR\Components\VRPoint3D.cs" />
+    <Compile Include="VR\Components\VRSkybox.cs" />
+    <Compile Include="VR\Components\VRTerrain.cs" />
+    <Compile Include="VR\Components\VRTransform.cs" />
+    <Compile Include="VR\Components\VRWater.cs" />
+    <Compile Include="VR\Connection\Client.cs" />
+    <Compile Include="VR\Functions\Function.cs" />
+    <Compile Include="VR\Routes\Route.cs" />
+    <Compile Include="VR\Routes\RouteHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
