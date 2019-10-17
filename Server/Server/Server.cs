@@ -65,5 +65,16 @@ namespace Server
 				}
 			}
 		}
+
+		public void BroadcastDoctorsMessage(string message)
+		{
+			foreach (var client in this.clients)
+			{
+				if (client != this.doctor)
+				{
+					client.Write(message);
+				}
+			}
+		}
     }
 }

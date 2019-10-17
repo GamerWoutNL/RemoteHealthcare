@@ -73,10 +73,32 @@ namespace Client
 			{
 				this.HandleSetResistance(packet);
 			}
-			else if (action == "brake")
+			else if (action == "emergencybrake")
 			{
 				this.HandleEmergencyBrake(packet);
 			}
+			else if (action == "brake")
+			{
+				this.HandleStopSession(packet);
+			}
+			else if (action == "message")
+			{
+				this.HandleDoctorsMessage(packet);
+			}
+		}
+
+		private void HandleStopSession(string packet)
+		{
+			//TODO: stop session
+			throw new NotImplementedException();
+		}
+
+		private void HandleDoctorsMessage(string packet)
+		{
+			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
+			Console.WriteLine($"Got a message from the doctor: {message}");
+
+			//TODO: make this visual in the GUI
 		}
 
 		private void HandleEmergencyBrake(string packet)

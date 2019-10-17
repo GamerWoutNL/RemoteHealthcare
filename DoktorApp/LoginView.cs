@@ -58,7 +58,7 @@ namespace DoktorApp
             mainview.LoginTrue();
             this.Close();
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void button_quit_Click(object sender, EventArgs e)

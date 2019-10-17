@@ -219,15 +219,43 @@ namespace DoktorApp
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
-			string bikeID = "00472";
-			//this.client.Write($"<MT>doctor<AC>brake<ID>{bikeID}<EOF>");
-			this.client.Write($"<MT>doctor<AC>login<EOF>");
+			this.EmergencyBrake("00472");
 		}
 
-        // /// // /// // /// // /// 
-        //
-        // /// // /// // /// // /// 
-    }
+		private void EmergencyBrake(string ergoID)
+		{
+			this.client.Write($"<MT>doctor<AC>emergencybrake<ID>{ergoID}<EOF>");
+		}
+
+		private void StopSession(string ergoID)
+		{
+			this.client.Write($"<MT>doctor<AC>brake<ID>{ergoID}<EOF>");
+		}
+
+		private void SetResistance(string ergoID, int percentage)
+		{
+			this.client.Write($"<MT>doctor<AC>resistance<ID>{ergoID}<SR>{percentage}<EOF>");
+		}
+
+		private void Login(string username, string password)
+		{
+			this.client.Write($"<MT>doctor<AC>login<UN>{username}<PW>{password}<EOF>");
+		}
+
+		private void Broadcast(string message)
+		{
+			this.client.Write($"<MT>doctor<AC>message<ID>all<DM>{message}<EOF>");
+		}
+
+		private void SendToClient(string ergoID, string message)
+		{
+			this.client.Write($"<MT>doctor<AC>message<ID>{ergoID}<DM>{message}<EOF>");
+		}
+
+		// /// // /// // /// // /// 
+		//
+		// /// // /// // /// // /// 
+	}
 
 
 
