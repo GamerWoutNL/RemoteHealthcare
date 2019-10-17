@@ -147,7 +147,7 @@ namespace Sprint2VR
 				foreach (JObject session in json.GetValue("data"))
 				{
 					JObject sessionInfo = (JObject)session.GetValue("clientinfo");
-					if (sessionInfo.GetValue("user").ToString() == Environment.UserName) {
+					if (sessionInfo.GetValue("user").ToString() == Environment.UserName) { // was Environment.Username // Kan CavePC_1 zijn
 						return session.GetValue("id").ToString();
 					}
 				}
