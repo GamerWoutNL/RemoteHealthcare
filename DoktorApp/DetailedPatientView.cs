@@ -224,7 +224,17 @@ namespace DoktorApp
 
 		private void EmergencyBrake(string ergoID)
 		{
+			this.client.Write($"<MT>doctor<AC>emergencybrake<ID>{ergoID}<EOF>");
+		}
+
+		private void StopSession(string ergoID)
+		{
 			this.client.Write($"<MT>doctor<AC>brake<ID>{ergoID}<EOF>");
+		}
+
+		private void SetResistance(string ergoID, int percentage)
+		{
+			this.client.Write($"<MT>doctor<AC>resistance<ID>{ergoID}<SR>{percentage}<EOF>");
 		}
 
 		private void Login(string username, string password)

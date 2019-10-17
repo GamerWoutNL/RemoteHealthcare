@@ -159,9 +159,13 @@ namespace Server
 			{
 				this.HandleDoctorLogin(packet);
 			}
-			else if (action == "brake")
+			else if (action == "emergencybrake")
 			{
 				this.HandleEmergencyBrake(packet);
+			}
+			else if (action == "brake")
+			{
+				this.HandleSessionStop(packet);
 			}
 			else if (action == "resistance")
 			{
@@ -171,6 +175,12 @@ namespace Server
 			{
 				this.HandleDoctorMessage(packet);
 			}
+		}
+
+		private void HandleSessionStop(string packet)
+		{
+			string ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
+			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>brake<{Tag.EOF.ToString()}>");
 		}
 
 		private void HandleDoctorMessage(string packet)
@@ -190,6 +200,9 @@ namespace Server
 		private void HandleDoctorLogin(string packet)
 		{
 			// TODO: Check if doctors password is valid
+			string username = TagDecoder.GetValueByTag(Tag.UN, packet);
+			string password = TagDecoder.GetValueByTag(Tag.PW, packet);
+
 			this.server.doctor = this;
 			this.server.streaming = true;
 
@@ -199,7 +212,7 @@ namespace Server
 		private void HandleEmergencyBrake(string packet)
 		{
 			string bikeID = TagDecoder.GetValueByTag(Tag.ID, packet);
-			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>brake<{Tag.EOF.ToString()}>");
+			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>emergencybrake<{Tag.EOF.ToString()}>");
 		}
 
 		private void HandleSetResistance(string packet)
