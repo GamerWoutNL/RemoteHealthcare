@@ -226,15 +226,13 @@ namespace VRCode
 
         public void DynaScenePanelDrawText(string id, string text, VRPoint2D position, double size, VRColor color, string font)
         {
-            dynamic dynamicRequest = new
-            {
-                id,
-                text,
-                position = JObject.FromObject(position.GetDynamic().position),
-                size,
-                color = JObject.FromObject(position.GetDynamic().color),
-                font
-            };
+            dynamic dynamicRequest = new JObject();
+            dynamicRequest.id = id;
+            dynamicRequest.text = text;
+            dynamicRequest.position = JArray.FromObject(position.GetDynamic().position);
+            dynamicRequest.size = size;
+            dynamicRequest.color = JArray.FromObject(color.GetDynamic().color);
+            dynamicRequest.font = font;
             this._client.SendTunnel(IDOperations.scenePanelDrawtext, dynamicRequest);
         }
 

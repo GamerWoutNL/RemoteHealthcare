@@ -13,5 +13,6 @@ namespace VREngine.Additional
         public string uuidLeftHand { get; set; }
         public string uuidRightHand { get; set; }
         public string uuidVehicle { get; set; }
+        public string uuidPanel { get; set; }
     }
 }
