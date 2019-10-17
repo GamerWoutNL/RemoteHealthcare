@@ -26,7 +26,7 @@ namespace Server
             
 		}
 
-        Server()
+        public Server()
         {
 			this.clients = new List<ServerClient>();
 			this.clientDatas = new Dictionary<string, ClientData>();

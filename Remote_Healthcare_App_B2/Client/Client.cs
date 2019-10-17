@@ -117,6 +117,7 @@ namespace Client
 
 		public void Write(string message)
 		{
+            Console.WriteLine(message);
 			byte[] encrypted = Encrypter.Encrypt(message, "password123");
 			this._stream.Write(encrypted, 0, encrypted.Length);
 			this._stream.Flush();
