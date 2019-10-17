@@ -14,7 +14,7 @@ namespace Server
     public class Server
     {
 		private TcpListener listener;
-		private List<ServerClient> clients;
+		public List<ServerClient> clients { get; set; }
 		public bool streaming { get; set; }
 		public ServerClient doctor { get; set; }
 		public Dictionary<string, ClientData> clientDatas { get; set; }
