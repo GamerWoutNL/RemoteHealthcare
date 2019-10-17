@@ -21,14 +21,14 @@ namespace Server
 		IP, // Instanteous power
 
 		// Extra
-		EOF, // End Of File
-		AC, //action
-		UN, //username
-		PW, //password
+		EOF,// End Of File
+		AC, // Action
+		UN, // Username
+		PW, // Password
 		ID, // Tag of Ergometer / simulator ID
 		TS, // Timestamp
-		MT, //The Message type of the message
-		RS  //resistance
+		MT, // The Message type of the message
+		SR, // Set resistance percentage
 	}
 
 	public class TagDecoder

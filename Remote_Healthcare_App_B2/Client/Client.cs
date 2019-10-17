@@ -73,11 +73,21 @@ namespace Client
 			{
 				this.HandleSetResistance(packet);
 			}
+			else if (action == "brake")
+			{
+				this.HandleEmergencyBrake(packet);
+			}
+		}
+
+		private void HandleEmergencyBrake(string packet)
+		{
+			// TODO: Set a emergency brake
+			throw new NotImplementedException();
 		}
 
 		private void HandleSetResistance(string packet)
 		{
-			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.RS, packet));
+			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.SR, packet));
 			Console.WriteLine(resistancePercentage);
 			//TODO: Set the resistance of the bike with this integer
 		}

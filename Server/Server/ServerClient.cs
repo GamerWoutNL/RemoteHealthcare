@@ -18,6 +18,7 @@ namespace Server
         private NetworkStream stream;
         private byte[] buffer;
         private string totalBuffer;
+		public string ergoID { get; set; }
 
         public ServerClient(TcpClient client, Server server)
         {
@@ -26,6 +27,7 @@ namespace Server
 			this.server = server;
             this.buffer = new byte[1024];
             this.totalBuffer = string.Empty;
+			this.ergoID = string.Empty;
 
             this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
@@ -41,7 +43,7 @@ namespace Server
                 string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
                 this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
 
-                HandlePacket(packet);
+                this.HandlePacket(packet);
             }
             this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
@@ -75,6 +77,10 @@ namespace Server
 			{
 				this.HandleInputDoctor(packet);
 			}
+			else if (mtValue == "ergo")
+			{
+				this.HandleInputErgo(packet);
+			}
 
             // Fastest way to handle the data.
             foreach (Tag tag in (Tag[])Enum.GetValues(typeof(Tag)))
@@ -91,7 +97,21 @@ namespace Server
             }
         }
 
-        private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp)
+		private void HandleInputErgo(string packet)
+		{
+			string action = TagDecoder.GetValueByTag(Tag.AC, packet);
+			if (action == "setid")
+			{
+				this.HandleSetErgoID(packet);
+			}
+		}
+
+		private void HandleSetErgoID(string packet)
+		{
+			this.ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
+		}
+
+		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp)
         {
             if (value != null)
             {
@@ -165,6 +185,8 @@ namespace Server
 			Console.WriteLine(packet);
 			string bikeID = TagDecoder.GetValueByTag(Tag.ID, packet);
 
+			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>brake<{Tag.EOF.ToString()}>");
+
 			// Packet:
 			// <MT>doctor<AC>brake<ID>00472<EOF>
 		}
@@ -172,10 +194,13 @@ namespace Server
 		private void HandleSetResistance(string packet)
 		{
 			Console.WriteLine(packet);
-			throw new NotImplementedException();
+			string bikeID = TagDecoder.GetValueByTag(Tag.ID, packet);
+			string resistance = TagDecoder.GetValueByTag(Tag.SR, packet);
+
+			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>resistance<{Tag.SR}>{resistance}<{Tag.EOF.ToString()}>");
 		}
 
-        private void HandleInputVR()
+		private void HandleInputVR()
         {
             throw new NotImplementedException();
         }

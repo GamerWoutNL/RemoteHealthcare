@@ -57,5 +57,16 @@ namespace Server
 				Thread.Sleep(250);
 			}
 		}
+
+		public void WriteToSpecificErgo(string ergoID, string message)
+		{
+			foreach (var client in this.clients)
+			{
+				if (ergoID == client.ergoID)
+				{
+					client.Write(message);
+				}
+			}
+		}
     }
 }

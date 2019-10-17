@@ -60,7 +60,7 @@ namespace ErgoConnect
                 data = ReadData(ApplicationSettings.GetReadWritePath(_ergoID), WriteOption.Ergo);
                 BLEDecoderErgo.Decrypt(data[i], bLEDataHandler);
                 string toSend = bLEDataHandler.ReadLastData(); // Data that should be send to the client.
-				this._iClient.Write(toSend);
+				//this._iClient.Write(toSend);
 
 				if (i >= data.Count - 1)
 					i = 0;

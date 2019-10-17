@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Client;
 using ErgoConnect.BluetoothLowEnergy;
+using Server;
 
 namespace ErgoConnect
 {
@@ -26,6 +27,7 @@ namespace ErgoConnect
 			this.ergoID = ergoID;
 			this.client = new Client.Client();
 			client.Connect("localhost", 1717, ergoID);
+			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
 
 			BLEConnect ergo = new BLEConnect(ergoID, client, this);
 			ergo.Connect();
