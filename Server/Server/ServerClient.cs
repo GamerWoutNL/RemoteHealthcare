@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 using System.Threading;
 using Server;
 using Server.Data;
+using System.Net;
+using System.IO;
 
 
 namespace Server
 {
-    class ServerClient
+    public class ServerClient
     {
         private TcpClient client;
 		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
         private string totalBuffer;
-        private Dictionary<String, ClientData> clientDatas; // Should use ErgoID as a key.
         private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 		public string ergoID { get; set; }
         public bool running = true;
@@ -32,27 +33,35 @@ namespace Server
             this.buffer = new byte[1024];
             this.totalBuffer = string.Empty;
 			this.ergoID = string.Empty;
-			this.clientDatas = new Dictionary<String, ClientData>();
 
 			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
         private void OnRead(IAsyncResult ar)
         {
-                int count = this.stream.EndRead(ar);
-                this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
+			try
+			{
+				int count = this.stream.EndRead(ar);
+				this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
 
-                string eof = $"<{Tag.EOF.ToString()}>";
-                while (this.totalBuffer.Contains(eof))
-                {
-                    string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
-                    this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
+				string eof = $"<{Tag.EOF.ToString()}>";
+				while (this.totalBuffer.Contains(eof))
+				{
+					string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
+					this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
 
-                    this.HandlePacket(packet);
-                }
-                this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
-            
-        }
+					this.HandlePacket(packet);
+				}
+				this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+			}
+			catch (IOException)
+			{
+				this.stream.Close();
+				this.client.Close();
+				this.server.clients.Remove(this);
+				Console.WriteLine("Client disconnected");
+			}
+		}
 
 		public void Write(string message)
 		{
@@ -123,10 +132,10 @@ namespace Server
             if (value != null)
             {
                 ClientData clientData;
-                if (!clientDatas.TryGetValue(ergoID, out clientData))
+                if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
                 {
                     clientData = new ClientData();
-                    clientDatas.Add(ergoID, clientData);
+                    this.server.clientDatas.Add(ergoID, clientData);
                     //if (pnu != null)
                     //    boundData.Add(pnu, ergoID);
                 }

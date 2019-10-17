@@ -36,19 +36,20 @@ namespace ErgoConnect
 			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
 
 			BLEConnect ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
+			client.bleConnect = ergo;
 			ergo.Connect();
 
-            int counter = 0;
-            while(true)
-            {
-                int nr = 0;
-                if (nr % 2 == 1) nr = 99;
-                else nr = 1;
-               Console.ReadLine();
-                //    ergo.SendResistance(ergo.ergometerBLE, nr);
-                ergo.SetResistance(nr);
-                Console.WriteLine("Written resistance on bike");
-            }
+            //int counter = 0;
+            //while(true)
+            //{
+            //    int nr = 0;
+            //    if (nr % 2 == 1) nr = 99;
+            //    else nr = 1;
+            //   Console.ReadLine();
+            //    //    ergo.SendResistance(ergo.ergometerBLE, nr);
+            //    ergo.SetResistance(nr);
+            //    Console.WriteLine("Written resistance on bike");
+            //}
 			Console.Read();
 			client.Disconnect();
 		}

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Server;
 using Server.Data;
+using ErgoConnect;
 
 namespace Client
 {
@@ -17,6 +18,7 @@ namespace Client
 		private byte[] _buffer;
 		private string totalBuffer;
 		private string _ergoID;
+		public BLEConnect bleConnect { get; set; }
 
 		public Client()
 		{
@@ -110,8 +112,7 @@ namespace Client
 		private void HandleSetResistance(string packet)
 		{
 			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.SR, packet));
-			Console.WriteLine(resistancePercentage);
-			//TODO: Set the resistance of the bike with this integer
+			this.bleConnect.SetResistance(resistancePercentage);
 		}
 
 		public void Write(string message)

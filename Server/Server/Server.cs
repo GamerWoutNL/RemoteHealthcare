@@ -11,10 +11,10 @@ using System.Security.Cryptography;
 
 namespace Server
 {
-    class Server
+    public class Server
     {
 		private TcpListener listener;
-		private List<ServerClient> clients;
+		public List<ServerClient> clients { get; set; }
 		public bool streaming { get; set; }
 		public ServerClient doctor { get; set; }
 		public Dictionary<string, ClientData> clientDatas { get; set; }
@@ -28,9 +28,11 @@ namespace Server
 
         Server()
         {
-            listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
-            listener.Start();
-            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+			this.clients = new List<ServerClient>();
+			this.clientDatas = new Dictionary<string, ClientData>();
+            this.listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
+            this.listener.Start();
+            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
             clients = new List<ServerClient>();
             clientDatas = new Dictionary<string, ClientData>();
@@ -38,20 +40,20 @@ namespace Server
 
         private void OnConnect(IAsyncResult ar)
         {
-            TcpClient newClient = listener.EndAcceptTcpClient(ar);
+            TcpClient newClient = this.listener.EndAcceptTcpClient(ar);
             Console.WriteLine("New client connected");
-            clients.Add(new ServerClient(newClient, this));
+            this.clients.Add(new ServerClient(newClient, this));
 
-            listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 
 		public void StartStreamingDataToDoctor()
 		{
-			while (streaming)
+			while (this.streaming)
 			{
-				foreach (var key in clientDatas.Keys)
+				foreach (var key in this.clientDatas.Keys)
 				{
-					string message = $"<MT>data<ID>{key}{clientDatas[key]}";
+					string message = $"<{Tag.MT.ToString()}>data<{Tag.ID.ToString()}>{key}{this.clientDatas[key]}";
 					this.doctor.Write(message);
 				}
 				Thread.Sleep(250);
