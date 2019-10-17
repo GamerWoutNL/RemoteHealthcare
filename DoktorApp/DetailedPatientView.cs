@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using DoktorApp.Communication;
+using Server;
 
 namespace DoktorApp
 {
@@ -224,32 +225,27 @@ namespace DoktorApp
 
 		private void EmergencyBrake(string ergoID)
 		{
-			this.client.Write($"<MT>doctor<AC>emergencybrake<ID>{ergoID}<EOF>");
+			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>emergencybrake<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.EOF.ToString()}>");
 		}
 
 		private void StopSession(string ergoID)
 		{
-			this.client.Write($"<MT>doctor<AC>brake<ID>{ergoID}<EOF>");
+			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>brake<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.EOF.ToString()}>");
 		}
 
 		private void SetResistance(string ergoID, int percentage)
 		{
-			this.client.Write($"<MT>doctor<AC>resistance<ID>{ergoID}<SR>{percentage}<EOF>");
-		}
-
-		private void Login(string username, string password)
-		{
-			this.client.Write($"<MT>doctor<AC>login<UN>{username}<PW>{password}<EOF>");
+			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>resistance<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.SR.ToString()}>{percentage}<{Server.Tag.EOF.ToString()}>");
 		}
 
 		private void Broadcast(string message)
 		{
-			this.client.Write($"<MT>doctor<AC>message<ID>all<DM>{message}<EOF>");
+			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>message<{Server.Tag.ID.ToString()}>all<{Server.Tag.DM.ToString()}>{message}<{Server.Tag.EOF.ToString()}>");
 		}
 
 		private void SendToClient(string ergoID, string message)
 		{
-			this.client.Write($"<MT>doctor<AC>message<ID>{ergoID}<DM>{message}<EOF>");
+			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>message<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.DM.ToString()}>{message}<{Server.Tag.EOF.ToString()}>");
 		}
 
 		// /// // /// // /// // /// 

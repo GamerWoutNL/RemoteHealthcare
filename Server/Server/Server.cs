@@ -23,6 +23,7 @@ namespace Server
         {
             new Server();
 			Console.ReadKey();
+            
 		}
 
         Server()
@@ -31,6 +32,7 @@ namespace Server
             listener.Start();
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
+            clients = new List<ServerClient>();
         }
 
         private void OnConnect(IAsyncResult ar)

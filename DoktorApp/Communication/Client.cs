@@ -18,6 +18,7 @@ namespace DoktorApp.Communication
 		private byte[] buffer;
 		private string totalBuffer;
         private PatientHandler patientHandler;
+        public bool loggedIn{ get; set; }
 
 		public Client(PatientHandler patientHandler)
 		{
@@ -25,6 +26,7 @@ namespace DoktorApp.Communication
 			this.buffer = new byte[1024];
 			this.totalBuffer = string.Empty;
             this.patientHandler = patientHandler;
+            this.loggedIn = false;
 		}
 
 		private void OnRead(IAsyncResult ar)
@@ -47,9 +49,26 @@ namespace DoktorApp.Communication
 
 		private void HandlePacket(string packet)
 		{
-            // HERE IS RAW DATA BEING DROPPED
-            this.patientHandler.HandleMessage(packet);
-			Console.WriteLine(packet);
+            string loginreaction = TagDecoder.GetValueByTag(Tag.LR, packet);
+
+            if (loginreaction != null)
+            {
+                if(loginreaction == "true")
+                {
+                    this.loggedIn = true;
+                }
+                if (loginreaction == "false")
+                {
+                    this.loggedIn = false;
+                }
+            }
+            else
+            {
+
+                // HERE IS RAW DATA BEING DROPPED
+                this.patientHandler.HandleMessage(packet);
+                Console.WriteLine(packet);
+            }
 		}
 
 		public void Write(string message)

@@ -14,13 +14,16 @@ namespace DoktorApp
 {
     public partial class MainView : Form
     {
-        public bool login;
+        
         public bool quit;
+        public Client client;
 
         public MainView(Client client)
         {
-            login = false;
-            quit = false;
+            this.client = client;
+            bool login = client.loggedIn;
+            this.quit = false;
+            
 
             while (!login && !quit) { Login(); }
 
@@ -45,12 +48,10 @@ namespace DoktorApp
         {
             LoginView loginView = new LoginView(this);
             loginView.ShowDialog();
+
+            
         }
 
-        public void LoginTrue()
-		{
-            login = true;
-        }
 
         public void QuitTrue()
         {

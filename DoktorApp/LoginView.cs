@@ -52,11 +52,11 @@ namespace DoktorApp
         private void Button_Login_Click(object sender, EventArgs e)
         {
 
-            
-            Console.WriteLine("Login Button Pressed");
+            string username = textbox_Username.Text;
+            string password = textbox_Password.Text;
 
-            mainview.LoginTrue();
-            this.Close();
+            mainview.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>login<{Server.Tag.UN.ToString()}>{username}<{Server.Tag.PW.ToString()}>{password}<{Server.Tag.EOF.ToString()}>");
+            Console.WriteLine("Login Button Pressed");
 
             //throw new NotImplementedException();
         }
