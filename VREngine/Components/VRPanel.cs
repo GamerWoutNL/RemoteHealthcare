@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRPanel : VRComponent
+    public class VRPanel : VRComponent
     {
         public VRPoint2D size; //Size
         public VRPoint2D resolution; //Resolution 

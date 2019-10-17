@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRPoint2D : VRComponent
+    public class VRPoint2D : VRComponent
     {
         public double posx, posy;
 

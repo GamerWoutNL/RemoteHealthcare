@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ErgoConnect
 {
@@ -24,16 +25,20 @@ namespace ErgoConnect
         private List<byte[]> _bytesErgo = new List<byte[]>();
         private List<byte[]> _bytesHeartRate = new List<byte[]>();
         private string _ergoID;
+        private string _patientName;
+        private string _patientNumber;
 		private IClient _iClient;
 
 		/// <summary>
 		/// The ergoID is needed to define the save location of the Ergometer data.
 		/// </summary>
 		/// <param name="ergoID"></param>
-		public BLESimulator(string ergoID, IClient iClient)
+		public BLESimulator(string ergoID, IClient iClient, string patientName, string patientNumber)
         {
             this._ergoID = ergoID;
 			this._iClient = iClient;
+            this._patientName = patientName;
+            this._patientNumber = patientNumber;
         }
 
 		/// <summary>
@@ -52,7 +57,7 @@ namespace ErgoConnect
 
         public void RunSimulator()
         {
-            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID);
+            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID, _patientName, _patientNumber);
             int i = 0;
             List<byte[]> data = new List<byte[]>();
             while (true)
@@ -109,11 +114,21 @@ namespace ErgoConnect
         /// <returns></returns>
         private static T ReadToFileBinary<T>(string pathToFile)
         {
-            using (System.IO.Stream stream = System.IO.File.Open(pathToFile, System.IO.FileMode.Open))
-            {
-                System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                return (T)binaryFormatter.Deserialize(stream);
-            }
+			try
+			{
+				using (Stream stream = File.Open(pathToFile, FileMode.Open))
+				{
+					var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+					return (T)binaryFormatter.Deserialize(stream);
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				using (File.Create(pathToFile))
+				{
+					return ReadToFileBinary<T>(pathToFile);
+				}
+			}
         }
 
         /// <summary>
@@ -166,8 +181,6 @@ namespace ErgoConnect
         /// <param name="newFile"></param>
         private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
         {
-            //Console.WriteLine("Path: " + pathToFile);
-            
             using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.File.Exists(pathToFile) ? System.IO.FileMode.Truncate : System.IO.FileMode.Create))
             {
                 System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();

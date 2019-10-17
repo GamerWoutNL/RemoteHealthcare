@@ -18,9 +18,11 @@ namespace Server
         private NetworkStream stream;
         private byte[] buffer;
         private string totalBuffer;
+        private Dictionary<String, ClientData> clientDatas; // Should use ErgoID as a key.
+        private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 		public string ergoID { get; set; }
 
-        public ServerClient(TcpClient client, Server server)
+        public ServerClient(TcpClient client)
         {
             this.client = client;
             this.stream = this.client.GetStream();
@@ -30,6 +32,7 @@ namespace Server
 			this.ergoID = string.Empty;
 
             this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+            this.clientDatas = new Dictionary<String, ClientData>();
         }
 
         private void OnRead(IAsyncResult ar)
@@ -93,8 +96,10 @@ namespace Server
 						this.HandleInputErgo(tag, TagDecoder.GetValueByTag(tag, packet), idValue, tsValue);
 						break;
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
+                    default:
+                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue, pnuValue);
+                        break;
                 }
-            }
         }
 
 		private void HandleInputErgo(string packet)
@@ -116,10 +121,12 @@ namespace Server
             if (value != null)
             {
                 ClientData clientData;
-                if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
+                if (!clientDatas.TryGetValue(ergoID, out clientData))
                 {
                     clientData = new ClientData();
-					this.server.clientDatas.Add(ergoID, clientData);
+                    clientDatas.Add(ergoID, clientData);
+                    //if (pnu != null)
+                    //    boundData.Add(pnu, ergoID);
                 }
                 switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
                 {
@@ -146,6 +153,12 @@ namespace Server
                         break;
                     case Tag.IP:
                         clientData.AddIP(value, timestamp);
+                        break;
+                    case TagErgo.PNA:
+                        clientData.SetPNA(value);
+                        break;
+                    case TagErgo.PNU:
+                        clientData.SetPNU(value);
                         break;
                 }
             }
