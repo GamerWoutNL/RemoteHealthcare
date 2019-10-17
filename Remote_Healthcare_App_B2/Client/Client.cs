@@ -77,6 +77,18 @@ namespace Client
 			{
 				this.HandleEmergencyBrake(packet);
 			}
+			else if (action == "message")
+			{
+				this.HandleDoctorsMessage(packet);
+			}
+		}
+
+		private void HandleDoctorsMessage(string packet)
+		{
+			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
+			Console.WriteLine($"Got a message from the doctor: {message}");
+
+			//TODO: make this visual in the GUI
 		}
 
 		private void HandleEmergencyBrake(string packet)

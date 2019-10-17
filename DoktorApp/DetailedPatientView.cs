@@ -220,9 +220,9 @@ namespace DoktorApp
         private void Button_Stop_Click(object sender, EventArgs e)
         {
 			string bikeID = "00472";
-			//this.client.Write($"<MT>doctor<AC>brake<ID>{bikeID}<EOF>");
-			//this.client.Write($"<MT>doctor<AC>login<EOF>");
-			this.client.Write($"<MT>doctor<AC>message<ID>all<MG>dikkigheid kent geen tijd<EOF>");
+			//this.client.Write($"<MT>doctor<AC>brake<ID>{bikeID}<EOF>"); //TO EMERGENCY BRAKE
+			//this.client.Write($"<MT>doctor<AC>login<UN>doc1<PW>beertjes123<EOF>"); //TO LOGIN
+			//this.client.Write($"<MT>doctor<AC>message<ID>all<DM>dikkigheid kent geen tijd<EOF>"); //TO SEND MESSAGES
 		}
 
         // /// // /// // /// // /// 

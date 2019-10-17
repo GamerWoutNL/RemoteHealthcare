@@ -179,19 +179,17 @@ namespace Server
 			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
 			if (id == "all")
 			{
-				this.server.BroadcastDoctorsMessage($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>message<{Tag.DM}>{message}<{Tag.EOF.ToString()}>");
+				this.server.BroadcastDoctorsMessage($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>message<{Tag.DM.ToString()}>{message}<{Tag.EOF.ToString()}>");
 			}
 			else
 			{
-				this.server.WriteToSpecificErgo(id, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>message<{Tag.DM}>{message}<{Tag.EOF.ToString()}>");
+				this.server.WriteToSpecificErgo(id, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>message<{Tag.DM.ToString()}>{message}<{Tag.EOF.ToString()}>");
 			}
 		}
 
 		private void HandleDoctorLogin(string packet)
 		{
 			// TODO: Check if doctors password is valid
-
-			Console.WriteLine(packet);
 			this.server.doctor = this;
 			this.server.streaming = true;
 
