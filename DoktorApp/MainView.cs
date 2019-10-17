@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DoktorApp.Communication;
+using DoktorApp.Data_Management;
 
 namespace DoktorApp
 {
@@ -21,34 +22,45 @@ namespace DoktorApp
             login = false;
             quit = false;
 
-            while (!login && !quit) { Login(); }
+            while (!login && !quit) { Login(); }
+
             if (login)
             {
-                InitializeComponent();
-                //when client connects
-                SmallPatientView smallPatientView1 = new SmallPatientView("Test", "123", client);
-                SmallPatientView smallPatientView2 = new SmallPatientView("Test2", "1234", client);
-                this.FlowPanelMainView.Controls.Add(smallPatientView1);
-                this.FlowPanelMainView.Controls.Add(smallPatientView2);
-            }
+                InitializeComponent();
+
+                //when client connects
+
+                NewClientConnects("test", "123", client, new PatientStorage("test", "123"));
+            }
+
             if (quit)
 			{
                 Environment.Exit(1);
                 this.Close();
             }
-        }
+        }
+
+
         public void Login()
         {
             LoginView loginView = new LoginView(this);
             loginView.ShowDialog();
-        }
+        }
+
         public void LoginTrue()
 		{
             login = true;
-        }
+        }
+
         public void QuitTrue()
         {
             quit = true;
-        }
+        }
+
+        public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)
+        {
+            SmallPatientView smallPatientView = new SmallPatientView(patientName, patientNumber, client, storage);
+            this.FlowPanelMainView.Controls.Add(smallPatientView);
+        }
     }
 }

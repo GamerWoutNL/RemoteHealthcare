@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using Server;
 using Server.Data;
+using DoktorApp.Data_Management;
 
 namespace DoktorApp.Communication
 {
@@ -16,12 +17,14 @@ namespace DoktorApp.Communication
 		private NetworkStream stream;
 		private byte[] buffer;
 		private string totalBuffer;
+        private PatientHandler patientHandler;
 
-		public Client()
+		public Client(PatientHandler patientHandler)
 		{
 			this.client = new TcpClient();
 			this.buffer = new byte[1024];
 			this.totalBuffer = string.Empty;
+            this.patientHandler = patientHandler;
 		}
 
 		private void OnRead(IAsyncResult ar)
@@ -44,7 +47,8 @@ namespace DoktorApp.Communication
 
 		private void HandlePacket(string packet)
 		{
-			// HERE IS RAW DATA BEING DROPPED
+            // HERE IS RAW DATA BEING DROPPED
+            this.patientHandler.HandleMessage(packet);
 			Console.WriteLine(packet);
 		}
 

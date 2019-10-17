@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoktorApp.Data_Management
 {
-    class PatientStorage
+    public class PatientStorage
     {
 
         public string PatientName { get; set; }
@@ -17,6 +17,7 @@ namespace DoktorApp.Data_Management
         public List<CustomDatapoint> InstantaniousCadenceDataPoints { get; set; }
         public List<CustomDatapoint> AccumulatedPowerDataPoints { get; set; }
         public List<CustomDatapoint> InstantaniousPowerDataPoints { get; set; }
+        public List<double> EventCountDatapoints { get; set; }
 
         public PatientStorage(string patientName, string patientNumber)
         {
@@ -29,6 +30,7 @@ namespace DoktorApp.Data_Management
             this.InstantaniousCadenceDataPoints = new List<CustomDatapoint>();
             this.AccumulatedPowerDataPoints = new List<CustomDatapoint>();
             this.InstantaniousPowerDataPoints = new List<CustomDatapoint>();
+            this.EventCountDatapoints = new List<double>();
         }
 
         private void addData(string timestamp, string data, List<CustomDatapoint> list)
@@ -65,8 +67,16 @@ namespace DoktorApp.Data_Management
         {
             addData(timestamp, data, this.InstantaniousPowerDataPoints);
         }
-        
 
+        public void AddEventCountDataPoint(string timestamp, string data)
+        {
+            this.EventCountDatapoints.Add(Double.Parse(data));
+        }
+        
+        public bool PatientHasDataAlready(string eventCount)
+        {
+            return this.EventCountDatapoints.Contains(Double.Parse(eventCount));
+        }
         
 
     }
