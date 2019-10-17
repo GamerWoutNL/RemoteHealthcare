@@ -14,7 +14,7 @@ namespace Server
     public class Server
     {
 		private TcpListener listener;
-		private List<ServerClient> clients;
+		public List<ServerClient> clients { get; set; }
 		public bool streaming { get; set; }
 		public ServerClient doctor { get; set; }
 		public Dictionary<string, ClientData> clientDatas { get; set; }
@@ -50,7 +50,7 @@ namespace Server
 			{
 				foreach (var key in this.clientDatas.Keys)
 				{
-					string message = $"<MT>data<ID>{key}{this.clientDatas[key]}";
+					string message = $"<{Tag.MT.ToString()}>data<{Tag.ID.ToString()}>{key}{this.clientDatas[key]}";
 					this.doctor.Write(message);
 				}
 				Thread.Sleep(250);
