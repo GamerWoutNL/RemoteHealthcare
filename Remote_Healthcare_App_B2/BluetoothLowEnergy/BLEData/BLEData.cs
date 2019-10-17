@@ -6,27 +6,6 @@ using System.Threading.Tasks;
 
 namespace ErgoConnect
 {
-    public enum Tag
-    {
-        // Page 16
-        ET, // Elapsed time
-        DT, // Distance travelled
-        SP, // Speed
-        HR, // Heartrate
-
-        // Page 25
-        EC, // Event count
-        IC, // Instanteous cadence
-        AP, // Accumulated power
-        IP, // Instanteous power
-
-        // Extra
-        EOF, // End Of File
-        ID, // Tag of Ergometer / simulator ID
-		TS, // Timestamp
-		MT //The Message type of the message
-    }
-
     /// <summary>
     /// Simple abstract class that defines potential BLEData. Can be implemented and expended by data classes.
     /// </summary>
