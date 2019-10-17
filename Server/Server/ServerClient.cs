@@ -167,6 +167,24 @@ namespace Server
 			{
 				this.HandleSetResistance(packet);
 			}
+			else if (action == "message")
+			{
+				this.HandleDoctorMessage(packet);
+			}
+		}
+
+		private void HandleDoctorMessage(string packet)
+		{
+			string id = TagDecoder.GetValueByTag(Tag.ID, packet);
+			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
+			if (id == "all")
+			{
+				this.server.BroadcastDoctorsMessage($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>message<{Tag.DM}>{message}<{Tag.EOF.ToString()}>");
+			}
+			else
+			{
+				this.server.WriteToSpecificErgo(id, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>message<{Tag.DM}>{message}<{Tag.EOF.ToString()}>");
+			}
 		}
 
 		private void HandleDoctorLogin(string packet)
