@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VREngine", "VREngine\VREngi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C291ECCB-D913-43BD-B2DF-3089F064957A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoktorApp", "DoktorApp\DoktorApp.csproj", "{D39E7F9E-7424-4957-8D73-A607574C31DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ClientServer|Any CPU = ClientServer|Any CPU
