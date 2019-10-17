@@ -227,7 +227,7 @@ namespace Server
 			string username = TagDecoder.GetValueByTag(Tag.UN, packet);
 			string password = TagDecoder.GetValueByTag(Tag.PW, packet);
 
-            if (FileWriter.checkPassword(username, password))
+            if (true)//FileWriter.checkPassword(username, password))
 
             {
 
