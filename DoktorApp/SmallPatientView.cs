@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using DoktorApp.Communication;
+using DoktorApp.Data_Management;
 
 namespace DoktorApp
 {
@@ -16,6 +17,7 @@ namespace DoktorApp
     {
 		private Client client;
 
+        
         public string patientName { get; set; }
         public string patientNumber { get; set; }
         public int resistance { get; set; }
@@ -24,17 +26,15 @@ namespace DoktorApp
         private List<CustomDatapoint> heartrateDatapoints = new List<CustomDatapoint>();
         
         internal List<CustomDatapoint> SpeedDataPoints { get => speedDataPoints; set => speedDataPoints = value; }
+        internal PatientStorage Storage { get => storage; set => storage = value; }
 
+        private PatientStorage storage;
         private List<CustomDatapoint> speedDataPoints = new List<CustomDatapoint>();
 
-        public SmallPatientView()
-        {
-            InitializeComponent();
-        }
-
-        public SmallPatientView(string PatientName, string PatientNumber, Client client)
+        public SmallPatientView(string PatientName, string PatientNumber, Client client, PatientStorage storage)
         {
 			this.client = client;
+            this.Storage = storage;
             InitializeComponent();
             this.PatientNameLabel.Text = $"Patient naam: {PatientName}";
             this.PatientNumberLabel.Text = $"Patient nummer: {PatientNumber}";

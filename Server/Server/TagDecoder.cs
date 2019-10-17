@@ -29,10 +29,10 @@ namespace Server
 		TS, // Timestamp
 		MT, // The Message type of the message
 		SR, // Set resistance percentage
-		PNA,
-		PNU,
-		DATA
-	}
+        PNA, // The name of the patient
+        PNU, // The number of the patient
+        DATA // Data tag
+    }
 
 	public class TagDecoder
 	{

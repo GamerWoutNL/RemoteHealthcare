@@ -3,28 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Server;
+using DoktorApp.Communication;
 
 namespace DoktorApp.Data_Management
 {
-    class PatientHandler
+    public class PatientHandler
     {
 
         List<PatientStorage> patientStorages = new List<PatientStorage>();
+
+        public MainView mainView = null;
+        public Client client = null;
 
         public PatientHandler()
         {
 
         }
 
-        public void handleMessage(string message)
+        public void AttachMainView(MainView mainView)
+        {
+            this.mainView = mainView;
+        }
+
+        public void AttachClient(Client client)
+        {
+            this.client = client;
+        }
+
+        public void HandleMessage(string message)
         {
 
             string patientnummerDummy = "123";
 
-            bool patientExists = false;
-            PatientStorage patientStorage;
+            string patientName = TagDecoder.GetValueByTag(Tag.PNA, message);
+            string patientNumber = TagDecoder.GetValueByTag(Tag.PNU, message);
 
-            foreach(PatientStorage storage in patientStorages)
+            string eventCount = TagDecoder.GetValueByTag(Tag.EC, message);
+
+            string timestamp = Server.TagDecoder.GetValueByTag(Tag.TS, message);
+            string heartrate = TagDecoder.GetValueByTag(Tag.HR, message);
+            string speed = TagDecoder.GetValueByTag(Tag.SP, message);
+            string distance = TagDecoder.GetValueByTag(Tag.DT, message);
+            string accuPower = TagDecoder.GetValueByTag(Tag.AP, message);
+            string instPower = TagDecoder.GetValueByTag(Tag.IP, message);
+            string instCadence = TagDecoder.GetValueByTag(Tag.IC, message);
+
+            bool patientExists = false;
+            PatientStorage patientStorage = null;
+
+            foreach (PatientStorage storage in patientStorages)
             {
                 if (storage.PatientNumber.Equals(patientnummerDummy))
                 {
@@ -35,23 +63,24 @@ namespace DoktorApp.Data_Management
 
             if (patientExists)
             {
-                //Add the correct data to the corresponding lists
-                //patientStorage.AddHeartrateDataPoint();
-                //patientStorage.AddSpeedDataPoint();
-                //patientStorage.AddDistanceDataPoint();
-                //patientStorage.AddAccumulatedPowerDataPoint();
-                //patientStorage.AddInstantaniousPowerDataPoint();
-                //patientStorage.AddInstantaniousCadenceDataPoint();
-            } else
-            {
-                patientStorage = new PatientStorage("Patient name", "Patient number");
 
-                //patientStorage.AddHeartrateDataPoint();
-                //patientStorage.AddSpeedDataPoint();
-                //patientStorage.AddDistanceDataPoint();
-                //patientStorage.AddAccumulatedPowerDataPoint();
-                //patientStorage.AddInstantaniousPowerDataPoint();
-                //patientStorage.AddInstantaniousCadenceDataPoint();
+                if (!patientStorage.PatientHasDataAlready(eventCount))
+                {
+                    addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
+                }
+
+
+            }
+            else
+            {
+                patientStorage = new PatientStorage(patientName, patientNumber);
+
+                addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
+
+                if (this.mainView != null && this.client != null)
+                {
+                    this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
+                }
 
                 patientStorages.Add(patientStorage);
 
@@ -60,68 +89,15 @@ namespace DoktorApp.Data_Management
 
         }
 
-        public enum TagErgo
+        public void addDataToCorrectLists(PatientStorage patientStorage, string timestamp, string heartrate, string speed, string distance, string accuPower, string instPower, string instCadence)
         {
-            // Page 16
-            ET, // Elapsed time
-            DT, // Distance travelled
-            SP, // Speed
-            HR, // Heartrate
-
-            // Page 25
-            EC, // Event count
-            IC, // Instanteous cadence
-            AP, // Accumulated power
-            IP, // Instanteous power
-
-            // Extra
-            EOF, // End Of File
-            ID,  // Tag of Ergometer / simulator ID
-            TS,  // Timestamp
-            MT   //The Message type of the message
+            patientStorage.AddHeartrateDataPoint(timestamp, heartrate);
+            patientStorage.AddSpeedDataPoint(timestamp, speed);
+            patientStorage.AddDistanceDataPoint(timestamp, distance);
+            patientStorage.AddAccumulatedPowerDataPoint(timestamp, accuPower);
+            patientStorage.AddInstantaniousPowerDataPoint(timestamp, instPower);
+            patientStorage.AddInstantaniousCadenceDataPoint(timestamp, instCadence);
         }
 
-        private string GetValueByTag(TagErgo tag, string packet)
-        {
-            char openTag = '<';
-            char closeTag = '>';
-            if (tag != TagErgo.EOF)
-            {
-                string completeTag = $"{openTag}{tag.ToString()}{closeTag}";
-                if (packet.Contains(completeTag))
-                {
-                    //  Console.WriteLine("Found and processed tag! {tag.ToString()}");
-                    int startPosition = -1;
-                    int endPosition = -1;
-                    for (int i = packet.IndexOf(completeTag); i < packet.Length; i++)
-                    {
-                        char characterAtIndex = packet[i];
-                        if (characterAtIndex == closeTag && i + 1 < packet.Length)
-                        {
-                            startPosition = i + 1;
-                            break;
-                        }
-                    }
-                    for (int i = startPosition; i < packet.Length; i++)
-                    {
-                        char characterAtIndex = packet[i];
-                        if (characterAtIndex == openTag && i - 1 >= 0)
-                        {
-                            endPosition = i;
-                            break;
-                        }
-                    }
-                    try
-                    {
-                        string value = packet.Substring(startPosition, endPosition - startPosition);
-                        //Console.WriteLine($"Found value corresponding with tag : {completeTag}{value}");
-                        return value;
-                    }
-                    catch (ArgumentOutOfRangeException e) { Console.WriteLine($"Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed any code? {e.ToString()}"); }
-                }
-                // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
-            }
-            return String.Empty;
-        }
     }
 }

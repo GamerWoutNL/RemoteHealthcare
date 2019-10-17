@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DoktorApp.Communication;
+using DoktorApp.Data_Management;
 
 namespace DoktorApp
 {
@@ -16,12 +17,19 @@ namespace DoktorApp
         [STAThread]
         static void Main()
         {
-			Client client = new Client();
-			client.Connect("localhost", 1717);
+            PatientHandler patientHandler = new PatientHandler();
+            Client client = new Client(patientHandler);
+
+
+            MainView mainView = new MainView(client);
+            patientHandler.AttachMainView(mainView);
+            patientHandler.AttachClient(client);
+
+            client.Connect("localhost", 1717);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainView(client));
-		}
+            Application.Run(mainView);
+        }
 	}
 }
