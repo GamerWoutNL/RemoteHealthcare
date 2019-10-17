@@ -48,7 +48,7 @@ namespace DoktorApp.Communication
 		private void HandlePacket(string packet)
 		{
             // HERE IS RAW DATA BEING DROPPED
-            this.patientHandler.HandleMessage(packet);
+            //this.patientHandler.HandleMessage(packet);
 			Console.WriteLine(packet);
 		}
 

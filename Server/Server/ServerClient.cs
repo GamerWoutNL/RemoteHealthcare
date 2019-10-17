@@ -11,14 +11,13 @@ using Server.Data;
 
 namespace Server
 {
-    class ServerClient
+    public class ServerClient
     {
         private TcpClient client;
 		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
         private string totalBuffer;
-        private Dictionary<String, ClientData> clientDatas; // Should use ErgoID as a key.
         private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 		public string ergoID { get; set; }
 
@@ -30,7 +29,6 @@ namespace Server
             this.buffer = new byte[1024];
             this.totalBuffer = string.Empty;
 			this.ergoID = string.Empty;
-			this.clientDatas = new Dictionary<String, ClientData>();
 
 			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
@@ -120,10 +118,10 @@ namespace Server
             if (value != null)
             {
                 ClientData clientData;
-                if (!clientDatas.TryGetValue(ergoID, out clientData))
+                if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
                 {
                     clientData = new ClientData();
-                    clientDatas.Add(ergoID, clientData);
+                    this.server.clientDatas.Add(ergoID, clientData);
                     //if (pnu != null)
                     //    boundData.Add(pnu, ergoID);
                 }

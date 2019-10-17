@@ -29,7 +29,7 @@ namespace Server
 		TS, // Timestamp
 		MT, // The Message type of the message
 		SR, // Set resistance percentage
-		DM  // Doctors message
+		DM,  // Doctors message
         PNA, // The name of the patient
         PNU, // The number of the patient
         DATA // Data tag

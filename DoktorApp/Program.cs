@@ -17,7 +17,8 @@ namespace DoktorApp
         [STAThread]
         static void Main()
         {
-            PatientHandler patientHandler = new PatientHandler();
+			Application.SetCompatibleTextRenderingDefault(false);
+			PatientHandler patientHandler = new PatientHandler();
             Client client = new Client(patientHandler);
 
 
@@ -28,7 +29,7 @@ namespace DoktorApp
             client.Connect("localhost", 1717);
 
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            
             Application.Run(mainView);
         }
 	}

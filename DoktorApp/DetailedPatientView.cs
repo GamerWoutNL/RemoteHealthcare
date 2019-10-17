@@ -219,7 +219,8 @@ namespace DoktorApp
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
-			this.EmergencyBrake("00472");
+			//this.EmergencyBrake("00472");
+			this.Broadcast("testtesttesttesttesttest");
 		}
 
 		private void EmergencyBrake(string ergoID)
