@@ -182,18 +182,12 @@ namespace Server
 
 		private void HandleEmergencyBrake(string packet)
 		{
-			Console.WriteLine(packet);
 			string bikeID = TagDecoder.GetValueByTag(Tag.ID, packet);
-
 			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>brake<{Tag.EOF.ToString()}>");
-
-			// Packet:
-			// <MT>doctor<AC>brake<ID>00472<EOF>
 		}
 
 		private void HandleSetResistance(string packet)
 		{
-			Console.WriteLine(packet);
 			string bikeID = TagDecoder.GetValueByTag(Tag.ID, packet);
 			string resistance = TagDecoder.GetValueByTag(Tag.SR, packet);
 
