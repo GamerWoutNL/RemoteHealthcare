@@ -59,22 +59,22 @@ namespace Server
 		}
 
 		private void HandlePacket(string packet)
-        {
+		{
 			//Console.WriteLine(packet); return;
 
-            // test purposes, ignore the following:
-            //string etValue = GetValueByTag(TagErgo.ET, packet);
-            //string dtValue = GetValueByTag(TagErgo.DT, packet);
-            //string spValue = GetValueByTag(TagErgo.SP, packet);
-            //string hrValue = GetValueByTag(TagErgo.HR, packet);
-            //string ecValue = GetValueByTag(TagErgo.EC, packet);
-            //string icValue = GetValueByTag(TagErgo.IC, packet);
-            //string apValue = GetValueByTag(TagErgo.AP, packet);
-            //string ipValue = GetValueByTag(TagErgo.IP, packet);
-            //string idValue = GetValueByTag(TagErgo.ID, packet);
-            //string tsValue = GetValueByTag(TagErgo.TS, packet);
+			// test purposes, ignore the following:
+			//string etValue = GetValueByTag(TagErgo.ET, packet);
+			//string dtValue = GetValueByTag(TagErgo.DT, packet);
+			//string spValue = GetValueByTag(TagErgo.SP, packet);
+			//string hrValue = GetValueByTag(TagErgo.HR, packet);
+			//string ecValue = GetValueByTag(TagErgo.EC, packet);
+			//string icValue = GetValueByTag(TagErgo.IC, packet);
+			//string apValue = GetValueByTag(TagErgo.AP, packet);
+			//string ipValue = GetValueByTag(TagErgo.IP, packet);
+			//string idValue = GetValueByTag(TagErgo.ID, packet);
+			//string tsValue = GetValueByTag(TagErgo.TS, packet);
 
-            string mtValue = TagDecoder.GetValueByTag(Tag.MT, packet);
+			string mtValue = TagDecoder.GetValueByTag(Tag.MT, packet);
 
 			if (mtValue == "doctor")
 			{
@@ -85,22 +85,21 @@ namespace Server
 				this.HandleInputErgo(packet);
 			}
 
-            // Fastest way to handle the data.
-            foreach (Tag tag in (Tag[])Enum.GetValues(typeof(Tag)))
-            {
-                switch (mtValue)
-                {
+			// Fastest way to handle the data.
+			foreach (Tag tag in (Tag[])Enum.GetValues(typeof(Tag)))
+			{
+				switch (mtValue)
+				{
 					case "data":
 						string idValue = TagDecoder.GetValueByTag(Tag.ID, packet);
 						string tsValue = TagDecoder.GetValueByTag(Tag.TS, packet);
-						this.HandleInputErgo(tag, TagDecoder.GetValueByTag(tag, packet), idValue, tsValue);
+						string pnuValue = TagDecoder.GetValueByTag(Tag.PNU, packet);
+						this.HandleInputErgo(tag, TagDecoder.GetValueByTag(tag, packet), idValue, tsValue, pnuValue);
 						break;
-                    // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
-                    default:
-                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue, pnuValue);
-                        break;
-                }
-        }
+					// Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
+				}
+			}
+		}
 
 		private void HandleInputErgo(string packet)
 		{
@@ -116,7 +115,7 @@ namespace Server
 			this.ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
 		}
 
-		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp)
+		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp, string pnu)
         {
             if (value != null)
             {
@@ -154,10 +153,10 @@ namespace Server
                     case Tag.IP:
                         clientData.AddIP(value, timestamp);
                         break;
-                    case TagErgo.PNA:
+                    case Tag.PNA:
                         clientData.SetPNA(value);
                         break;
-                    case TagErgo.PNU:
+                    case Tag.PNU:
                         clientData.SetPNU(value);
                         break;
                 }
