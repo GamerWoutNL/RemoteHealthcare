@@ -46,13 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\FileWriter.cs" />
     <Compile Include="Data\ClientData.cs" />
     <Compile Include="Data\Encrypter.cs" />
     <Compile Include="Data\TimeData.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ServerClient.cs" />
-    <Compile Include="Server\TagDecoder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
