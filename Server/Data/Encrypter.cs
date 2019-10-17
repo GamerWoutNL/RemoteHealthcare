@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server.Data
 {
-	public static class Encrypter
+	public class Encrypter
 	{
 		private static byte[] IV = { 187, 165, 69, 255, 230, 174, 56, 74, 46, 87, 255, 203, 93, 21, 168, 114 };
 
@@ -40,19 +40,26 @@ namespace Server.Data
 			string plaintext = null;
 			byte[] keyBytes = GetKeyBytes(key);
 
-			using (AesManaged aes = new AesManaged())
+			try
 			{
-				ICryptoTransform decryptor = aes.CreateDecryptor(keyBytes, IV);
-				using (MemoryStream ms = new MemoryStream(cipherText))
+				using (AesManaged aes = new AesManaged())
 				{
-					using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+					ICryptoTransform decryptor = aes.CreateDecryptor(keyBytes, IV);
+					using (MemoryStream ms = new MemoryStream(cipherText))
 					{
-						using (StreamReader reader = new StreamReader(cs))
+						using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
 						{
-							plaintext = reader.ReadToEnd();
+							using (StreamReader reader = new StreamReader(cs))
+							{
+								plaintext = reader.ReadToEnd();
+							}
 						}
 					}
 				}
+			}
+			catch (CryptographicException)
+			{
+				return Encoding.ASCII.GetString(cipherText);
 			}
 
 			return plaintext;
@@ -68,13 +75,6 @@ namespace Server.Data
 				result[i++] = b;
 			}
 
-			return result;
-		}
-
-		public static T[] SubArray<T>(this T[] data, int index, int length)
-		{
-			T[] result = new T[length];
-			Array.Copy(data, index, result, 0, length);
 			return result;
 		}
 	}
