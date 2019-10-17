@@ -12,7 +12,7 @@ namespace DoktorApp
     class ChartUtils
     {
 
-        static void addDatapointToListForChart(CustomDatapoint datapoint,List<CustomDatapoint> customDatapoints, Chart Chart)
+        public static void addDatapointToListForChart(CustomDatapoint datapoint,List<CustomDatapoint> customDatapoints, Chart Chart)
         {
             customDatapoints.Add(datapoint);
             customDatapoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
