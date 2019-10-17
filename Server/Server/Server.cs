@@ -50,7 +50,7 @@ namespace Server
 			{
 				foreach (var key in this.clientDatas.Keys)
 				{
-					string message = $"<MT>data<ID>{key}{this.clientDatas[key]}";
+					string message = $"<{Tag.MT.ToString()}>data<{Tag.ID.ToString()}>{key}{this.clientDatas[key]}";
 					this.doctor.Write(message);
 				}
 				Thread.Sleep(250);
