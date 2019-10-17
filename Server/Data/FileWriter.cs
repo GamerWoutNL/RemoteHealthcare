@@ -9,7 +9,7 @@ namespace Server.Data
 {
     class FileWriter
     {
-        public void writeFile(string path, string message)
+        public static void writeFile(string path, string message)
         {
             if (!File.Exists(path))
             {
@@ -28,7 +28,7 @@ namespace Server.Data
 
         }
 
-        public bool checkPassword(string us, string pw)
+        public static bool checkPassword(string us, string pw)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
             string s;

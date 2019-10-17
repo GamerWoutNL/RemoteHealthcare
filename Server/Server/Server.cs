@@ -33,6 +33,7 @@ namespace Server
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
             clients = new List<ServerClient>();
+            clientDatas = new Dictionary<string, ClientData>();
         }
 
         private void OnConnect(IAsyncResult ar)

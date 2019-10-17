@@ -21,25 +21,33 @@ namespace DoktorApp
         public MainView(Client client)
         {
             this.client = client;
-            bool login = client.loggedIn;
+            bool login = client.LoggedIn;
             this.quit = false;
-            
 
-            while (!login && !quit) { Login(); }
 
-            if (login)
+            while (true)
             {
-                InitializeComponent();
+                Console.WriteLine(login.ToString());
+                login = client.LoggedIn;
 
-                //when client connects
+                if (login)
+                {
+                    InitializeComponent();
 
-                NewClientConnects("test", "123", client, new PatientStorage("test", "123"));
-            }
+                    //when client connects
 
-            if (quit)
-			{
-                Environment.Exit(1);
-                this.Close();
+                    NewClientConnects("test", "123", client, new PatientStorage("test", "123"));
+                    break;
+                }
+                else if(!quit && !login)
+                {
+                    Login();
+                }
+                else if (quit)
+                {
+                    Environment.Exit(1);
+                    this.Close();
+                }
             }
         }
 
@@ -48,14 +56,13 @@ namespace DoktorApp
         {
             LoginView loginView = new LoginView(this);
             loginView.ShowDialog();
-
-            
         }
 
 
         public void QuitTrue()
         {
             quit = true;
+            
         }
 
         public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)

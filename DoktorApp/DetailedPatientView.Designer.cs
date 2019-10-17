@@ -39,6 +39,9 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.doctorID1 = new DoktorApp.User_Controlls.DoctorID();
+            this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
+            this.label_patientname = new System.Windows.Forms.Label();
+            this.label_patientnumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -117,11 +120,33 @@
             this.doctorID1.Size = new System.Drawing.Size(372, 124);
             this.doctorID1.TabIndex = 17;
             // 
+            // label_patientname
+            // 
+            this.label_patientname.AutoSize = true;
+            this.label_patientname.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label_patientname.Location = new System.Drawing.Point(375, 65);
+            this.label_patientname.Name = "label_patientname";
+            this.label_patientname.Size = new System.Drawing.Size(289, 29);
+            this.label_patientname.TabIndex = 18;
+            this.label_patientname.Text = "ReplaceWithPatientName";
+            // 
+            // label_patientnumber
+            // 
+            this.label_patientnumber.AutoSize = true;
+            this.label_patientnumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label_patientnumber.Location = new System.Drawing.Point(375, 93);
+            this.label_patientnumber.Name = "label_patientnumber";
+            this.label_patientnumber.Size = new System.Drawing.Size(173, 20);
+            this.label_patientnumber.TabIndex = 19;
+            this.label_patientnumber.Text = "ReplaceWithPatientID";
+            // 
             // DetailedPatientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1386, 763);
+            this.Controls.Add(this.label_patientnumber);
+            this.Controls.Add(this.label_patientname);
             this.Controls.Add(this.doctorID1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button_sendmessage);
@@ -149,5 +174,8 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private User_Controlls.DoctorID doctorID1;
+        private System.DirectoryServices.DirectoryEntry directoryEntry1;
+        private System.Windows.Forms.Label label_patientname;
+        private System.Windows.Forms.Label label_patientnumber;
     }
 }

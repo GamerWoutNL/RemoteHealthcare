@@ -21,6 +21,7 @@ namespace DoktorApp
         public string patientName { get; set; }
         public string patientNumber { get; set; }
         public int resistance { get; set; }
+        public string doctorID;
         internal List<CustomDatapoint> HeartrateDatapoints { get => heartrateDatapoints; set => heartrateDatapoints = value; }
 
         private List<CustomDatapoint> heartrateDatapoints = new List<CustomDatapoint>();
@@ -38,6 +39,10 @@ namespace DoktorApp
             InitializeComponent();
             this.PatientNameLabel.Text = $"Patient naam: {PatientName}";
             this.PatientNumberLabel.Text = $"Patient nummer: {PatientNumber}";
+            this.doctorID = doctorID;
+
+            this.patientName = PatientName;
+            this.patientNumber = PatientNumber;
             
             this.HeartrateChart.Series.Clear();
 
@@ -51,7 +56,7 @@ namespace DoktorApp
 
         private void PatientNameLabel_Click(object sender, EventArgs e)
         {
-            DetailedPatientView patientView = new DetailedPatientView(client);
+            DetailedPatientView patientView = new DetailedPatientView(patientName, patientNumber, client, storage);
             patientView.Show();
         }
 

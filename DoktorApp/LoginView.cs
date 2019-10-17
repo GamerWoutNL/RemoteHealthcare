@@ -51,13 +51,12 @@ namespace DoktorApp
 
         private void Button_Login_Click(object sender, EventArgs e)
         {
-
             string username = textbox_Username.Text;
             string password = textbox_Password.Text;
 
             mainview.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>login<{Server.Tag.UN.ToString()}>{username}<{Server.Tag.PW.ToString()}>{password}<{Server.Tag.EOF.ToString()}>");
             Console.WriteLine("Login Button Pressed");
-
+            this.Close();
             //throw new NotImplementedException();
         }
 
@@ -67,6 +66,11 @@ namespace DoktorApp
 
             mainview.QuitTrue();
             this.Close();
+        }
+
+        public void LoginFailed()
+        {
+            textbox_Username.Clear();
         }
     }
 

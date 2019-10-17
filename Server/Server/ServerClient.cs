@@ -9,6 +9,7 @@ using System.Threading;
 using Server;
 using Server.Data;
 
+
 namespace Server
 {
     class ServerClient
@@ -21,6 +22,7 @@ namespace Server
         private Dictionary<String, ClientData> clientDatas; // Should use ErgoID as a key.
         private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 		public string ergoID { get; set; }
+        public bool running = true;
 
         public ServerClient(TcpClient client, Server server)
         {
@@ -37,18 +39,19 @@ namespace Server
 
         private void OnRead(IAsyncResult ar)
         {
-            int count = this.stream.EndRead(ar);
-			this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
+                int count = this.stream.EndRead(ar);
+                this.totalBuffer += Encrypter.Decrypt(this.buffer.SubArray(0, count), "password123");
 
-            string eof = $"<{Tag.EOF.ToString()}>";
-            while (this.totalBuffer.Contains(eof))
-            {
-                string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
-                this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
+                string eof = $"<{Tag.EOF.ToString()}>";
+                while (this.totalBuffer.Contains(eof))
+                {
+                    string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
+                    this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
 
-                this.HandlePacket(packet);
-            }
-            this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+                    this.HandlePacket(packet);
+                }
+                this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+            
         }
 
 		public void Write(string message)
@@ -215,10 +218,16 @@ namespace Server
 			string username = TagDecoder.GetValueByTag(Tag.UN, packet);
 			string password = TagDecoder.GetValueByTag(Tag.PW, packet);
 
-			this.server.doctor = this;
-			this.server.streaming = true;
+            if (FileWriter.checkPassword(username, password))
+            {
+                this.server.doctor = this;
+                this.server.streaming = true;
 
-			new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
+                this.Write($"<{Tag.LR.ToString()}>true<{Tag.EOF.ToString()}>");
+                new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
+            }
+
+			
 		}
 
 		private void HandleEmergencyBrake(string packet)
@@ -238,6 +247,11 @@ namespace Server
 		private void HandleInputVR()
         {
             throw new NotImplementedException();
+        }
+
+        public void Stop()
+        {
+            running = false;
         }
     }
 }

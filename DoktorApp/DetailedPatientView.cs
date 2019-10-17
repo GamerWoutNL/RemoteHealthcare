@@ -6,27 +6,42 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using DoktorApp.Communication;
 using Server;
+using DoktorApp.Data_Management;
 
 namespace DoktorApp
 {
     public partial class DetailedPatientView : Form
     {
 		private Client client;
+
+        private string patientName;
+        private string patientNumber;
+        private PatientStorage patientStorage;
         FlowLayoutPanel chartpanel;
         Dictionary<DataTag, Chart> chartlist;
         DummyData data = new DummyData();
+        
 
         /// <summary>
         /// Datatags that can be recieved from the bike
         /// </summary>
-        public enum DataTag{ID, ET, DT, SP, HR, EC, IC, AP, IP}
+        public enum DataTag{ DT, SP, HR, IC, AP, IP}
 
 
      
-        public DetailedPatientView(Client client)
+        public DetailedPatientView(string PatientName, string PatientNumber, Client client, PatientStorage storage)
         {
-			this.client = client;
+            this.patientName = PatientName;
+            this.patientNumber = PatientNumber;
+            this.patientStorage = storage;
+            this.client = client;
+
             InitializeComponent();
+
+            label_patientname.Text = this.patientName;
+           
+            label_patientnumber.Text = this.patientNumber;
+
             chartpanel = flowLayoutPanel1;
 
             //Set placeholders for textboxes
@@ -35,9 +50,9 @@ namespace DoktorApp
 
             /////Creates Charts for every DataTag
             chartlist = new Dictionary<DataTag, Chart>();
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 6; i++)
             {
-                chartlist.Add(DataTag.ID+i, AddChartInList(GetNamefromTag(DataTag.ID+i)));
+                chartlist.Add(DataTag.DT+i, AddChartInList(GetNamefromTag(DataTag.DT+i)));
             }
             ChangeMainChart(chartlist[DataTag.HR]);
             /////
@@ -118,18 +133,13 @@ namespace DoktorApp
         {
             switch (tag)
             {
-                case DataTag.ID:
-                    return "Identification"; break;
-                case DataTag.ET:
-                    return "Elapsed Time"; break;
+                
                 case DataTag.DT:
                     return "Distance Traveled"; break;
                 case DataTag.SP:
                     return "Speed"; break;
                 case DataTag.HR:
                     return "HeartRate"; break;
-                case DataTag.EC:
-                    return "Event Count"; break;
                 case DataTag.IC:
                     return "Instantanious Cadence"; break;
                 case DataTag.AP:
