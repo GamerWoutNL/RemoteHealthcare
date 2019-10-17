@@ -7,6 +7,7 @@ using Client;
 using ErgoConnect.BluetoothLowEnergy;
 using Server;
 using VREngine;
+using System.Threading;
 
 namespace ErgoConnect
 {
@@ -52,7 +53,6 @@ namespace ErgoConnect
             //    ergo.SetResistance(nr);
             //    Console.WriteLine("Written resistance on bike");
             //}
-
             this.VRHandler = new VRHandler(this);
             Console.Read();
 			client.Disconnect();
@@ -62,7 +62,8 @@ namespace ErgoConnect
 		{
 			Console.WriteLine("No connection with bike, using simulator.");
 			BLESimulator simulator = new BLESimulator(ergoID, client, patientName, patientNumber);
-			simulator.RunSimulator();
+
+            new Thread(new ThreadStart(simulator.RunSimulator)).Start();
 		}
 
 	}
