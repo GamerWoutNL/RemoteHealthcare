@@ -18,15 +18,18 @@ namespace DoktorApp
         static void Main()
         {
             PatientHandler patientHandler = new PatientHandler();
-			Client client = new Client(patientHandler);
-			client.Connect("localhost", 1717);
+            Client client = new Client(patientHandler);
+
 
             MainView mainView = new MainView(client);
             patientHandler.AttachMainView(mainView);
+            patientHandler.AttachClient(client);
+
+            client.Connect("localhost", 1717);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(mainView);
-		}
+        }
 	}
 }

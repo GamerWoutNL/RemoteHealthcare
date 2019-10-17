@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Server;
+using DoktorApp.Communication;
 
 namespace DoktorApp.Data_Management
 {
@@ -12,7 +13,8 @@ namespace DoktorApp.Data_Management
 
         List<PatientStorage> patientStorages = new List<PatientStorage>();
 
-        public MainView mainView;
+        public MainView mainView = null;
+        public Client client = null;
 
         public PatientHandler()
         {
@@ -22,6 +24,11 @@ namespace DoktorApp.Data_Management
         public void AttachMainView(MainView mainView)
         {
             this.mainView = mainView;
+        }
+
+        public void AttachClient(Client client)
+        {
+            this.client = client;
         }
 
         public void HandleMessage(string message)
@@ -45,7 +52,7 @@ namespace DoktorApp.Data_Management
             bool patientExists = false;
             PatientStorage patientStorage = null;
 
-            foreach(PatientStorage storage in patientStorages)
+            foreach (PatientStorage storage in patientStorages)
             {
                 if (storage.PatientNumber.Equals(patientnummerDummy))
                 {
@@ -62,15 +69,18 @@ namespace DoktorApp.Data_Management
                     addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
                 }
 
-                
+
             }
             else
             {
-                patientStorage = new PatientStorage("Patient name", "Patient number");
+                patientStorage = new PatientStorage(patientName, patientNumber);
 
                 addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
 
-
+                if (this.mainView != null && this.client != null)
+                {
+                    this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
+                }
 
                 patientStorages.Add(patientStorage);
 
