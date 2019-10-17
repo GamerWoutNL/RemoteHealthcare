@@ -24,7 +24,10 @@ namespace ErgoConnect
         EOF, // End Of File
         ID, // Tag of Ergometer / simulator ID
 		TS, // Timestamp
-		MT //The Message type of the message
+		MT, //The Message type of the message
+        PNA, // The name of the patient
+        PNU, // The number of the patient
+        DATA // Data tag
     }
 
     /// <summary>

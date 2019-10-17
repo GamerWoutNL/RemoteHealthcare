@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRColor : VRComponent
+    public class VRColor : VRComponent
     {
         public float r, g, b, a;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRWater : VRComponent
+    public class VRWater : VRComponent
     {
         public VRPoint2D size;
         public double resolution;

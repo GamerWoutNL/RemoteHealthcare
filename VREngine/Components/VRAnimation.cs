@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRAnimation : VRComponent
+    public class VRAnimation : VRComponent
     {
         public string name;
         public double speed;

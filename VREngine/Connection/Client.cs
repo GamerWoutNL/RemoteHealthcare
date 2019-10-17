@@ -8,71 +8,160 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Threading;
+using VRCode;
+using Sprint2VR.VR;
+using System.Collections.Concurrent;
 
 namespace Sprint2VR
 {
     public class Client
     {
-        private TcpClient tcpClient;
+        private TcpClient client;
         private NetworkStream stream;
+		private byte[] buffer;
+		private byte[] totalBuffer;
+		private string tunnelID;
+		public List<JObject> responses { get; }
 
-        public Client()
+		private static object lockingObject = new object();
+
+		public Client()
         {
-            this.tcpClient = new TcpClient();
-        }
+            this.client = new TcpClient();
+			this.buffer = new byte[1024];
+			this.totalBuffer = new byte[0];
+			this.responses = new List<JObject>();
+		}
 
-        public void Connect(string server, int port)
+        public async Task Connect(string server, int port)
         {
-            this.tcpClient.Connect(server, port);
-            this.stream = this.tcpClient.GetStream();
-            this.stream.Flush();
-        }
+			await client.ConnectAsync(server, port);
+			Console.WriteLine($"Connected to {server} on port {port}");
+			this.stream = this.client.GetStream();
+			stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+		}
 
-        public void Disconnect()
+		private void OnRead(IAsyncResult ar)
+		{
+			int receivedByte = this.stream.EndRead(ar);
+			this.totalBuffer = this.Concat(this.totalBuffer, this.buffer, receivedByte);
+
+			while (totalBuffer.Length >= 4)
+			{
+				int packetSize = BitConverter.ToInt32(totalBuffer, 0);
+				if (totalBuffer.Length >= packetSize + 4)
+				{
+					string data = Encoding.UTF8.GetString(totalBuffer, 4, packetSize);
+					JObject json = (JObject)JsonConvert.DeserializeObject(data);
+
+					lock (lockingObject)
+					{
+						responses.Add(json);
+					}
+
+					this.totalBuffer = totalBuffer.SubArray(4 + packetSize, totalBuffer.Length - packetSize - 4);
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+		}
+
+		public void Disconnect()
         {
             this.stream.Close();
-            this.tcpClient.Close();
+            this.client.Close();
         }
 
-        public void WriteMessage(dynamic message)
+        private void SendMessage(dynamic message)
         {
-            Console.WriteLine("Send in client: "+JsonConvert.SerializeObject(message));
-            byte[] packet = this.GetPrefixedMessage(JsonConvert.SerializeObject(message));
-            this.stream.Write(packet, 0, packet.Length);
-            this.stream.Flush();
-        }
+			byte[] bytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(message));
+			this.stream.WriteAsync(BitConverter.GetBytes(bytes.Length), 0, 4).Wait();
+			this.stream.WriteAsync(bytes, 0, bytes.Length).Wait();
 
-        public JObject ReadMessage()
-        {
-            this.stream.Flush();
-            byte[] prefixBuffer = new byte[4];
-            this.stream.Read(prefixBuffer, 0, prefixBuffer.Length);
+			Thread.Sleep(50);
+		}
 
-            long length = (((((prefixBuffer[3] << 8) | prefixBuffer[2]) << 8) | prefixBuffer[1]) << 8) | prefixBuffer[0];
+		public void OpenTunnel(string _key)
+		{
+			SendMessage(new { id = IDOperations.tunnelCreate, data = new { session = GetSessionID(), key = _key } });
 
-            byte[] dataBuffer = new byte[length];
-            this.stream.Read(dataBuffer, 0, dataBuffer.Length);
-            this.stream.Flush();
+			JObject response = SearchResponses(IDOperations.tunnelCreate);
+			JObject data = (JObject)response.GetValue("data");
 
-            return this.StringToJson(Encoding.UTF8.GetString(dataBuffer));
-        }
+			this.tunnelID = data.GetValue("id").ToString();
+		}
 
-        private byte[] GetPrefixedMessage(string message)
-        {
-            byte[] data = Encoding.ASCII.GetBytes(message);
-            byte[] prefix = BitConverter.GetBytes(data.Length);
+		public void SendTunnel(string _id, dynamic _data)
+		{
+			SendMessage(new { id = IDOperations.tunnelSend, data = new { dest = tunnelID, data = new { id = _id, data = _data } } });
+		}
 
-            byte[] final = new byte[4 + data.Length];
+		public JObject SearchResponses(string id)
+		{
+			for (int i = 0; i < 10000; i++)
+			{
+				for (int j = responses.Count - 1; j >= 0; j--)
+				{
+					JObject json = responses[j];
 
-            prefix.CopyTo(final, 0);
-            data.CopyTo(final, 4);
+					if (json.GetValue("id").ToString() == id)
+					{
+						responses.Remove(json);
+						return json;
+					}
 
-            return final;
-        }
+					try
+					{
+						JObject data1 = (JObject)json.GetValue("data");
+						JObject data2 = (JObject)data1.GetValue("data");
 
-        private JObject StringToJson(string data)
-        {
-            return (JObject)JsonConvert.DeserializeObject(data);
-        }
-    }
+						if (data2.GetValue("id").ToString() == id)
+						{
+							responses.Remove(json);
+							return json;
+						}
+					}
+					catch (Exception)
+					{
+
+					}
+
+				}
+				Thread.Sleep(1);
+			}
+			return null;
+		}
+
+		private string GetSessionID()
+		{
+			SendMessage(new { id = IDOperations.sessionList });
+
+			JObject json = SearchResponses(IDOperations.sessionList);
+
+			if (json != null)
+			{
+				foreach (JObject session in json.GetValue("data"))
+				{
+					JObject sessionInfo = (JObject)session.GetValue("clientinfo");
+					if (sessionInfo.GetValue("user").ToString() == Environment.UserName) { // was Environment.Username // Kan CavePC_1 zijn
+						return session.GetValue("id").ToString();
+					}
+				}
+			}
+
+			return string.Empty;
+		}
+
+		private byte[] Concat(byte[] b1, byte[] b2, int count)
+		{
+			byte[] r = new byte[b1.Length + count];
+			Buffer.BlockCopy(b1, 0, r, 0, b1.Length);
+			Buffer.BlockCopy(b2, 0, r, b1.Length, count);
+			return r;
+		}
+	}
 }

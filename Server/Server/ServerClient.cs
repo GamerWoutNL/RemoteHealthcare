@@ -26,7 +26,9 @@ namespace Server
         EOF, // End Of File
         ID,  // Tag of Ergometer / simulator ID
         TS,  // Timestamp
-        MT   //The Message type of the message
+        MT,   //The Message type of the message
+        PNA, // The patient name
+        PNU // The patient number
     }
 
     public enum TagDoctor
@@ -42,18 +44,19 @@ namespace Server
     class ServerClient
     {
         private TcpClient tcpclient;
-		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
-        private string totalBuffer; // Should use ErgoID as a key.
+        private string totalBuffer;
+        private Dictionary<String, ClientData> clientDatas; // Should use ErgoID as a key.
+        private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 
-        public ServerClient(TcpClient client, Server server)
+        public ServerClient(TcpClient client)
         {
             this.tcpclient = client;
             this.stream = client.GetStream();
-			this.server = server;
             this.buffer = new byte[1024];
             this.totalBuffer = String.Empty;
+            this.clientDatas = new Dictionary<String, ClientData>();
             this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
         }
 
@@ -75,47 +78,33 @@ namespace Server
 
         private void HandlePacket(string packet)
         {
-            // test purposes, ignore the following:
-            //string etValue = GetValueByTag(TagErgo.ET, packet);
-            //string dtValue = GetValueByTag(TagErgo.DT, packet);
-            //string spValue = GetValueByTag(TagErgo.SP, packet);
-            //string hrValue = GetValueByTag(TagErgo.HR, packet);
-            //string ecValue = GetValueByTag(TagErgo.EC, packet);
-            //string icValue = GetValueByTag(TagErgo.IC, packet);
-            //string apValue = GetValueByTag(TagErgo.AP, packet);
-            //string ipValue = GetValueByTag(TagErgo.IP, packet);
-            //string idValue = GetValueByTag(TagErgo.ID, packet);
-            //string tsValue = GetValueByTag(TagErgo.TS, packet);
-
             string mtValue = GetValueByTag(TagErgo.MT, packet);
-            //string mtValue = "bla";
             string idValue = GetValueByTag(TagErgo.ID, packet);
-
-			string tsValue = GetValueByTag(TagErgo.TS, packet);
+            string tsValue = GetValueByTag(TagErgo.TS, packet);
+            string pnuValue = GetValueByTag(TagErgo.PNU, packet);
 
             // Fastest way to handle the data.
             foreach (TagErgo tag in (TagErgo[])Enum.GetValues(typeof(TagErgo)))
-            {
                 switch (mtValue)
                 {
                     // Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
                     default:
-                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue);
+                        HandleInputErgo(tag, GetValueByTag(tag, packet), idValue, tsValue, pnuValue);
                         break;
                 }
-            }
         }
 
-        private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp)
+        private void HandleInputErgo(TagErgo tag, string value, string ergoID, string timestamp, string pnu)
         {
-            Console.WriteLine("Running");
             if (value != String.Empty)
             {
                 ClientData clientData;
-                if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
+                if (!clientDatas.TryGetValue(ergoID, out clientData))
                 {
                     clientData = new ClientData();
-					this.server.clientDatas.Add(ergoID, clientData);
+                    clientDatas.Add(ergoID, clientData);
+                    //if (pnu != null)
+                    //    boundData.Add(pnu, ergoID);
                 }
                 switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
                 {
@@ -143,12 +132,18 @@ namespace Server
                     case TagErgo.IP:
                         clientData.AddIP(value, timestamp);
                         break;
+                    case TagErgo.PNA:
+                        clientData.SetPNA(value);
+                        break;
+                    case TagErgo.PNU:
+                        clientData.SetPNU(value);
+                        break;
                 }
                 Console.WriteLine(clientData.ToString());
             }
         }
 
-        private void HandleInputDoctor()
+        private void HandleInputDoktor()
         {
             throw new NotImplementedException();
         }
@@ -167,7 +162,6 @@ namespace Server
                 string completeTag = $"{openTag}{tag.ToString()}{closeTag}";
                 if (packet.Contains(completeTag))
                 {
-                  //  Console.WriteLine("Found and processed tag! {tag.ToString()}");
                     int startPosition = -1;
                     int endPosition = -1;
                     for (int i = packet.IndexOf(completeTag); i < packet.Length; i++)
@@ -191,12 +185,10 @@ namespace Server
                     try
                     {
                         string value = packet.Substring(startPosition, endPosition - startPosition);
-                        //Console.WriteLine($"Found value corresponding with tag : {completeTag}{value}");
                         return value;
                     }
                     catch (ArgumentOutOfRangeException e) { Console.WriteLine($"Apparently something went wrong in the GetValueByTag() method located in the ServerClient class. Have you changed any code? {e.ToString()}"); }
                 }
-               // else Console.WriteLine("String does not contain your searched tag, have you added tags? Search tag: " + tag.ToString());
             }
             return String.Empty;
         }

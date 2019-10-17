@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    enum SkyboxType
+    public enum SkyboxType
     {
         @static, dynamic
     }
-    class VRSkybox : VRComponent
+    public class VRSkybox : VRComponent
     {
         private SkyboxType skyboxType = SkyboxType.dynamic;
         private string xpos, xneg, ypos, yneg, zpos, zneg;

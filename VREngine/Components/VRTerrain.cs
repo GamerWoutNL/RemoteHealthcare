@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sprint2VR.VR.Components
 {
-    class VRTerrain : VRComponent
+    public class VRTerrain : VRComponent
     {
         public bool smoothNormals;
 
