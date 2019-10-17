@@ -31,5 +31,23 @@ namespace DoktorApp
             Chart.Series.Add(series1);
         }
 
+        public static void updateChart(Chart chart, List<CustomDatapoint> datapoints)
+        {
+            datapoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
+
+            chart.Series.Clear();
+
+            Series series1 = new Series();
+            series1.ChartType = SeriesChartType.Line;
+
+            int counter = 1;
+            foreach(CustomDatapoint datapoint in datapoints)
+            {
+                series1.Points.Add(new DataPoint(counter, datapoint.data));
+                counter++;
+            }
+
+            chart.Series.Add(series1);
+        }
     }
 }

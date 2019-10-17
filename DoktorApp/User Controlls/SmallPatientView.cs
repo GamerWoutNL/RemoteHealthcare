@@ -36,12 +36,8 @@ namespace DoktorApp
             
             this.HeartrateChart.Series.Clear();
 
-           // AddHeartrateDataPoint(new HeartrateDatapoint(new DateTime(2017, 05, 17, 12, 12, 12), 89));
-            //AddHeartrateDataPoint(new HeartrateDatapoint(DateTime.Now, 78));
-            
-            
-            
-            
+            storage.AddListeningHeartrateChart(this.HeartrateChart);
+            storage.AddListeningSpeedChart(this.SpeedChart);
         }
 
         private void PatientNameLabel_Click(object sender, EventArgs e)
@@ -57,7 +53,7 @@ namespace DoktorApp
 
         private void AddSpeedDataPoint(CustomDatapoint speedDataPoint)
         {
-            ChartUtils.addDatapointToListForChart(speedDataPoint, this.storage.speedDataPoints, this.SpeedChart);
+            ChartUtils.addDatapointToListForChart(speedDataPoint, this.storage.SpeedDataPoints, this.SpeedChart);
         }
 
     }
