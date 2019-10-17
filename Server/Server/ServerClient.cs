@@ -192,7 +192,7 @@ namespace Server
 		private void HandleSessionStop(string packet)
 		{
 			string ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
-			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>brake<{Tag.EOF.ToString()}>");
+			this.server.WriteToSpecificErgo(ergoID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>brake<{Tag.EOF.ToString()}>");
 		}
 
 		private void HandleDoctorMessage(string packet)
