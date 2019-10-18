@@ -227,20 +227,13 @@ namespace Server
 			string username = TagDecoder.GetValueByTag(Tag.UN, packet);
 			string password = TagDecoder.GetValueByTag(Tag.PW, packet);
 
-            if (true)//FileWriter.checkPassword(username, password))
-
+            if (FileWriter.checkPassword(username, password))
             {
-
                 this.server.doctor = this;
-
                 this.server.streaming = true;
 
-
-
                 this.Write($"<{Tag.LR.ToString()}>true<{Tag.EOF.ToString()}>");
-
                 new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
-
             }
 
 			
@@ -266,11 +259,8 @@ namespace Server
         }
 
         public void Stop()
-
         {
-
             running = false;
-
         }
     }
 }

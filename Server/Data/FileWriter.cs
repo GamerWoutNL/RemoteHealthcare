@@ -16,25 +16,30 @@ namespace Server.Data
         */
 
 
-		public string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\PatientData";
-		public void writeFile(string clientID, string message)
-		{
-			string path = this.path + @"\" + clientID + ".txt";
-
-			if (!File.Exists(path))
-			{
-				using (StreamWriter sw = File.CreateText(path))
-				{
-					sw.WriteLine(message);
-				}
-			}
-			else
-			{
-				using (StreamWriter sw = File.AppendText(path))
-				{
-					sw.WriteLine(message);
-				}
-			}
+        public static bool checkPassword(string us, string pw)
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
+            string s;
+            using (StreamReader sr = File.OpenText(path))
+            {
+                s = sr.ReadLine();
+                while (s != null)
+                {
+                    if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
+                    {
+                        if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    s = sr.ReadLine();
+                }
+                return false;
+            }
 
 		}
 

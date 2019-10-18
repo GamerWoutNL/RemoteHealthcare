@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.FlowPanelMainView = new System.Windows.Forms.FlowLayoutPanel();
-            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID();
+            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID(this.client);
             this.SuspendLayout();
             // 
             // FlowPanelMainView

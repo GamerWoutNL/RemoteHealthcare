@@ -29,22 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DoctorID));
-            this.PictureBox_Doctor = new System.Windows.Forms.PictureBox();
             this.Label_DoctorID = new System.Windows.Forms.Label();
             this.button_sendbroadcast = new System.Windows.Forms.Button();
             this.textbox_broadcast = new System.Windows.Forms.TextBox();
+            this.PictureBox_Doctor = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Doctor)).BeginInit();
             this.SuspendLayout();
-            // 
-            // PictureBox_Doctor
-            // 
-            this.PictureBox_Doctor.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox_Doctor.Image")));
-            this.PictureBox_Doctor.Location = new System.Drawing.Point(264, 3);
-            this.PictureBox_Doctor.Name = "PictureBox_Doctor";
-            this.PictureBox_Doctor.Size = new System.Drawing.Size(106, 120);
-            this.PictureBox_Doctor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PictureBox_Doctor.TabIndex = 0;
-            this.PictureBox_Doctor.TabStop = false;
             // 
             // Label_DoctorID
             // 
@@ -72,6 +62,17 @@
             this.textbox_broadcast.Name = "textbox_broadcast";
             this.textbox_broadcast.Size = new System.Drawing.Size(188, 22);
             this.textbox_broadcast.TabIndex = 15;
+            this.textbox_broadcast.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Textbox_message_KeyDown);
+            // 
+            // PictureBox_Doctor
+            // 
+            this.PictureBox_Doctor.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox_Doctor.Image")));
+            this.PictureBox_Doctor.Location = new System.Drawing.Point(264, 3);
+            this.PictureBox_Doctor.Name = "PictureBox_Doctor";
+            this.PictureBox_Doctor.Size = new System.Drawing.Size(106, 120);
+            this.PictureBox_Doctor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PictureBox_Doctor.TabIndex = 0;
+            this.PictureBox_Doctor.TabStop = false;
             // 
             // DoctorID
             // 

@@ -7,21 +7,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DoktorApp.Communication;
 
 namespace DoktorApp.User_Controlls
 {
     public partial class DoctorID : UserControl
     {
-        public DoctorID()
+        Client client;
+
+        public DoctorID(Client client)
         {
+            this.client = client;
             InitializeComponent();
             SetPlaceHolder(textbox_broadcast, "Broadcast:");
+            string doctor = client.DoctorName;
+            Label_DoctorID.Text = doctor;
+
+            if(doctor == "Doctor")
+            {
+                PictureBox_Doctor.Image = Properties.Resources.Doctor;
+            }
+
+            if (doctor == "Lavictus")
+            {
+                PictureBox_Doctor.Image = Properties.Resources.Lavictus;
+            }
+
         }
 
         private void button_sendbroadcast_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Send button pressed!");
-            throw new NotImplementedException();
+            Broadcast(textbox_broadcast.Text);
+            textbox_broadcast.Clear();
         }
 
         /// <summary>
@@ -50,6 +67,18 @@ namespace DoktorApp.User_Controlls
             };
         }
 
+        private void Broadcast(string message)
+        {
+            this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>message<{Server.Tag.ID.ToString()}>all<{Server.Tag.DM.ToString()}>{message}<{Server.Tag.EOF.ToString()}>");
+        }
 
+        private void Textbox_message_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Broadcast(textbox_broadcast.Text);
+                textbox_broadcast.Clear();
+            }
+        }
     }
 }

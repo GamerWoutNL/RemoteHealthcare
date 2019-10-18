@@ -19,6 +19,7 @@ namespace DoktorApp.Communication
 		private string totalBuffer;
         private PatientHandler patientHandler;
         public bool LoggedIn{ get; set; }
+        public string DoctorName { get; set; }
        
 
 		public Client(PatientHandler patientHandler)
@@ -28,6 +29,7 @@ namespace DoktorApp.Communication
 			this.totalBuffer = string.Empty;
             this.patientHandler = patientHandler;
             this.LoggedIn = false;
+            DoctorName = "default"; 
 		}
 
 		private void OnRead(IAsyncResult ar)

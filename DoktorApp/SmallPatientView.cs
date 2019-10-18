@@ -104,5 +104,10 @@ namespace DoktorApp
             this.SpeedChart.Series.Add(speedSeries);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DetailedPatientView patientView = new DetailedPatientView(patientName, patientNumber, client, storage);
+            patientView.Show();
+        }
     }
 }

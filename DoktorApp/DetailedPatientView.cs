@@ -183,11 +183,6 @@ namespace DoktorApp
         // Eventhandlers 
         // /// // /// // /// // /// 
 
-        private void button_backbutton_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Back button pressed!");
-            throw new NotImplementedException();
-        }
 
         private void button_sendbutton_Click(object sender, EventArgs e)
         {
@@ -231,7 +226,7 @@ namespace DoktorApp
         private void Button_Stop_Click(object sender, EventArgs e)
         {
 			//this.EmergencyBrake("00472");
-			this.Broadcast("testtesttesttesttesttest");
+			
 		}
 
 		private void EmergencyBrake(string ergoID)
