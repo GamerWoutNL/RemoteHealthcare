@@ -39,7 +39,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.doctorID1 = new DoktorApp.User_Controlls.DoctorID();
-            this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.label_patientname = new System.Windows.Forms.Label();
             this.label_patientnumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
