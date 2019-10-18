@@ -22,6 +22,9 @@ namespace VREngine
         private RouteHandler routeHandler;
         private Program program;
         private int oldResistance = 0;
+        private double speedBike = 0;
+        private string doctorMessage = "";
+
 
         public VRHandler(Program program)
         {
@@ -56,19 +59,18 @@ namespace VREngine
 
             //Setting up parent and startposition.
             MoveVRParts(new VRPoint3D(0.9, -0.2, -0.44), new VRPoint3D(0, 90, 0), 1);
-            MoveCar(new VRPoint3D(-19.30, 22.00, -13.40), new VRPoint3D(0,0,0), 1);
+            MoveCar(new VRPoint3D(-19.30, 22.00, -13.40), new VRPoint3D(0, 0, 0), 1);
             MakeErgoParent();
 
-           
+
 
             //Add panel and make vehicle parent.
             string panelUuid = AddPanel();
             this.vRData.uuidPanel = panelUuid;
             PanelAddParent(panelUuid, this.vRData.uuidVehicle);
             //PutTextOnPanel("Speed");
-            RefreshAndDraw("10", "130", "Test message");
-          //  SwapPanel(panelUuid);
-            
+            //  SwapPanel(panelUuid);
+
             //Setting the route.
             string ID;
             ID = AddRouteFunction(routeHandler.GetRouteStart());
@@ -80,22 +82,35 @@ namespace VREngine
             //    while (true)
             //        Console.WriteLine(GetResistanceChange());
             //FindAllParts();
-            program.ergo.SetEngine(this);
-            if (program.bLESimulator != null) program.bLESimulator.SetVRHandler(this);
+
+
             while (true)
             {
                 int resistanceChange = GetResistanceChange(); // if -1 upwards, if 1 downwards.
-                if (resistanceChange==0)
-                    if (this.oldResistance!=0)
+                if (resistanceChange == 0)
+                    if (this.oldResistance != 0)
                         program.ergo.SetResistance(50);
-                if (resistanceChange==1)
-                    if (this.oldResistance!=1)
+                if (resistanceChange == 1)
+                    if (this.oldResistance != 1)
                         program.ergo.SetResistance(0);
-                if (resistanceChange==-1)
-                    if (this.oldResistance!=-1)
+                if (resistanceChange == -1)
+                    if (this.oldResistance != -1)
                         program.ergo.SetResistance(100);
+                BLEDataHandler handler = program.ergo.dataHandler;
+                if (handler == null)
+                    handler = program.bLESimulator.bLEDataHandler;
+
+                BLEDataPage16 data = handler.GetDataForVR();
+                if (data != null)
+                {
+                    this.doctorMessage = program.ergo.doctorMessage;
+                    RefreshAndDraw(data.speed.ToString(), data.heartRate.ToString(), "");
+                    this.speedBike = (int)data.speed;
+                    UpdateSpeedBike((int)(data.speed/3.0));
+                    
+                }
                 this.oldResistance = GetResistanceChange();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(50);
             }
         }
 
@@ -219,9 +234,14 @@ namespace VREngine
             // 0 normal resistance.
         }
 
+        public void UpdateSpeedBike(double speed)
+        {
+            function.DynaRouteFollowSpeed(this.vRData.uuidVehicle, speed);
+        }
+
         public string AddPanel()
         {
-            function.DynaSceneNodeAdd("dashboardPanel", null, new VRTransform(new VRPoint3D(0.4,1.1,-0.435), new VRPoint3D(0,90,0), 1), null, null, new VRPanel(new VRPoint2D(0.3,0.05), new VRPoint2D(150,400), new VRColor(0.0f,0.0f,0.0f,1f), true), null);
+            function.DynaSceneNodeAdd("dashboardPanel", null, new VRTransform(new VRPoint3D(0.4, 1.1, -0.435), new VRPoint3D(0, 90, 0), 1), null, null, new VRPanel(new VRPoint2D(0.3, 0.05), new VRPoint2D(150, 400), new VRColor(0.0f, 0.0f, 0.0f, 1f), true), null);
             dynamic responsePanel = client.SearchResponses(IDOperations.sceneNodeAdd);
             string panelUuid = responsePanel.data.data.data.uuid;
             return panelUuid;
@@ -234,7 +254,7 @@ namespace VREngine
             SwapPanel(this.vRData.uuidPanel);
         }
 
-        public void PutTextOnPanel(string panelText, bool displayLow=false)
+        public void PutTextOnPanel(string panelText, bool displayLow = false)
         {
             if (!displayLow)
                 function.DynaScenePanelDrawText(this.vRData.uuidPanel, panelText, new VRPoint2D(0, 25), 20, new VRColor(1f, 1f, 1f, 1f), "segoeui");
@@ -265,11 +285,11 @@ namespace VREngine
 
         public void SetRoute(string routeID, VRPoint3D rotation = null)
         {
-            rotation = new VRPoint3D(0,Math.PI*1.5,0); // was Math.PI/180*90 overal
+            rotation = new VRPoint3D(0, Math.PI * 1.5, 0); // was Math.PI/180*90 overal
             if (rotation == null)
-                function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 10, 0, "XYZ", 0, false, new VRPoint3D(0, 0, 0), new VRPoint3D(0, 0, 0));
+                function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 0, 0, "XYZ", 0, false, new VRPoint3D(0, 0, 0), new VRPoint3D(0, 0, 0));
             else
-                function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 10, 0, "XYZ", 1.0, false, rotation, new VRPoint3D(0, 0, 0));
+                function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 0, 0, "XYZ", 1.0, false, rotation, new VRPoint3D(0, 0, 0));
         }
 
         public string AddRouteToCrossing()

@@ -28,7 +28,7 @@ namespace ErgoConnect
         {
             string patientName = "Dustin";
             string patientNumber = "81";
-			Program program = new Program("24517", patientName, patientNumber); 
+			Program program = new Program("00438", patientName, patientNumber); 
         }
 
 		public Program(string ergoID, string patientName, string patientNumber)

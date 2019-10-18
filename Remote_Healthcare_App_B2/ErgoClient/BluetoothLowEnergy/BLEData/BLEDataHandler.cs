@@ -84,15 +84,22 @@ namespace ErgoConnect
             else return String.Empty;
         }
 
-        public void UpdateVR(VRHandler vRHandler)
+        public BLEDataPage16 GetDataForVR()
         {
-            BLEData bleData = _bleData[_bleData.Count - 1];
-            if (bleData is BLEDataPage16)
+            if (_bleData != null)
             {
-                Console.WriteLine("UPDATING VR NOW");
-                BLEDataPage16 data = (BLEDataPage16)bleData;
-                vRHandler.RefreshAndDraw(data.speed.ToString(), data.heartRate.ToString(), "");
+                if (_bleData.Count > 0)
+                {
+                    BLEData bleData = _bleData[_bleData.Count - 1];
+                    if (bleData is BLEDataPage16)
+                    {
+                        Console.WriteLine("UPDATING VR NOW");
+                        BLEDataPage16 data = (BLEDataPage16)bleData;
+                        return data;
+                    }
+                }
             }
+            return null;
         }
     }
 }

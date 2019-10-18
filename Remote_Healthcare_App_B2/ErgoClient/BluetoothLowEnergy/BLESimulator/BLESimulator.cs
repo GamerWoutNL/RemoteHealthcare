@@ -28,8 +28,8 @@ namespace ErgoConnect
         private string _ergoID;
         private string _patientName;
         private string _patientNumber;
-        private VRHandler vRHandler;
         private IClient _iClient;
+        public BLEDataHandler bLEDataHandler;
 
         /// <summary>
         /// The ergoID is needed to define the save location of the Ergometer data.
@@ -59,7 +59,7 @@ namespace ErgoConnect
 
         public void RunSimulator()
         {
-            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID, _patientName, _patientNumber);
+            bLEDataHandler = new BLEDataHandler(_ergoID, _patientName, _patientNumber);
             int i = 0;
             List<byte[]> data = new List<byte[]>();
             while (true)
@@ -68,8 +68,6 @@ namespace ErgoConnect
                 BLEDecoderErgo.Decrypt(data[i], bLEDataHandler);
                 string toSend = bLEDataHandler.ReadLastData(); // Data that should be send to the client.
                 this._iClient.Write(toSend);
-                if (vRHandler != null)
-                    bLEDataHandler.UpdateVR(vRHandler);
                 if (i >= data.Count - 1)
                     i = 0;
                 i++;
@@ -106,11 +104,6 @@ namespace ErgoConnect
             filePath = GetErgoHeartRatePath(filePath, ergoOrHeartRate);
             List<Byte[]> deSerializedObject = ReadToFileBinary<List<Byte[]>>(filePath);
             return deSerializedObject;
-        }
-
-        public void SetVRHandler(VRHandler vRHandler)
-        {
-            this.vRHandler = vRHandler;
         }
 
         /// <summary>

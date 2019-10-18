@@ -18,12 +18,12 @@ namespace ErgoConnect
     {
         public System.String ergometerSerialLastFiveNumbers;
         public const bool printChecksum = false;
-        private BLEDataHandler dataHandler;
+        public BLEDataHandler dataHandler;
         private BLESimulator bLESimulator;
         private IClient iClient;
         private ISim iSim;
         private bool isConnected = false;
-        private VRHandler vRHandler;
+        public string doctorMessage = "";
         public BLE ergometerBLE { get; set; }
         public BLE heartrateBLE { get; set; }
 
@@ -62,10 +62,6 @@ namespace ErgoConnect
             await ScanConnectForHR(heartrateBLE);
         }
 
-        internal void SetEngine(VRHandler vRHandler)
-        {
-            this.vRHandler = vRHandler;
-        }
 
         /// <summary>
         /// Stores a potential error code and prints devices, afterwards the connection attempt to the ergometer is made.
@@ -230,8 +226,6 @@ namespace ErgoConnect
             bLESimulator.WriteData(WriteOption.Ergo);
             BLEDecoderErgo.Decrypt(e.Data, this.dataHandler);
             string toSendErgoData = dataHandler.ReadLastData();
-            if (vRHandler != null)
-                dataHandler.UpdateVR(vRHandler);
             iClient.Write(toSendErgoData);
         }
     }
