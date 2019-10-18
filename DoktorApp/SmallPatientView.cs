@@ -49,10 +49,10 @@ namespace DoktorApp
             // AddHeartrateDataPoint(new HeartrateDatapoint(new DateTime(2017, 05, 17, 12, 12, 12), 89));
             //AddHeartrateDataPoint(new HeartrateDatapoint(DateTime.Now, 78));
 
-            bgHrChart_DoWork(this.bgHrChart, new DoWorkEventArgs(""));
+           // bgHrChart_DoWork(this.bgHrChart, new DoWorkEventArgs(""));
 
-            //this.storage.AddListeningHeartrateChart(this.HeartrateChart);
-           // this.storage.AddListeningSpeedChart(this.SpeedChart);
+            this.storage.AddListeningHeartrateChart(this.HeartrateChart);
+            this.storage.AddListeningSpeedChart(this.SpeedChart);
             
         }
 
@@ -122,28 +122,37 @@ namespace DoktorApp
 
             while (true)
             {
-                if(this.storage.HeartrateDataPoints.Count != oldSizeOfList)
+                List<CustomDatapoint> heartrateData = this.HeartrateDatapoints;
+                if (heartrateData.Count > oldSizeOfList)
                 {
-                    this.storage.HeartrateDataPoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
+                    heartrateData.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
 
                     Series series1 = new Series();
                     series1.ChartType = SeriesChartType.Line;
 
                     int counter = 1;
-                    foreach (CustomDatapoint datapoint in this.storage.HeartrateDataPoints)
+                    try
                     {
+                        foreach (CustomDatapoint datapoint in heartrateData)
+                        {
 
-                        if (worker.CancellationPending == true)
-                        {
-                            e.Cancel = true;
-                            break;
+                            if (worker.CancellationPending == true)
+                            {
+                                e.Cancel = true;
+                                break;
+                            }
+                            else
+                            {
+                                series1.Points.Add(new DataPoint(counter, datapoint.data));
+                                counter++;
+                            }
                         }
-                        else
-                        {
-                            series1.Points.Add(new DataPoint(counter, datapoint.data));
-                            counter++;
-                        }
+                    } catch(InvalidOperationException ex)
+                    {
+                        
                     }
+
+                    oldSizeOfList = heartrateData.Count;
 
                     e.Result = series1;
 

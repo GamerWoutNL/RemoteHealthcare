@@ -78,9 +78,9 @@ namespace DoktorApp.Data_Management
 
                 addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
 
-                if (this.mainView != null && this.client != null)
+                if (this.client != null)
                 {
-                   // this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
+                   this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
                 }
 
                 patientStorages.Add(patientStorage);

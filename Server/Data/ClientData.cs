@@ -34,7 +34,42 @@ namespace Server
 
         public override string ToString()
         {
-			return $"<PNA>{patientName}<PNU>{patientNumber}<ET>{_elapsedTime.Last()}<DT>{_distanceTravelled.Last()}<SP>{_speed.Last()}<HR>{_heartRate.Last()}<EC>{_eventCount.Last()}<IC>{_instanteousCadance.Last()}<AC>{_accumulatedPower.Last()}<IP>{_instanteousPower.Last()}<TS>{_heartRate.Last().time}<EOF>"; ;
+            string message = $"<PNA>{patientName}<PNU>{patientNumber}";
+            if(_elapsedTime.Count > 0)
+            {
+                message += $"<ET>{_elapsedTime.Last()}";
+            }
+            if(_distanceTravelled.Count > 0)
+            {
+                message += $"<DT>{_distanceTravelled.Last()}";
+            }
+            if(_speed.Count > 0)
+            {
+                message += $"<SP>{_speed.Last()}";
+            }
+            if(_heartRate.Count > 0)
+            {
+                message += $"<HR>{_heartRate.Last()}";
+                message += $"<TS>{_heartRate.Last().time}";
+            }
+            if(_eventCount.Count > 0)
+            {
+                message += $"<EC>{_eventCount.Last()}";
+            }
+            if(_instanteousCadance.Count > 0)
+            {
+                message += $"<IC>{_instanteousCadance.Last()}";
+            }
+            if(_accumulatedPower.Count > 0)
+            {
+                message += $"<AC>{_accumulatedPower.Last()}";
+            }
+            if(_instanteousPower.Count > 0)
+            {
+                message += $"<IP>{_instanteousPower.Last()}";
+            }
+			message += $"<EOF>";
+            return message;
         }
 
         public void AddET(string et, string datetime)

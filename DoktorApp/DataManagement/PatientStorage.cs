@@ -58,6 +58,11 @@ namespace DoktorApp.Data_Management
             }
         }
 
+        private void addSpeedData(string timestamp, double data, List<CustomDatapoint> list)
+        {
+            list.Add(new CustomDatapoint(DateTime.Parse(timestamp), data));
+        }
+
         public void AddHeartrateDataPoint(string timestamp, string data)
         {
             addData(timestamp, data, this.HeartrateDataPoints);
@@ -69,7 +74,11 @@ namespace DoktorApp.Data_Management
 
         public void AddSpeedDataPoint(string timestamp, string data)
         {
-            addData(timestamp, data, this.SpeedDataPoints);
+            if(data != null)
+            {
+                addSpeedData(timestamp, Double.Parse(data) * 3.6 , this.SpeedDataPoints);
+            }
+            
             foreach (Chart chart in this.SpeedChartsListeningForUpdates)
             {
                 ChartUtils.updateChart(chart, this.SpeedDataPoints);
