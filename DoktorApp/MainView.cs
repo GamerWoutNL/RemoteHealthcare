@@ -67,11 +67,16 @@ namespace DoktorApp
             
         }
 
-        //public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)
-        //{
-        //    SmallPatientView smallPatientView = new SmallPatientView(patientName, patientNumber, client, storage);
-        //    this.FlowPanelMainView.Controls.Add(smallPatientView);
-        //}
+        public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)
+        {
+            SmallPatientView smallPatientView = new SmallPatientView(patientName, patientNumber, client, storage);
+            if (this.FlowPanelMainView.InvokeRequired)
+            {
+                this.FlowPanelMainView.Invoke(new MethodInvoker(delegate { NewClientConnects(patientName, patientNumber, client, storage); }));
+                return;
+            }
+            this.FlowPanelMainView.Controls.Add(smallPatientView);
+        }
 
         private void StartSessionButton_Click(object sender, EventArgs e)
         {
