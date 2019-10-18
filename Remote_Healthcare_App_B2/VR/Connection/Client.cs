@@ -35,10 +35,10 @@ namespace Sprint2VR
 
         public async Task Connect(string server, int port)
         {
-			await client.ConnectAsync(server, port);
+            await this.client.ConnectAsync(server, port);
 			Console.WriteLine($"Connected to {server} on port {port}");
-			this.stream = this.client.GetStream();
-			stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            this.stream = this.client.GetStream();
+            stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
 		}
 
 		private void OnRead(IAsyncResult ar)

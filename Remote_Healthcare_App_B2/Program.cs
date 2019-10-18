@@ -8,6 +8,7 @@ using ErgoConnect.BluetoothLowEnergy;
 using Server;
 using VREngine;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ErgoConnect
 {
@@ -24,12 +25,13 @@ namespace ErgoConnect
 
         public static void Main(string[] args)
         {
-            string patientName = "Dustin";
-            string patientNumber = "81";
-			Program program = new Program("01249", patientName, patientNumber); 
+            Application.Run(new Form1());
+            //string patientname = "dustin";
+            //string patientnumber = "81";
+            //Program program = new Program("01249", patientname, patientnumber);
         }
 
-		public Program(string ergoID, string patientName, string patientNumber)
+        public Program(string ergoID, string patientName, string patientNumber)
 		{
             this.patientName = patientName;
             this.patientNumber = patientNumber;

@@ -49,7 +49,10 @@ namespace DoktorApp.Data_Management
 
         private void addData(string timestamp, string data, List<CustomDatapoint> list)
         {
-            list.Add(new CustomDatapoint(DateTime.Parse(timestamp), Double.Parse(data)));
+            if (!(data == null))
+            {
+                list.Add(new CustomDatapoint(DateTime.Parse(timestamp), Double.Parse(data)));
+            }
         }
 
         public void AddHeartrateDataPoint(string timestamp, string data)

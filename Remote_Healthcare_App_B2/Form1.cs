@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ErgoConnect
 {
@@ -17,9 +18,15 @@ namespace ErgoConnect
             InitializeComponent();
         }
 
-        private void Label1_Click(object sender, EventArgs e)
+        private void ConfirmButton_Click(object sender, EventArgs e)
         {
+            string patientName = this.NameField.Text;
+            string patientNumber = this.NumberField.Text;
+            string ergoId = this.IdTextBox.Text;
 
+            Program program = new Program(ergoId, patientName, patientNumber);
         }
+
+        
     }
 }

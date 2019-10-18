@@ -34,7 +34,7 @@ namespace Server
 
         public override string ToString()
         {
-			return $"<ET>{_elapsedTime.Last()}<DT>{_distanceTravelled.Last()}<SP>{_speed.Last()}<HR>{_heartRate.Last()}<EC>{_eventCount.Last()}<IC>{_instanteousCadance.Last()}<AC>{_accumulatedPower.Last()}<IP>{_instanteousPower.Last()}<TS>{_elapsedTime.Last()}<EOF>"; ;
+			return $"<ET>{_elapsedTime.Last()}<DT>{_distanceTravelled.Last()}<SP>{_speed.Last()}<HR>{_heartRate.Last()}<EC>{_eventCount.Last()}<IC>{_instanteousCadance.Last()}<AC>{_accumulatedPower.Last()}<IP>{_instanteousPower.Last()}<TS>{_speed.Last().time}<EOF>"; ;
         }
 
         public void AddET(string et, string datetime)
