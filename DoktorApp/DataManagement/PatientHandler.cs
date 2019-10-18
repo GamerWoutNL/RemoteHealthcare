@@ -12,17 +12,17 @@ namespace DoktorApp.Data_Management
     public class PatientHandler
     {
 
-        public ConcurrentBag<PatientStorage> patientStorages = new ConcurrentBag<PatientStorage>();
-        Dictionary<PatientStorage, SmallPatientView> views = new Dictionary<PatientStorage, SmallPatientView>();
-        public static object lockObject = new object();
+        public ConcurrentBag<PatientStorage> patientStorages { get; set; }
+        public Dictionary<PatientStorage, SmallPatientView> views { get; set; }
 
-        public MainView mainView = null;
-        public Client client = null;
+        private MainView mainView = null;
+        private Client client = null;
 
         public PatientHandler()
         {
-
-        }
+			this.patientStorages = new ConcurrentBag<PatientStorage>();
+			this.views = new Dictionary<PatientStorage, SmallPatientView>();
+		}
 
         public void AttachMainView(MainView mainView)
         {
@@ -55,7 +55,7 @@ namespace DoktorApp.Data_Management
 
             foreach (PatientStorage storage in patientStorages)
             {
-                if (storage.PatientNumber.Equals(patientNumber))
+                if (storage.PatientNumber == patientNumber)
                 {
                     patientExists = true;
                     patientStorage = storage;
@@ -64,29 +64,27 @@ namespace DoktorApp.Data_Management
 
             if (patientExists)
             {
-
                 if (!patientStorage.PatientHasDataAlready(eventCount))
                 {
                     addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
                 }
-
-
             }
             else
             {
                 patientStorage = new PatientStorage(patientName, patientNumber, ergoId);
 
-                addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
+				if (patientStorage.PatientNumber != null)
+				{
+					addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
 
-                if (this.client != null)
-                {
-                   this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
-                }
+					if (this.client != null)
+					{
+						this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
+					}
 
-                patientStorages.Add(patientStorage);
+					this.patientStorages.Add(patientStorage);
+				}
             }
-
-
         }
 
         public void addDataToCorrectLists(PatientStorage patientStorage, string timestamp, string heartrate, string speed, string distance, string accuPower, string instPower, string instCadence)

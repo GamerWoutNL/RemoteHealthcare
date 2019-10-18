@@ -20,12 +20,11 @@ namespace Server
 		private Server server;
         private NetworkStream stream;
         private byte[] buffer;
-        private string totalBuffer;
-        private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
+		private bool running = true;
+		private string totalBuffer;
 		public string ergoID { get; set; }
         public string patientName { get; set; }
         public string patienNumber { get; set; }
-        public bool running = true;
 
         public ServerClient(TcpClient client, Server server)
         {
@@ -77,18 +76,6 @@ namespace Server
 		private void HandlePacket(string packet)
 		{
 			//Console.WriteLine(packet);
-
-			// test purposes, ignore the following:
-			//string etValue = GetValueByTag(TagErgo.ET, packet);
-			//string dtValue = GetValueByTag(TagErgo.DT, packet);
-			//string spValue = GetValueByTag(TagErgo.SP, packet);
-			//string hrValue = GetValueByTag(TagErgo.HR, packet);
-			//string ecValue = GetValueByTag(TagErgo.EC, packet);
-			//string icValue = GetValueByTag(TagErgo.IC, packet);
-			//string apValue = GetValueByTag(TagErgo.AP, packet);
-			//string ipValue = GetValueByTag(TagErgo.IP, packet);
-			//string idValue = GetValueByTag(TagErgo.ID, packet);
-			//string tsValue = GetValueByTag(TagErgo.TS, packet);
 
 			string mtValue = TagDecoder.GetValueByTag(Tag.MT, packet);
 

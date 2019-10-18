@@ -13,11 +13,10 @@ using DoktorApp.Data_Management;
 namespace DoktorApp
 {
     public partial class MainView : Form
-    {
-        
-        public bool quit;
-        public Client client = null;
-        public PatientHandler patientHandler;
+	{ 
+        private bool quit;
+        public Client client { get; set; }
+        public PatientHandler patientHandler { get; set; }
 
         public MainView(Client client, PatientHandler handler)
         {
@@ -25,7 +24,6 @@ namespace DoktorApp
             this.patientHandler = handler;
             bool login = client.LoggedIn;
             this.quit = false;
-
 
             while (true)
             {
@@ -35,10 +33,6 @@ namespace DoktorApp
                 if (login)
                 {
                     InitializeComponent();
-
-                    //when client connects
-
-                    //NewClientConnects("test", "123", client, new PatientStorage("test", "123", "testId"));
                     break;
                 }
                 else if(!quit && !login)
@@ -63,8 +57,7 @@ namespace DoktorApp
 
         public void QuitTrue()
         {
-            quit = true;
-            
+            quit = true; 
         }
 
         public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)
@@ -87,8 +80,6 @@ namespace DoktorApp
                     SmallPatientView patientView = new SmallPatientView(storage.PatientName, storage.PatientNumber, this.client, storage);
                     this.patientHandler.addView(storage, patientView);
                     this.FlowPanelMainView.Controls.Add(patientView);
-                    
-
                 }
             }
         }

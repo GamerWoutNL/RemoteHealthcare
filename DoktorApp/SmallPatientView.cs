@@ -21,7 +21,7 @@ namespace DoktorApp
         public string patientName { get; set; }
         public string patientNumber { get; set; }
         public int resistance { get; set; }
-        public string doctorID;
+        public string doctorID { get; set; }
         internal List<CustomDatapoint> HeartrateDatapoints { get => heartrateDatapoints; set => heartrateDatapoints = value; }
 
         private List<CustomDatapoint> heartrateDatapoints = new List<CustomDatapoint>();
