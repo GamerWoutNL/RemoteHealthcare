@@ -39,6 +39,7 @@
             this.HeartrateChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.SpeedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ResistanceLabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HeartrateChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedChart)).BeginInit();
             this.SuspendLayout();
@@ -46,9 +47,10 @@
             // PatientNameLabel
             // 
             this.PatientNameLabel.AutoSize = true;
-            this.PatientNameLabel.Location = new System.Drawing.Point(13, 24);
+            this.PatientNameLabel.Location = new System.Drawing.Point(17, 30);
+            this.PatientNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PatientNameLabel.Name = "PatientNameLabel";
-            this.PatientNameLabel.Size = new System.Drawing.Size(77, 13);
+            this.PatientNameLabel.Size = new System.Drawing.Size(101, 17);
             this.PatientNameLabel.TabIndex = 0;
             this.PatientNameLabel.Text = "Patient Name: ";
             this.PatientNameLabel.Click += new System.EventHandler(this.PatientNameLabel_Click);
@@ -56,9 +58,10 @@
             // PatientNumberLabel
             // 
             this.PatientNumberLabel.AutoSize = true;
-            this.PatientNumberLabel.Location = new System.Drawing.Point(13, 49);
+            this.PatientNumberLabel.Location = new System.Drawing.Point(17, 60);
+            this.PatientNumberLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PatientNumberLabel.Name = "PatientNumberLabel";
-            this.PatientNumberLabel.Size = new System.Drawing.Size(86, 13);
+            this.PatientNumberLabel.Size = new System.Drawing.Size(114, 17);
             this.PatientNumberLabel.TabIndex = 1;
             this.PatientNumberLabel.Text = "Patient Number: ";
             // 
@@ -73,14 +76,15 @@
             legend1.IsDockedInsideChartArea = false;
             legend1.Name = "Legend1";
             this.HeartrateChart.Legends.Add(legend1);
-            this.HeartrateChart.Location = new System.Drawing.Point(16, 75);
+            this.HeartrateChart.Location = new System.Drawing.Point(21, 92);
+            this.HeartrateChart.Margin = new System.Windows.Forms.Padding(4);
             this.HeartrateChart.Name = "HeartrateChart";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.HeartrateChart.Series.Add(series1);
-            this.HeartrateChart.Size = new System.Drawing.Size(200, 200);
+            this.HeartrateChart.Size = new System.Drawing.Size(267, 246);
             this.HeartrateChart.TabIndex = 2;
             this.HeartrateChart.Text = "chart1";
             // 
@@ -95,39 +99,53 @@
             legend2.IsDockedInsideChartArea = false;
             legend2.Name = "Legend1";
             this.SpeedChart.Legends.Add(legend2);
-            this.SpeedChart.Location = new System.Drawing.Point(16, 297);
+            this.SpeedChart.Location = new System.Drawing.Point(21, 366);
+            this.SpeedChart.Margin = new System.Windows.Forms.Padding(4);
             this.SpeedChart.Name = "SpeedChart";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.SpeedChart.Series.Add(series2);
-            this.SpeedChart.Size = new System.Drawing.Size(200, 200);
+            this.SpeedChart.Size = new System.Drawing.Size(267, 246);
             this.SpeedChart.TabIndex = 3;
             this.SpeedChart.Text = "chart1";
             // 
             // ResistanceLabel
             // 
             this.ResistanceLabel.AutoSize = true;
-            this.ResistanceLabel.Location = new System.Drawing.Point(13, 517);
+            this.ResistanceLabel.Location = new System.Drawing.Point(17, 636);
+            this.ResistanceLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ResistanceLabel.Name = "ResistanceLabel";
-            this.ResistanceLabel.Size = new System.Drawing.Size(74, 13);
+            this.ResistanceLabel.Size = new System.Drawing.Size(98, 17);
             this.ResistanceLabel.TabIndex = 4;
             this.ResistanceLabel.Text = "Resistance: %";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(218, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 37);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "See Details";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SmallPatientView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.ResistanceLabel);
             this.Controls.Add(this.SpeedChart);
             this.Controls.Add(this.HeartrateChart);
             this.Controls.Add(this.PatientNumberLabel);
             this.Controls.Add(this.PatientNameLabel);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SmallPatientView";
-            this.Size = new System.Drawing.Size(239, 547);
+            this.Size = new System.Drawing.Size(319, 673);
             ((System.ComponentModel.ISupportInitialize)(this.HeartrateChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedChart)).EndInit();
             this.ResumeLayout(false);
@@ -142,5 +160,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart HeartrateChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart SpeedChart;
         private System.Windows.Forms.Label ResistanceLabel;
+        private System.Windows.Forms.Button button1;
     }
 }

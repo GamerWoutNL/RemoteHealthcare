@@ -38,7 +38,7 @@
             this.button_sendmessage = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID();
+            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID(this.client);
             this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.label_patientname = new System.Windows.Forms.Label();
             this.label_patientnumber = new System.Windows.Forms.Label();

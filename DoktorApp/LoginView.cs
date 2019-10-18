@@ -19,7 +19,8 @@ namespace DoktorApp
             InitializeComponent();
             SetPlaceHolder(textbox_Username, "Username");
             SetPlaceHolder(textbox_Username, "Password");
-
+            
+            
 
         }
 
@@ -54,10 +55,27 @@ namespace DoktorApp
             string username = textbox_Username.Text;
             string password = textbox_Password.Text;
 
+            mainview.client.DoctorName = username;
             mainview.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>login<{Server.Tag.UN.ToString()}>{username}<{Server.Tag.PW.ToString()}>{password}<{Server.Tag.EOF.ToString()}>");
             Console.WriteLine("Login Button Pressed");
             this.Close();
             //throw new NotImplementedException();
+        }
+
+        private void Textbox_message_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Console.WriteLine("Enter pressed!");
+                string username = textbox_Username.Text;
+                string password = textbox_Password.Text;
+
+                mainview.client.DoctorName = username;
+                mainview.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>login<{Server.Tag.UN.ToString()}>{username}<{Server.Tag.PW.ToString()}>{password}<{Server.Tag.EOF.ToString()}>");
+                Console.WriteLine("Login Button Pressed");
+                this.Close();
+            }
+
         }
 
         private void button_quit_Click(object sender, EventArgs e)

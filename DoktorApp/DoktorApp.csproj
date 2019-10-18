@@ -73,6 +73,11 @@
     <Compile Include="DataManagement\PatientStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SmallPatientView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,14 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="SmallPatientView.resx">
       <DependentUpon>SmallPatientView.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,13 +124,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\unknown1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Server\Server.csproj">
       <Project>{c291eccb-d913-43bd-b2df-3089f064957a}</Project>
       <Name>Server</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Doctor.png" />
+    <None Include="Resources\Hospital2.jpg" />
+    <None Include="Resources\stop.png" />
+    <None Include="Resources\Hospital.jpg" />
+    <Content Include="Resources\Lavictus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

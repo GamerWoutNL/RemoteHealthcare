@@ -35,19 +35,22 @@ namespace Server.Data
             using (StreamReader sr = File.OpenText(path))
             {
                 s = sr.ReadLine();
-                if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
+                while (s != null)
                 {
-                    if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
+                    if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
                     {
-                        return true;
+                        if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    s = sr.ReadLine();
                 }
                 return false;
-
             }
 
         }
