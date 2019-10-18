@@ -38,6 +38,7 @@ namespace DoktorApp.Data_Management
 
             string patientName = TagDecoder.GetValueByTag(Tag.PNA, message);
             string patientNumber = TagDecoder.GetValueByTag(Tag.PNU, message);
+            string ergoId = TagDecoder.GetValueByTag(Tag.ID, message);
 
             string eventCount = TagDecoder.GetValueByTag(Tag.EC, message);
 
@@ -73,7 +74,7 @@ namespace DoktorApp.Data_Management
             }
             else
             {
-                patientStorage = new PatientStorage(patientName, patientNumber);
+                patientStorage = new PatientStorage(patientName, patientNumber, ergoId);
 
                 addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
 
