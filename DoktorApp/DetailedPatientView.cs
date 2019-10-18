@@ -7,6 +7,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using DoktorApp.Communication;
 using Server;
 using DoktorApp.Data_Management;
+using DoktorApp.User_Controlls;
 
 namespace DoktorApp
 {
@@ -186,53 +187,36 @@ namespace DoktorApp
 
         private void button_sendbutton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Send button pressed!");
-            throw new NotImplementedException();
+            SendToClient(patientStorage.ergoId, textbox_message.Text);
+            textbox_message.Clear();
         }
 
         private void button_file_Click(object sender, EventArgs e)
         {
             Console.WriteLine("File button pressed!");
-            throw new NotImplementedException();
+            this.NotImplemented();
+            
         }
 
         private void textbox_message_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
             {
-                Console.WriteLine("Enter pressed!");
-                throw new NotImplementedException();
+                SendToClient(patientStorage.ergoId, textbox_message.Text);
+                textbox_message.Clear();
             }
             
         }
 
-        private void textbox_broadcast_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                Console.WriteLine("Enter pressed!");
-                throw new NotImplementedException();
-            }
-
-        }
-
-
-        private void button_sendbroadcast_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Send button pressed!");
-            throw new NotImplementedException();
-        }
 
         private void Button_Stop_Click(object sender, EventArgs e)
         {
-			//this.EmergencyBrake("00472");
-			
+			this.EmergencyBrake(patientStorage.ergoId);
 		}
 
         private void button_endsession_click(object sender, EventArgs e)
         {
-            Console.WriteLine("end button pressed!");
-            throw new NotImplementedException();
+            this.StopSession(patientStorage.ergoId);
         }
 
         private void EmergencyBrake(string ergoID)
@@ -260,6 +244,11 @@ namespace DoktorApp
 			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>message<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.DM.ToString()}>{message}<{Server.Tag.EOF.ToString()}>");
 		}
 
+        private void NotImplemented()
+        {
+            NotImplementedDialogForm nid = new NotImplementedDialogForm();
+            nid.ShowDialog(this);
+        }
         
 
         // /// // /// // /// // /// 

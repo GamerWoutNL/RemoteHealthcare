@@ -42,7 +42,6 @@
             // 
             // doctorID1
             // 
-            this.doctorID1.BackColor = System.Drawing.Color.Silver;
             this.doctorID1.Location = new System.Drawing.Point(997, 7);
             this.doctorID1.Name = "doctorID1";
             this.doctorID1.Size = new System.Drawing.Size(373, 127);
