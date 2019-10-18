@@ -20,7 +20,9 @@ namespace ErgoConnect
 		private string ergoID;
         private string patientName;
         private string patientNumber;
-        private VRHandler VRHandler;
+        public VRHandler VRHandler;
+        public BLEConnect ergo;
+        public BLESimulator bLESimulator;
 
         public static void Main(string[] args)
         {
@@ -41,25 +43,11 @@ namespace ErgoConnect
 			this.ergoID = ergoID;
 			this.client = new Client.Client();
 			client.Connect("localhost", 1717, ergoID);
-			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.PNA.ToString()}>{patientName}<{Tag.PNU.ToString()}>{patientNumber}<{Tag.EOF.ToString()}>");
-
-
-            BLEConnect ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
+			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
+			this.ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
 			client.bleConnect = ergo;
-			ergo.Connect();
-
-            //int counter = 0;
-            //while(true)
-            //{
-            //    int nr = 0;
-            //    if (nr % 2 == 1) nr = 99;
-            //    else nr = 1;
-            //   Console.ReadLine();
-            //    //    ergo.SendResistance(ergo.ergometerBLE, nr);
-            //    ergo.SetResistance(nr);
-            //    Console.WriteLine("Written resistance on bike");
-            //}
-            //this.VRHandler = new VRHandler(this);
+			this.ergo.Connect();
+            this.VRHandler = new VRHandler(this);
             Console.Read();
 			client.Disconnect();
 		}
@@ -67,10 +55,8 @@ namespace ErgoConnect
         public void Create()
 		{
 			Console.WriteLine("No connection with bike, using simulator.");
-			BLESimulator simulator = new BLESimulator(ergoID, client, patientName, patientNumber);
-
-            new Thread(new ThreadStart(simulator.RunSimulator)).Start();
+			bLESimulator = new BLESimulator(ergoID, client, patientName, patientNumber);
+            new Thread(new ThreadStart(bLESimulator.RunSimulator)).Start();
 		}
-
 	}
 }

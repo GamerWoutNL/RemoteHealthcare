@@ -13,10 +13,10 @@ namespace ErgoConnect
     [Serializable]
     public class BLEDataPage16 : BLEData
     {
-        private double elapsedTime { get; }
-        private double distanceTravelled { get; }
-        private double speed { get; }
-        private double heartRate { get; }
+        public double elapsedTime { get; }
+        public double distanceTravelled { get; }
+        public double speed { get; }
+        public double heartRate { get; }
 
         /// <summary>
         /// Receives data upon constructing, and saves this for later purpose by calling its base class.

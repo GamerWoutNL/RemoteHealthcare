@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using VREngine;
 
 namespace ErgoConnect
 {
@@ -27,29 +28,30 @@ namespace ErgoConnect
         private string _ergoID;
         private string _patientName;
         private string _patientNumber;
-		private IClient _iClient;
+        private IClient _iClient;
+        public BLEDataHandler bLEDataHandler;
 
-		/// <summary>
-		/// The ergoID is needed to define the save location of the Ergometer data.
-		/// </summary>
-		/// <param name="ergoID"></param>
-		public BLESimulator(string ergoID, IClient iClient, string patientName, string patientNumber)
+        /// <summary>
+        /// The ergoID is needed to define the save location of the Ergometer data.
+        /// </summary>
+        /// <param name="ergoID"></param>
+        public BLESimulator(string ergoID, IClient iClient, string patientName, string patientNumber)
         {
             this._ergoID = ergoID;
-			this._iClient = iClient;
+            this._iClient = iClient;
             this._patientName = patientName;
             this._patientNumber = patientNumber;
         }
 
-		/// <summary>
-		/// Use only for BLEConnect
-		/// </summary>
-		/// <param name="ergoID"></param>
+        /// <summary>
+        /// Use only for BLEConnect
+        /// </summary>
+        /// <param name="ergoID"></param>
 
-		public BLESimulator(string ergoID)
-		{
-			this._ergoID = ergoID;
-		}
+        public BLESimulator(string ergoID)
+        {
+            this._ergoID = ergoID;
+        }
 
         /// <summary>
         /// Run the simulator with a data transfer time of 4Hz, just like the real protocol.
@@ -57,7 +59,7 @@ namespace ErgoConnect
 
         public void RunSimulator()
         {
-            BLEDataHandler bLEDataHandler = new BLEDataHandler(_ergoID, _patientName, _patientNumber);
+            bLEDataHandler = new BLEDataHandler(_ergoID, _patientName, _patientNumber);
             int i = 0;
             List<byte[]> data = new List<byte[]>();
             while (true)
@@ -65,15 +67,13 @@ namespace ErgoConnect
                 data = ReadData(ApplicationSettings.GetReadWritePath(_ergoID), WriteOption.Ergo);
                 BLEDecoderErgo.Decrypt(data[i], bLEDataHandler);
                 string toSend = bLEDataHandler.ReadLastData(); // Data that should be send to the client.
-				this._iClient.Write(toSend);
-
-				if (i >= data.Count - 1)
-					i = 0;
-				i++;
-
-				System.Threading.Thread.Sleep(250);
-			}
-		}
+                this._iClient.Write(toSend);
+                if (i >= data.Count - 1)
+                    i = 0;
+                i++;
+                System.Threading.Thread.Sleep(250);
+            }
+        }
 
         /// <summary>
         /// Save bytes for record purposes of Ergometer.
@@ -114,21 +114,21 @@ namespace ErgoConnect
         /// <returns></returns>
         private static T ReadToFileBinary<T>(string pathToFile)
         {
-			try
-			{
-				using (Stream stream = File.Open(pathToFile, FileMode.Open))
-				{
-					var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-					return (T)binaryFormatter.Deserialize(stream);
-				}
-			}
-			catch (FileNotFoundException e)
-			{
-				using (File.Create(pathToFile))
-				{
-					return ReadToFileBinary<T>(pathToFile);
-				}
-			}
+            try
+            {
+                using (Stream stream = File.Open(pathToFile, FileMode.Open))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    return (T)binaryFormatter.Deserialize(stream);
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                using (File.Create(pathToFile))
+                {
+                    return ReadToFileBinary<T>(pathToFile);
+                }
+            }
         }
 
         /// <summary>
