@@ -21,9 +21,8 @@ namespace Server
 
 		static void Main(string[] args)
         {
-            new Server();
+			new Server();
 			Console.ReadKey();
-            
 		}
 
         public Server()
@@ -32,19 +31,18 @@ namespace Server
 			this.clientDatas = new Dictionary<string, ClientData>();
             this.listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
             this.listener.Start();
+
             this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
 			Console.WriteLine("Listening..");
-            clients = new List<ServerClient>();
-            clientDatas = new Dictionary<string, ClientData>();
         }
 
         private void OnConnect(IAsyncResult ar)
         {
             TcpClient newClient = this.listener.EndAcceptTcpClient(ar);
-            Console.WriteLine("New client connected");
             this.clients.Add(new ServerClient(newClient, this));
+			Console.WriteLine("New client connected");
 
-            this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
+			this.listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 
 		public void StartStreamingDataToDoctor()

@@ -9,10 +9,8 @@ namespace DoktorApp.Data_Management
 {
     public class PatientStorage
     {
-
         public string PatientName { get; set; }
         public string PatientNumber { get; set; }
-
         public string ergoId { get; set; }
         public List<CustomDatapoint> HeartrateDataPoints { get; set; }
         public List<Chart> HeartrateChartsListeningForUpdates { get; set; }
@@ -30,8 +28,8 @@ namespace DoktorApp.Data_Management
 
         public PatientStorage(string patientName, string patientNumber, string ergoId)
         {
-            PatientName = patientName;
-            PatientNumber = patientNumber;
+            this.PatientName = patientName;
+            this.PatientNumber = patientNumber;
             this.ergoId = ergoId;
 
             this.HeartrateDataPoints = new List<CustomDatapoint>();

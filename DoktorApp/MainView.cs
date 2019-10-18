@@ -82,8 +82,6 @@ namespace DoktorApp
                     SmallPatientView patientView = new SmallPatientView(storage.PatientName, storage.PatientNumber, this.client, storage);
                     this.patientHandler.addView(storage, patientView);
                     this.FlowPanelMainView.Controls.Add(patientView);
-                    
-
                 }
             }
         }

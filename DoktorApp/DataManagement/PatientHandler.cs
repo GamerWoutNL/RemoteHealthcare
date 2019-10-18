@@ -12,16 +12,17 @@ namespace DoktorApp.Data_Management
     public class PatientHandler
     {
 
-        public ConcurrentBag<PatientStorage> patientStorages = new ConcurrentBag<PatientStorage>();
-        public Dictionary<PatientStorage, SmallPatientView> views = new Dictionary<PatientStorage, SmallPatientView>();
+        public ConcurrentBag<PatientStorage> patientStorages { get; set; }
+        public Dictionary<PatientStorage, SmallPatientView> views { get; set; }
 
         public MainView mainView = null;
         public Client client = null;
 
         public PatientHandler()
         {
-
-        }
+			patientStorages = new ConcurrentBag<PatientStorage>();
+			views = new Dictionary<PatientStorage, SmallPatientView>();
+		}
 
         public void AttachMainView(MainView mainView)
         {
@@ -55,7 +56,7 @@ namespace DoktorApp.Data_Management
 
             foreach (PatientStorage storage in patientStorages)
             {
-                if (storage.PatientNumber.Equals(patientNumber))
+                if (storage.PatientNumber == patientNumber)
                 {
                     patientExists = true;
                     patientStorage = storage;
@@ -71,9 +72,14 @@ namespace DoktorApp.Data_Management
             }
             else
             {
-                patientStorage = new PatientStorage(patientName, patientNumber, ergoId);
-                addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
-                patientStorages.Add(patientStorage);
+				patientStorage = new PatientStorage(patientName, patientNumber, ergoId);
+
+				if (patientStorage.PatientNumber != null)
+				{
+					addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
+					patientStorages.Add(patientStorage);
+				}
+              
             }
         }
 
