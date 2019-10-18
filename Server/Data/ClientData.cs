@@ -34,7 +34,15 @@ namespace Server
 
         public override string ToString()
         {
-			return $"<PNA>{patientName}<PNU>{patientNumber}<ET>{_elapsedTime.Last()}<DT>{_distanceTravelled.Last()}<SP>{_speed.Last()}<HR>{_heartRate.Last()}<EC>{_eventCount.Last()}<IC>{_instanteousCadance.Last()}<AC>{_accumulatedPower.Last()}<IP>{_instanteousPower.Last()}<TS>{_heartRate.Last().time}<EOF>"; ;
+			try
+			{
+				return $"<PNA>{patientName}<PNU>{patientNumber}<ET>{_elapsedTime.Last()}<DT>{_distanceTravelled.Last()}<SP>{_speed.Last()}<HR>{_heartRate.Last()}<EC>{_eventCount.Last()}<IC>{_instanteousCadance.Last()}<AC>{_accumulatedPower.Last()}<IP>{_instanteousPower.Last()}<TS>{_heartRate.Last().time}<EOF>";
+			}
+			catch
+			{
+				return "<EOF>";
+			}
+			
         }
 
         public void AddET(string et, string datetime)

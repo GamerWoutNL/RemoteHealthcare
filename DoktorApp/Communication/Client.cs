@@ -72,7 +72,6 @@ namespace DoktorApp.Communication
             {
                 // HERE IS RAW DATA BEING DROPPED
                 this.patientHandler.HandleMessage(packet);
-                Console.WriteLine(packet);
             }
 		}
 
