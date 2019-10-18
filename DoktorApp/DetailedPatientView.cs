@@ -229,7 +229,13 @@ namespace DoktorApp
 			
 		}
 
-		private void EmergencyBrake(string ergoID)
+        private void button_endsession_click(object sender, EventArgs e)
+        {
+            Console.WriteLine("end button pressed!");
+            throw new NotImplementedException();
+        }
+
+        private void EmergencyBrake(string ergoID)
 		{
 			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>emergencybrake<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.EOF.ToString()}>");
 		}
@@ -254,10 +260,12 @@ namespace DoktorApp
 			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>message<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.DM.ToString()}>{message}<{Server.Tag.EOF.ToString()}>");
 		}
 
-		// /// // /// // /// // /// 
-		//
-		// /// // /// // /// // /// 
-	}
+        
+
+        // /// // /// // /// // /// 
+        //
+        // /// // /// // /// // /// 
+    }
 
 
 

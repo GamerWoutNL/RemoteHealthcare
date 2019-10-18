@@ -82,7 +82,7 @@
     <Compile Include="SmallPatientView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User Controlls\SmallPatientView.Designer.cs">
+    <Compile Include="SmallPatientView.Designer.cs">
       <DependentUpon>SmallPatientView.cs</DependentUpon>
     </Compile>
     <Compile Include="User Controlls\DoctorID.cs">
@@ -135,6 +135,7 @@
     <None Include="Resources\Hospital2.jpg" />
     <None Include="Resources\stop.png" />
     <None Include="Resources\Hospital.jpg" />
+    <None Include="Resources\Hospital3.jpg" />
     <Content Include="Resources\Lavictus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
