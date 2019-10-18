@@ -104,6 +104,7 @@
             this.Controls.Add(this.Button_Login);
             this.Controls.Add(this.textbox_Password);
             this.Controls.Add(this.textbox_Username);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LoginView";
             this.Text = "Login";
             this.ResumeLayout(false);

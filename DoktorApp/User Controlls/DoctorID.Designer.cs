@@ -39,6 +39,7 @@
             // Label_DoctorID
             // 
             this.Label_DoctorID.AutoSize = true;
+            this.Label_DoctorID.BackColor = System.Drawing.Color.Transparent;
             this.Label_DoctorID.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label_DoctorID.Location = new System.Drawing.Point(6, 18);
             this.Label_DoctorID.Name = "Label_DoctorID";
@@ -78,7 +79,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.Controls.Add(this.button_sendbroadcast);
             this.Controls.Add(this.textbox_broadcast);
             this.Controls.Add(this.Label_DoctorID);

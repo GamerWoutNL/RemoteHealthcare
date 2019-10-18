@@ -133,4 +133,10 @@
   <data name="Hospital2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hospital2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Hospital3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hospital3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Hospital4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hospital4.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

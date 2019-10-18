@@ -38,16 +38,26 @@
             this.button_sendmessage = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.doctorID1 = new DoktorApp.User_Controlls.DoctorID(this.client);
             this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.label_patientname = new System.Windows.Forms.Label();
             this.label_patientnumber = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.doctorID1 = new User_Controlls.DoctorID(this.client);
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
+            // doctorID1
+            // 
+            this.doctorID1.Location = new System.Drawing.Point(997, 7);
+            this.doctorID1.Name = "doctorID1";
+            this.doctorID1.Size = new System.Drawing.Size(373, 127);
+            this.doctorID1.TabIndex = 2;
+            // 
             // chart_mainchart
             // 
+            this.chart_mainchart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.chart_mainchart.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
             chartArea1.Name = "ChartArea1";
             this.chart_mainchart.ChartAreas.Add(chartArea1);
             this.chart_mainchart.Location = new System.Drawing.Point(380, 176);
@@ -72,7 +82,7 @@
             // 
             // textbox_message
             // 
-            this.textbox_message.Location = new System.Drawing.Point(380, 125);
+            this.textbox_message.Location = new System.Drawing.Point(380, 129);
             this.textbox_message.Name = "textbox_message";
             this.textbox_message.Size = new System.Drawing.Size(203, 22);
             this.textbox_message.TabIndex = 9;
@@ -83,6 +93,7 @@
             this.flowLayoutPanel1.AllowDrop = true;
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.flowLayoutPanel1.DataBindings.Add(new System.Windows.Forms.Binding("FlowDirection", global::DoktorApp.Properties.Settings.Default, "flowtopdown", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.flowLayoutPanel1.FlowDirection = global::DoktorApp.Properties.Settings.Default.flowtopdown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 29);
@@ -93,7 +104,7 @@
             // 
             // button_sendmessage
             // 
-            this.button_sendmessage.Location = new System.Drawing.Point(589, 125);
+            this.button_sendmessage.Location = new System.Drawing.Point(589, 127);
             this.button_sendmessage.Name = "button_sendmessage";
             this.button_sendmessage.Size = new System.Drawing.Size(75, 26);
             this.button_sendmessage.TabIndex = 11;
@@ -103,8 +114,9 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(682, 65);
+            this.pictureBox2.Location = new System.Drawing.Point(682, 69);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(94, 86);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -112,17 +124,10 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.Button_Stop_Click);
             // 
-            // doctorID1
-            // 
-            this.doctorID1.BackColor = System.Drawing.Color.Silver;
-            this.doctorID1.Location = new System.Drawing.Point(1012, 2);
-            this.doctorID1.Name = "doctorID1";
-            this.doctorID1.Size = new System.Drawing.Size(372, 124);
-            this.doctorID1.TabIndex = 17;
-            // 
             // label_patientname
             // 
             this.label_patientname.AutoSize = true;
+            this.label_patientname.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_patientname.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.label_patientname.Location = new System.Drawing.Point(375, 65);
             this.label_patientname.Name = "label_patientname";
@@ -133,21 +138,35 @@
             // label_patientnumber
             // 
             this.label_patientnumber.AutoSize = true;
+            this.label_patientnumber.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label_patientnumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label_patientnumber.Location = new System.Drawing.Point(375, 93);
+            this.label_patientnumber.Location = new System.Drawing.Point(374, 98);
             this.label_patientnumber.Name = "label_patientnumber";
             this.label_patientnumber.Size = new System.Drawing.Size(173, 20);
             this.label_patientnumber.TabIndex = 19;
             this.label_patientnumber.Text = "ReplaceWithPatientID";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(553, 93);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(111, 32);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "End Session";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button_endsession_click);
+            // 
             // DetailedPatientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::DoktorApp.Properties.Resources.Hospital3;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1386, 763);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.doctorID1);
             this.Controls.Add(this.label_patientnumber);
             this.Controls.Add(this.label_patientname);
-            this.Controls.Add(this.doctorID1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button_sendmessage);
             this.Controls.Add(this.textbox_message);
@@ -172,10 +191,11 @@
         private System.Windows.Forms.TextBox textbox_message;
         private System.Windows.Forms.Button button_sendmessage;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private User_Controlls.DoctorID doctorID1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.Label label_patientname;
         private System.Windows.Forms.Label label_patientnumber;
+        private System.Windows.Forms.Button button1;
     }
 }

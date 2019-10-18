@@ -39,7 +39,7 @@ namespace DoktorApp
             InitializeComponent();
             this.PatientNameLabel.Text = $"Patient naam: {PatientName}";
             this.PatientNumberLabel.Text = $"Patient nummer: {PatientNumber}";
-            this.doctorID = doctorID;
+            //this.doctorID = doctorID;
 
             this.patientName = PatientName;
             this.patientNumber = PatientNumber;
