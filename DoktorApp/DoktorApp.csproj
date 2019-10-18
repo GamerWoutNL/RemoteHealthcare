@@ -149,6 +149,8 @@
     <None Include="Resources\stop.png" />
     <None Include="Resources\Hospital.jpg" />
     <None Include="Resources\Hospital3.jpg" />
+    <None Include="Resources\Hospital4.bmp" />
+    <None Include="Resources\Hospital4.jpg" />
     <Content Include="Resources\Lavictus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

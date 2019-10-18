@@ -34,6 +34,7 @@
             // 
             // FlowPanelMainView
             // 
+            this.FlowPanelMainView.BackColor = System.Drawing.Color.FromArgb(100,System.Drawing.Color.White);
             this.FlowPanelMainView.Location = new System.Drawing.Point(16, 158);
             this.FlowPanelMainView.Margin = new System.Windows.Forms.Padding(4);
             this.FlowPanelMainView.Name = "FlowPanelMainView";
@@ -49,6 +50,8 @@
             // 
             // MainView
             // 
+            this.BackgroundImage = global::DoktorApp.Properties.Resources.Hospital4;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.Controls.Add(this.doctorID1);
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
