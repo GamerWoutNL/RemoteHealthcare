@@ -116,8 +116,6 @@ namespace Server
 		private void HandleSetErgoID(string packet)
 		{
 			this.ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
-            this.patienNumber = TagDecoder.GetValueByTag(Tag.PNU, packet);
-            this.patientName = TagDecoder.GetValueByTag(Tag.PNA, packet);
         }
 
 		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp, string pnu)
