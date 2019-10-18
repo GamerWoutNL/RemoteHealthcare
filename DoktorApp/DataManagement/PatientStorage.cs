@@ -12,6 +12,8 @@ namespace DoktorApp.Data_Management
 
         public string PatientName { get; set; }
         public string PatientNumber { get; set; }
+
+        public string ergoId { get; set; }
         public List<CustomDatapoint> HeartrateDataPoints { get; set; }
         public List<Chart> HeartrateChartsListeningForUpdates { get; set; }
         public List<CustomDatapoint> SpeedDataPoints { get; set; }
@@ -26,10 +28,11 @@ namespace DoktorApp.Data_Management
         public List<Chart> InstantaniousPowerChartsListeningForUpdates { get; set; }
         public List<double> EventCountDatapoints { get; set; }
 
-        public PatientStorage(string patientName, string patientNumber)
+        public PatientStorage(string patientName, string patientNumber, string ergoId)
         {
             PatientName = patientName;
             PatientNumber = patientNumber;
+            this.ergoId = ergoId;
 
             this.HeartrateDataPoints = new List<CustomDatapoint>();
             this.SpeedDataPoints = new List<CustomDatapoint>();

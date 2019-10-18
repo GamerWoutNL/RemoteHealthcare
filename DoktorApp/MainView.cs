@@ -36,7 +36,7 @@ namespace DoktorApp
 
                     //when client connects
 
-                    NewClientConnects("test", "123", client, new PatientStorage("test", "123"));
+                    NewClientConnects("test", "123", client, new PatientStorage("test", "123", "testId"));
                     break;
                 }
                 else if(!quit && !login)
