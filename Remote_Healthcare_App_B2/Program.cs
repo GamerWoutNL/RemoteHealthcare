@@ -59,7 +59,7 @@ namespace ErgoConnect
             //    ergo.SetResistance(nr);
             //    Console.WriteLine("Written resistance on bike");
             //}
-            this.VRHandler = new VRHandler(this);
+            //this.VRHandler = new VRHandler(this);
             Console.Read();
 			client.Disconnect();
 		}

@@ -36,7 +36,6 @@ namespace DoktorApp.Data_Management
 
         public void HandleMessage(string message)
         {
-
             string patientName = TagDecoder.GetValueByTag(Tag.PNA, message);
             string patientNumber = TagDecoder.GetValueByTag(Tag.PNU, message);
             string ergoId = TagDecoder.GetValueByTag(Tag.ID, message);

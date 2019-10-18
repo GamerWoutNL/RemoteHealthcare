@@ -76,7 +76,7 @@ namespace Server
 
 		private void HandlePacket(string packet)
 		{
-			//Console.WriteLine(packet); return;
+			//Console.WriteLine(packet);
 
 			// test purposes, ignore the following:
 			//string etValue = GetValueByTag(TagErgo.ET, packet);
