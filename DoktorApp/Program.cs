@@ -24,7 +24,7 @@ namespace DoktorApp
 
             client.Connect("localhost", 1717);
 
-            MainView mainView = new MainView(client);
+            MainView mainView = new MainView(client, patientHandler);
             patientHandler.AttachMainView(mainView);
             patientHandler.AttachClient(client);
 

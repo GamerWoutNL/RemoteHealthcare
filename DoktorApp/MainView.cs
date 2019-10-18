@@ -16,11 +16,13 @@ namespace DoktorApp
     {
         
         public bool quit;
-        public Client client;
+        public Client client = null;
+        public PatientHandler patientHandler;
 
-        public MainView(Client client)
+        public MainView(Client client, PatientHandler handler)
         {
             this.client = client;
+            this.patientHandler = handler;
             bool login = client.LoggedIn;
             this.quit = false;
 
@@ -36,7 +38,7 @@ namespace DoktorApp
 
                     //when client connects
 
-                    NewClientConnects("test", "123", client, new PatientStorage("test", "123", "testId"));
+                    //NewClientConnects("test", "123", client, new PatientStorage("test", "123", "testId"));
                     break;
                 }
                 else if(!quit && !login)
@@ -65,10 +67,25 @@ namespace DoktorApp
             
         }
 
-        public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)
+        //public void NewClientConnects(string patientName, string patientNumber, Client client, PatientStorage storage)
+        //{
+        //    SmallPatientView smallPatientView = new SmallPatientView(patientName, patientNumber, client, storage);
+        //    this.FlowPanelMainView.Controls.Add(smallPatientView);
+        //}
+
+        private void StartSessionButton_Click(object sender, EventArgs e)
         {
-            SmallPatientView smallPatientView = new SmallPatientView(patientName, patientNumber, client, storage);
-            this.FlowPanelMainView.Controls.Add(smallPatientView);
+            foreach(PatientStorage storage in this.patientHandler.patientStorages)
+            {
+                if (!this.patientHandler.StorageHasView(storage))
+                {
+                    SmallPatientView patientView = new SmallPatientView(storage.PatientName, storage.PatientNumber, this.client, storage);
+                    this.patientHandler.addView(storage, patientView);
+                    this.FlowPanelMainView.Controls.Add(patientView);
+                    
+
+                }
+            }
         }
     }
 }

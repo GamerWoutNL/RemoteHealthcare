@@ -23,6 +23,8 @@ namespace Server
         private string totalBuffer;
         private Dictionary<String, String> boundData; // patientNumber = key, ErgoID = value
 		public string ergoID { get; set; }
+        public string patientName { get; set; }
+        public string patienNumber { get; set; }
         public bool running = true;
 
         public ServerClient(TcpClient client, Server server)
@@ -33,6 +35,8 @@ namespace Server
             this.buffer = new byte[1024];
             this.totalBuffer = string.Empty;
 			this.ergoID = string.Empty;
+            this.patientName = string.Empty;
+            this.patienNumber = string.Empty;
 
 			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
@@ -125,7 +129,9 @@ namespace Server
 		private void HandleSetErgoID(string packet)
 		{
 			this.ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
-		}
+            this.patienNumber = TagDecoder.GetValueByTag(Tag.PNU, packet);
+            this.patientName = TagDecoder.GetValueByTag(Tag.PNA, packet);
+        }
 
 		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp, string pnu)
         {

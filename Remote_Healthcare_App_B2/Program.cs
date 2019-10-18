@@ -24,9 +24,14 @@ namespace ErgoConnect
 
         public static void Main(string[] args)
         {
-            string patientName = "Dustin";
-            string patientNumber = "81";
-			Program program = new Program("01249", patientName, patientNumber); 
+            Console.WriteLine("Patient name: ");
+            string patientName = Console.ReadLine();
+            Console.WriteLine("Patient number: ");
+            string patientNumber = Console.ReadLine();
+            Console.WriteLine("Ergo ID: ");
+            string ergoId = Console.ReadLine();
+
+            Program program = new Program(ergoId, patientName, patientNumber); 
         }
 
 		public Program(string ergoID, string patientName, string patientNumber)
@@ -36,9 +41,10 @@ namespace ErgoConnect
 			this.ergoID = ergoID;
 			this.client = new Client.Client();
 			client.Connect("localhost", 1717, ergoID);
-			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
+			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.PNA.ToString()}>{patientName}<{Tag.PNU.ToString()}>{patientNumber}<{Tag.EOF.ToString()}>");
 
-			BLEConnect ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
+
+            BLEConnect ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
 			client.bleConnect = ergo;
 			ergo.Connect();
 

@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Server;
 using DoktorApp.Communication;
+using System.Collections.Concurrent;
 
 namespace DoktorApp.Data_Management
 {
     public class PatientHandler
     {
 
-        List<PatientStorage> patientStorages = new List<PatientStorage>();
+        public ConcurrentBag<PatientStorage> patientStorages = new ConcurrentBag<PatientStorage>();
+        Dictionary<PatientStorage, SmallPatientView> views = new Dictionary<PatientStorage, SmallPatientView>();
+        public static object lockObject = new object();
 
         public MainView mainView = null;
         public Client client = null;
@@ -34,8 +37,6 @@ namespace DoktorApp.Data_Management
         public void HandleMessage(string message)
         {
 
-            string patientnummerDummy = "123";
-
             string patientName = TagDecoder.GetValueByTag(Tag.PNA, message);
             string patientNumber = TagDecoder.GetValueByTag(Tag.PNU, message);
             string ergoId = TagDecoder.GetValueByTag(Tag.ID, message);
@@ -55,7 +56,7 @@ namespace DoktorApp.Data_Management
 
             foreach (PatientStorage storage in patientStorages)
             {
-                if (storage.PatientNumber.Equals(patientnummerDummy))
+                if (storage.PatientNumber.Equals(patientNumber))
                 {
                     patientExists = true;
                     patientStorage = storage;
@@ -80,11 +81,10 @@ namespace DoktorApp.Data_Management
 
                 if (this.mainView != null && this.client != null)
                 {
-                    this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
+                   // this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
                 }
 
                 patientStorages.Add(patientStorage);
-
             }
 
 
@@ -98,6 +98,16 @@ namespace DoktorApp.Data_Management
             patientStorage.AddAccumulatedPowerDataPoint(timestamp, accuPower);
             patientStorage.AddInstantaniousPowerDataPoint(timestamp, instPower);
             patientStorage.AddInstantaniousCadenceDataPoint(timestamp, instCadence);
+        }
+
+        public bool StorageHasView(PatientStorage storage)
+        {
+            return this.views.ContainsKey(storage);
+        }
+
+        public void addView(PatientStorage storage, SmallPatientView view)
+        {
+            this.views.Add(storage, view);
         }
 
     }
