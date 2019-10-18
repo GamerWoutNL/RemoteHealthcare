@@ -28,8 +28,5 @@ namespace ErgoConnect
         /// </summary>
         public abstract void PrintData();
         public abstract string GetData();
-
-
-
     }
 }

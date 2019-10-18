@@ -21,6 +21,7 @@ namespace VREngine
         private VRData vRData;
         private RouteHandler routeHandler;
         private Program program;
+        private int oldResistance = 0;
 
         public VRHandler(Program program)
         {
@@ -75,10 +76,27 @@ namespace VREngine
             System.Threading.Thread.Sleep(1000);
             HideRoute();
 
-            if (true) // Enable for testing purposes.
-                while (true)
-                    Console.WriteLine(GetResistanceChange());
-                    //FindAllParts();
+            //if (true) // Enable for testing purposes.
+            //    while (true)
+            //        Console.WriteLine(GetResistanceChange());
+            //FindAllParts();
+            program.ergo.SetEngine(this);
+            if (program.bLESimulator != null) program.bLESimulator.SetVRHandler(this);
+            while (true)
+            {
+                int resistanceChange = GetResistanceChange(); // if -1 upwards, if 1 downwards.
+                if (resistanceChange==0)
+                    if (this.oldResistance!=0)
+                        program.ergo.SetResistance(50);
+                if (resistanceChange==1)
+                    if (this.oldResistance!=1)
+                        program.ergo.SetResistance(0);
+                if (resistanceChange==-1)
+                    if (this.oldResistance!=-1)
+                        program.ergo.SetResistance(100);
+                this.oldResistance = GetResistanceChange();
+                System.Threading.Thread.Sleep(1000);
+            }
         }
 
         //Organized code start:

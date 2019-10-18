@@ -78,10 +78,6 @@ namespace VREngine.Routes
             routes.Add(new Route(new VRPoint3D(-8.92, level0, -65.36), new VRPoint3D(0, 0, 0), 1));
             routes.Add(new Route(new VRPoint3D(-16.33, level0, -65.36), new VRPoint3D(0, 0, 0), 1));
 
-
-
-
-
             return routes;
         } 
        

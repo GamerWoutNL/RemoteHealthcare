@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VREngine;
 
 namespace ErgoConnect
 {
@@ -81,6 +82,17 @@ namespace ErgoConnect
                 return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("s")}<{Tag.PNA.ToString()}>{patientName}<{Tag.PNU.ToString()}>{patientNumber}<{Tag.ID.ToString()}>{ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
             }
             else return String.Empty;
+        }
+
+        public void UpdateVR(VRHandler vRHandler)
+        {
+            BLEData bleData = _bleData[_bleData.Count - 1];
+            if (bleData is BLEDataPage16)
+            {
+                Console.WriteLine("UPDATING VR NOW");
+                BLEDataPage16 data = (BLEDataPage16)bleData;
+                vRHandler.RefreshAndDraw(data.speed.ToString(), data.heartRate.ToString(), "");
+            }
         }
     }
 }
