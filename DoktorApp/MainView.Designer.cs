@@ -1,4 +1,4 @@
-﻿namespace DoktorApp
+namespace DoktorApp
 {
     partial class MainView
     {
