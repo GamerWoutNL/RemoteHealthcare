@@ -13,8 +13,10 @@ namespace ErgoConnect
 {
     public partial class Form1 : Form
     {
-        public Form1()
+		private Program program;
+        public Form1(Program program)
         {
+			this.program = program;
             InitializeComponent();
         }
 
@@ -24,7 +26,7 @@ namespace ErgoConnect
             string patientNumber = this.NumberField.Text;
             string ergoId = this.IdTextBox.Text;
 
-            Program program = new Program(ergoId, patientName, patientNumber);
+			program.Connect(ergoId, patientName, patientNumber);
         }
 
         
