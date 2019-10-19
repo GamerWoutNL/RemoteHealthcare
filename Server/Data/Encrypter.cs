@@ -11,11 +11,13 @@ namespace Server.Data
 	public static class Encrypter
 	{
 		private static byte[] IV = { 187, 165, 69, 255, 230, 174, 56, 74, 46, 87, 255, 203, 93, 21, 168, 114 };
+        
 
 		public static byte[] Encrypt(string plainText, string key)
 		{
 			byte[] encrypted;
 			byte[] keyBytes = GetKeyBytes(key);
+            FileWriter fileWriter = new FileWriter();
 
 			using (AesManaged aes = new AesManaged())
 			{ 
@@ -32,7 +34,19 @@ namespace Server.Data
 					}
 				}
 			}
-			return encrypted;
+
+            if (TagDecoder.GetValueByTag(Tag.PNU, plainText) != null)
+            {
+                string s = "";
+                foreach(byte encryptedByte in encrypted)
+                {
+                    s += encryptedByte.ToString();
+                }
+                fileWriter.writeFile(TagDecoder.GetValueByTag(Tag.PNU, plainText), s);
+            }
+
+
+            return encrypted;
 		}
 
 		public static string Decrypt(byte[] cipherText, string key)
