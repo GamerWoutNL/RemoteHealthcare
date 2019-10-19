@@ -47,7 +47,7 @@ namespace ErgoConnect
 			this.ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
 			client.bleConnect = ergo;
 			this.ergo.Connect();
-            this.VRHandler = new VRHandler(this);
+            //this.VRHandler = new VRHandler(this);
             Console.Read();
 			client.Disconnect();
 		}

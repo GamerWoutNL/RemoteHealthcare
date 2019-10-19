@@ -92,7 +92,7 @@ namespace Client
 		private void HandleStopSession(string packet)
 		{
 			//TODO: stop session
-			throw new NotImplementedException();
+			Console.WriteLine("Please stop session");
 		}
 
 		private void HandleDoctorsMessage(string packet)
@@ -106,7 +106,7 @@ namespace Client
 		private void HandleEmergencyBrake(string packet)
 		{
 			// TODO: Set a emergency brake
-			throw new NotImplementedException();
+			Console.WriteLine("STOP!");
 		}
 
 		private void HandleSetResistance(string packet)
@@ -117,7 +117,7 @@ namespace Client
 
 		public void Write(string message)
 		{
-            Console.WriteLine(message);
+            //Console.WriteLine(message);
 			byte[] encrypted = Encrypter.Encrypt(message, "password123");
 			this._stream.Write(encrypted, 0, encrypted.Length);
 			this._stream.Flush();
