@@ -28,9 +28,17 @@ namespace DoktorApp
         /// </summary>
         private void InitializeComponent()
         {
+            this.doctorID1 = new User_Controlls.DoctorID(this.client);
             this.FlowPanelMainView = new System.Windows.Forms.FlowLayoutPanel();
             this.StartSessionButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // doctorID1
+            // 
+            this.doctorID1.Location = new System.Drawing.Point(750, 7);
+            this.doctorID1.Name = "doctorID1";
+            this.doctorID1.Size = new System.Drawing.Size(373, 127);
+            this.doctorID1.TabIndex = 2;
             // 
             // FlowPanelMainView
             // 
@@ -39,6 +47,7 @@ namespace DoktorApp
             this.FlowPanelMainView.Name = "FlowPanelMainView";
             this.FlowPanelMainView.Size = new System.Drawing.Size(940, 550);
             this.FlowPanelMainView.TabIndex = 1;
+            
             // 
             // StartSessionButton
             // 
@@ -49,9 +58,11 @@ namespace DoktorApp
             this.StartSessionButton.Text = "Start session";
             this.StartSessionButton.UseVisualStyleBackColor = true;
             this.StartSessionButton.Click += new System.EventHandler(this.StartSessionButton_Click);
+
             // 
             // MainView
             // 
+            
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::DoktorApp.Properties.Resources.Hospital4;
@@ -59,6 +70,7 @@ namespace DoktorApp
             this.ClientSize = new System.Drawing.Size(1030, 816);
             this.Controls.Add(this.StartSessionButton);
             this.Controls.Add(this.FlowPanelMainView);
+            this.Controls.Add(this.doctorID1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainView";
             this.Text = "MainView";
@@ -67,9 +79,11 @@ namespace DoktorApp
         }
 
         #endregion
+        private User_Controlls.DoctorID doctorID1;
         private System.Windows.Forms.FlowLayoutPanel FlowPanelMainView;
 
-        private User_Controlls.DoctorID doctorID1;
+       
         private System.Windows.Forms.Button StartSessionButton;
+
     }
 }

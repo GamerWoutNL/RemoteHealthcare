@@ -26,7 +26,7 @@ namespace DoktorApp
         /// <summary>
         /// Datatags that can be recieved from the bike
         /// </summary>
-        public enum DataTag{ DT, SP, HR, IC, AP, IP}
+        public enum DataTag{SP, HR, IC, AP, IP}
 
 
      
@@ -51,9 +51,9 @@ namespace DoktorApp
 
             /////Creates Charts for every DataTag
             chartlist = new Dictionary<DataTag, Chart>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
-                chartlist.Add(DataTag.DT+i, AddChartInList(GetNamefromTag(DataTag.DT+i)));
+                chartlist.Add(DataTag.SP+i, AddChartInList(GetNamefromTag(DataTag.SP+i)));
             }
             ChangeMainChart(chartlist[DataTag.HR]);
             /////
@@ -134,9 +134,6 @@ namespace DoktorApp
         {
             switch (tag)
             {
-                
-                case DataTag.DT:
-                    return "Distance Traveled"; break;
                 case DataTag.SP:
                     return "Speed"; break;
                 case DataTag.HR:
