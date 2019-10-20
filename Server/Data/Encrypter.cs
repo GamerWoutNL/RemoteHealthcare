@@ -39,7 +39,7 @@ namespace Server.Data
 				{
 					s += encryptedByte.ToString();
 				}
-				fileWriter.writeFile(TagDecoder.GetValueByTag(Tag.PNU, plainText), s);
+				fileWriter.WriteFile(TagDecoder.GetValueByTag(Tag.PNU, plainText), s);
 			}
 
 

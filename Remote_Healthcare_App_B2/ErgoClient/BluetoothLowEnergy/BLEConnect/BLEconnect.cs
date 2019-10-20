@@ -22,8 +22,8 @@ namespace ErgoConnect
 		private readonly bool isConnected = false;
 		public string doctorMessage = "";
 		public bool emergencyBrake = false;
-		public BLE ergometerBLE { get; set; }
-		public BLE heartrateBLE { get; set; }
+		public BLE ErgometerBLE { get; set; }
+		public BLE HeartrateBLE { get; set; }
 		public bool usingSim = false;
 
 
@@ -54,11 +54,11 @@ namespace ErgoConnect
 
 		public async Task ConnectToErgoAndHR(string ergometerSerialLastFiveNumbers)
 		{
-			this.ergometerBLE = new BLE();
-			this.heartrateBLE = new BLE();
+			this.ErgometerBLE = new BLE();
+			this.HeartrateBLE = new BLE();
 			Thread.Sleep(2000);
-			await this.ScanConnectForErgo(this.ergometerBLE, ergometerSerialLastFiveNumbers);
-			await this.ScanConnectForHR(this.heartrateBLE);
+			await this.ScanConnectForErgo(this.ErgometerBLE, ergometerSerialLastFiveNumbers);
+			await this.ScanConnectForHR(this.HeartrateBLE);
 		}
 
 
@@ -73,7 +73,7 @@ namespace ErgoConnect
 		{
 			int errorCode = 0;
 			// List available device 
-			printDevices(ergometerBLE);
+			PrintDevices(ergometerBLE);
 			// Ergometer Bluetooth Low Energy Code
 			this.ConnectToErgoMeter(ergometerBLE, ergometerSerialLastFiveNumbers, errorCode);
 			//	this.SendResistance(ergometerBLE, 0);  // Change ergometer resistance!
@@ -91,7 +91,7 @@ namespace ErgoConnect
 			// Attempt to connect to the Ergometer.
 			errorCode = await ergometerBLE.OpenDevice($"Tacx Flux {ergometerSerialLastFiveNumbers}"); // Example: Tacx Flux 01140
 																									  // Receive bluetooth services and print afterwards, error check.
-			printServices(ergometerBLE);
+			PrintServices(ergometerBLE);
 			// Set service
 			string service1 = "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e";
 			errorCode = await ergometerBLE.SetService(service1);
@@ -118,7 +118,7 @@ namespace ErgoConnect
 		{
 			int errorCode = 0;
 			// List available device
-			printDevices(heartrateBLE);
+			PrintDevices(heartrateBLE);
 			// Heart rate monitor Bluetooth Low Energy code
 			this.ConnectToHeartRateSensor(heartrateBLE, errorCode);
 		}
@@ -145,7 +145,7 @@ namespace ErgoConnect
 		/// </summary>
 		/// <param name="ergoMeterBle"></param>
 
-		private static void printServices(BLE ergoMeterBle)
+		private static void PrintServices(BLE ergoMeterBle)
 		{
 			List<BluetoothLEAttributeDisplay> services = ergoMeterBle.GetServices;
 			foreach (BluetoothLEAttributeDisplay service in services)
@@ -159,7 +159,7 @@ namespace ErgoConnect
 		/// </summary>
 		/// <param name="ergoMeterBle"></param>
 
-		private static void printDevices(BLE ergoMeterBle)
+		private static void PrintDevices(BLE ergoMeterBle)
 		{
 			List<string> bluetoothDeviceList = ergoMeterBle.ListDevices();
 			Console.WriteLine("Devices currently found:");
@@ -193,7 +193,7 @@ namespace ErgoConnect
 		public async void SetResistance(int percentage)
 		{
 
-			if (this.ergometerBLE != null)
+			if (this.ErgometerBLE != null)
 			{
 				byte[] message = new byte[13];
 				message[0] = 0xA4;                     //Sync byte
@@ -214,7 +214,7 @@ namespace ErgoConnect
 				}
 
 				message[12] = checksum;
-				await this.ergometerBLE.WriteCharacteristic("6e40fec3-b5a3-f393-e0a9-e50e24dcca9e", message);
+				await this.ErgometerBLE.WriteCharacteristic("6e40fec3-b5a3-f393-e0a9-e50e24dcca9e", message);
 			}
 		}
 

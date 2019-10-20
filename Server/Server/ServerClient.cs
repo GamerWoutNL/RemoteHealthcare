@@ -15,9 +15,9 @@ namespace Server
 		private readonly byte[] buffer;
 		private bool running = true;
 		private string totalBuffer;
-		public string ergoID { get; set; }
-		public string patientName { get; set; }
-		public string patienNumber { get; set; }
+		public string ErgoID { get; set; }
+		public string PatientName { get; set; }
+		public string PatienNumber { get; set; }
 
 		public ServerClient(TcpClient client, Server server)
 		{
@@ -26,9 +26,9 @@ namespace Server
 			this.server = server;
 			this.buffer = new byte[1024];
 			this.totalBuffer = string.Empty;
-			this.ergoID = string.Empty;
-			this.patientName = string.Empty;
-			this.patienNumber = string.Empty;
+			this.ErgoID = string.Empty;
+			this.PatientName = string.Empty;
+			this.PatienNumber = string.Empty;
 
 			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(this.OnRead), null);
 		}
@@ -54,7 +54,7 @@ namespace Server
 			{
 				this.stream.Close();
 				this.client.Close();
-				this.server.clients.Remove(this);
+				this.server.Clients.Remove(this);
 				Console.WriteLine("Client disconnected");
 			}
 		}
@@ -108,17 +108,17 @@ namespace Server
 
 		private void HandleSetErgoID(string packet)
 		{
-			this.ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
+			this.ErgoID = TagDecoder.GetValueByTag(Tag.ID, packet);
 		}
 
 		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp, string pnu)
 		{
 			if (value != null)
 			{
-				if (!this.server.clientDatas.TryGetValue(ergoID, out ClientData clientData))
+				if (!this.server.ClientDatas.TryGetValue(ergoID, out ClientData clientData))
 				{
 					clientData = new ClientData();
-					this.server.clientDatas.Add(ergoID, clientData);
+					this.server.ClientDatas.Add(ergoID, clientData);
 					//if (pnu != null)
 					//    boundData.Add(pnu, ergoID);
 				}
@@ -210,10 +210,10 @@ namespace Server
 			string username = TagDecoder.GetValueByTag(Tag.UN, packet);
 			string password = TagDecoder.GetValueByTag(Tag.PW, packet);
 
-			if (FileWriter.checkPassword(username, password))
+			if (FileWriter.CheckPassword(username, password))
 			{
-				this.server.doctor = this;
-				this.server.streaming = true;
+				this.server.Doctor = this;
+				this.server.Streaming = true;
 
 				this.Write($"<{Tag.LR.ToString()}>true<{Tag.EOF.ToString()}>");
 				new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
@@ -234,11 +234,6 @@ namespace Server
 			string resistance = TagDecoder.GetValueByTag(Tag.SR, packet);
 
 			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>resistance<{Tag.SR}>{resistance}<{Tag.EOF.ToString()}>");
-		}
-
-		private void HandleInputVR()
-		{
-			throw new NotImplementedException();
 		}
 
 		public void Stop()

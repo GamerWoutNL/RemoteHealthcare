@@ -11,7 +11,7 @@ namespace Server.Data
         Objects wegschrijven doormiddel van Memorystream.ToArray()
         */
 		public string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\PatientData";
-		public void writeFile(string clientID, string message)
+		public void WriteFile(string clientID, string message)
 		{
 			string path = this.dir + @"\" + clientID + ".txt";
 
@@ -33,7 +33,7 @@ namespace Server.Data
 
 		}
 
-		public static bool checkPassword(string us, string pw)
+		public static bool CheckPassword(string us, string pw)
 		{
 			try
 			{
@@ -67,7 +67,7 @@ namespace Server.Data
 
 		}
 
-		public string readFile(string clientID)
+		public string ReadFile(string clientID)
 		{
 
 			string path = this.dir + @"\" + clientID + ".txt";

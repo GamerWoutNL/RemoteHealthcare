@@ -12,7 +12,7 @@ namespace DoktorApp.Data_Management
 		public string PatientName { get; set; }
 		public string PatientNumber { get; set; }
 
-		public string ergoId { get; set; }
+		public string ErgoId { get; set; }
 		public List<CustomDatapoint> HeartrateDataPoints { get; set; }
 		public ConcurrentBag<Chart> HeartrateChartsListeningForUpdates { get; set; }
 		public List<CustomDatapoint> SpeedDataPoints { get; set; }
@@ -28,16 +28,16 @@ namespace DoktorApp.Data_Management
 		public List<double> EventCountDatapoints { get; set; }
 		public bool MainChartListening { get; set; }
 		public string MainChartListeningToData { get; set; }
-		public Chart mainChart { get; set; }
+		public Chart MainChart { get; set; }
 
 		public PatientStorage(string patientName, string patientNumber, string ergoId)
 		{
 			this.PatientName = patientName;
 			this.PatientNumber = patientNumber;
-			this.ergoId = ergoId;
+			this.ErgoId = ergoId;
 			this.MainChartListening = false;
 			this.MainChartListeningToData = "";
-			this.mainChart = null;
+			this.MainChart = null;
 
 			this.HeartrateDataPoints = new List<CustomDatapoint>();
 			this.SpeedDataPoints = new List<CustomDatapoint>();
@@ -55,7 +55,7 @@ namespace DoktorApp.Data_Management
 			this.InstantaniousPowerChartsListeningForUpdates = new ConcurrentBag<Chart>();
 		}
 
-		private void addData(string timestamp, string data, List<CustomDatapoint> list)
+		private void AddData(string timestamp, string data, List<CustomDatapoint> list)
 		{
 			if (data != null)
 			{
@@ -63,21 +63,21 @@ namespace DoktorApp.Data_Management
 			}
 		}
 
-		private void addSpeedData(string timestamp, double data, List<CustomDatapoint> list)
+		private void AddSpeedData(string timestamp, double data, List<CustomDatapoint> list)
 		{
 			list.Add(new CustomDatapoint(DateTime.Parse(timestamp), data));
 		}
 
 		public void AddHeartrateDataPoint(string timestamp, string data)
 		{
-			this.addData(timestamp, data, this.HeartrateDataPoints);
+			this.AddData(timestamp, data, this.HeartrateDataPoints);
 			foreach (Chart chart in this.HeartrateChartsListeningForUpdates)
 			{
 				ChartUtils.updateChart(chart, this.HeartrateDataPoints);
 			}
-			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.HR.ToString() && this.mainChart != null)
+			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.HR.ToString() && this.MainChart != null)
 			{
-				ChartUtils.updateChart(this.mainChart, this.HeartrateDataPoints);
+				ChartUtils.updateChart(this.MainChart, this.HeartrateDataPoints);
 			}
 
 		}
@@ -87,22 +87,22 @@ namespace DoktorApp.Data_Management
 			if (data != null)
 			{
 				// addSpeedData(timestamp, Double.Parse(data) * 3.6 , this.SpeedDataPoints);
-				this.addSpeedData(timestamp, double.Parse(data), this.SpeedDataPoints);
+				this.AddSpeedData(timestamp, double.Parse(data), this.SpeedDataPoints);
 			}
 
 			foreach (Chart chart in this.SpeedChartsListeningForUpdates)
 			{
 				ChartUtils.updateChart(chart, this.SpeedDataPoints);
 			}
-			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.SP.ToString() && this.mainChart != null)
+			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.SP.ToString() && this.MainChart != null)
 			{
-				ChartUtils.updateChart(this.mainChart, this.SpeedDataPoints);
+				ChartUtils.updateChart(this.MainChart, this.SpeedDataPoints);
 			}
 		}
 
 		public void AddDistanceDataPoint(string timestamp, string data)
 		{
-			this.addData(timestamp, data, this.DistanceDataPoints);
+			this.AddData(timestamp, data, this.DistanceDataPoints);
 			foreach (Chart chart in this.DistanceChartsListeningForUpdates)
 			{
 				ChartUtils.updateChart(chart, this.DistanceDataPoints);
@@ -113,40 +113,40 @@ namespace DoktorApp.Data_Management
 
 		public void AddInstantaniousCadenceDataPoint(string timestamp, string data)
 		{
-			this.addData(timestamp, data, this.InstantaniousCadenceDataPoints);
+			this.AddData(timestamp, data, this.InstantaniousCadenceDataPoints);
 			foreach (Chart chart in this.InstantaniousCadenceChartsListeningForUpdates)
 			{
 				ChartUtils.updateChart(chart, this.InstantaniousCadenceDataPoints);
 			}
-			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.IC.ToString() && this.mainChart != null)
+			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.IC.ToString() && this.MainChart != null)
 			{
-				ChartUtils.updateChart(this.mainChart, this.InstantaniousCadenceDataPoints);
+				ChartUtils.updateChart(this.MainChart, this.InstantaniousCadenceDataPoints);
 			}
 		}
 
 		public void AddAccumulatedPowerDataPoint(string timestamp, string data)
 		{
-			this.addData(timestamp, data, this.AccumulatedPowerDataPoints);
+			this.AddData(timestamp, data, this.AccumulatedPowerDataPoints);
 			foreach (Chart chart in this.AccumulatedPowerChartsListeningForUpdates)
 			{
 				ChartUtils.updateChart(chart, this.AccumulatedPowerDataPoints);
 			}
-			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.AP.ToString() && this.mainChart != null)
+			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.AP.ToString() && this.MainChart != null)
 			{
-				ChartUtils.updateChart(this.mainChart, this.AccumulatedPowerDataPoints);
+				ChartUtils.updateChart(this.MainChart, this.AccumulatedPowerDataPoints);
 			}
 		}
 
 		public void AddInstantaniousPowerDataPoint(string timestamp, string data)
 		{
-			this.addData(timestamp, data, this.InstantaniousPowerDataPoints);
+			this.AddData(timestamp, data, this.InstantaniousPowerDataPoints);
 			foreach (Chart chart in this.InstantaniousPowerChartsListeningForUpdates)
 			{
 				ChartUtils.updateChart(chart, this.InstantaniousPowerDataPoints);
 			}
-			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.IP.ToString() && this.mainChart != null)
+			if (this.MainChartListening == true && this.MainChartListeningToData == DataTag.IP.ToString() && this.MainChart != null)
 			{
-				ChartUtils.updateChart(this.mainChart, this.InstantaniousPowerDataPoints);
+				ChartUtils.updateChart(this.MainChart, this.InstantaniousPowerDataPoints);
 			}
 		}
 

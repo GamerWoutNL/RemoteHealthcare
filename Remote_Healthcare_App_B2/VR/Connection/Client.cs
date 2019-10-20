@@ -18,7 +18,7 @@ namespace Sprint2VR
 		private readonly byte[] buffer;
 		private byte[] totalBuffer;
 		private string tunnelID;
-		public List<JObject> responses { get; }
+		public List<JObject> Responses { get; set; }
 
 		private static readonly object lockingObject = new object();
 
@@ -27,7 +27,7 @@ namespace Sprint2VR
 			this.client = new TcpClient();
 			this.buffer = new byte[1024];
 			this.totalBuffer = new byte[0];
-			this.responses = new List<JObject>();
+			this.Responses = new List<JObject>();
 		}
 
 		public async Task Connect(string server, int port)
@@ -53,7 +53,7 @@ namespace Sprint2VR
 
 					lock (lockingObject)
 					{
-						this.responses.Add(json);
+						this.Responses.Add(json);
 					}
 
 					this.totalBuffer = this.totalBuffer.SubArray(4 + packetSize, this.totalBuffer.Length - packetSize - 4);
@@ -101,13 +101,13 @@ namespace Sprint2VR
 		{
 			for (int i = 0; i < 10000; i++)
 			{
-				for (int j = this.responses.Count - 1; j >= 0; j--)
+				for (int j = this.Responses.Count - 1; j >= 0; j--)
 				{
-					JObject json = this.responses[j];
+					JObject json = this.Responses[j];
 
 					if (json.GetValue("id").ToString() == id)
 					{
-						this.responses.Remove(json);
+						this.Responses.Remove(json);
 						return json;
 					}
 
@@ -118,7 +118,7 @@ namespace Sprint2VR
 
 						if (data2.GetValue("id").ToString() == id)
 						{
-							this.responses.Remove(json);
+							this.Responses.Remove(json);
 							return json;
 						}
 					}

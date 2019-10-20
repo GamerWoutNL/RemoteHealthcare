@@ -110,7 +110,7 @@ namespace DoktorApp
 		{
 			this.chart_mainchart.Series.Clear();
 			this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.HeartrateDataPoints));
-			this.patientStorage.mainChart = this.chart_mainchart;
+			this.patientStorage.MainChart = this.chart_mainchart;
 			this.chart_mainchart.Titles.Clear();
 			this.chart_mainchart.Titles.Add("Heartrate");
 			this.patientStorage.MainChartListening = true;
@@ -124,7 +124,7 @@ namespace DoktorApp
 			//this.patientStorage.AddListeningSpeedChart(this.chart_mainchart);
 			this.chart_mainchart.Series.Clear();
 			this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.SpeedDataPoints));
-			this.patientStorage.mainChart = this.chart_mainchart;
+			this.patientStorage.MainChart = this.chart_mainchart;
 			this.chart_mainchart.Titles.Clear();
 			this.chart_mainchart.Titles.Add("Speed");
 			this.patientStorage.MainChartListening = true;
@@ -135,7 +135,7 @@ namespace DoktorApp
 		{
 			this.chart_mainchart.Series.Clear();
 			this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.InstantaniousCadenceDataPoints));
-			this.patientStorage.mainChart = this.chart_mainchart;
+			this.patientStorage.MainChart = this.chart_mainchart;
 			this.chart_mainchart.Titles.Clear();
 			this.chart_mainchart.Titles.Add("Instant Cadence");
 			this.patientStorage.MainChartListening = true;
@@ -146,7 +146,7 @@ namespace DoktorApp
 		{
 			this.chart_mainchart.Series.Clear();
 			this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.AccumulatedPowerDataPoints));
-			this.patientStorage.mainChart = this.chart_mainchart;
+			this.patientStorage.MainChart = this.chart_mainchart;
 			this.chart_mainchart.Titles.Clear();
 			this.chart_mainchart.Titles.Add("Accumulated Power");
 			this.patientStorage.MainChartListening = true;
@@ -157,7 +157,7 @@ namespace DoktorApp
 		{
 			this.chart_mainchart.Series.Clear();
 			this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.InstantaniousPowerDataPoints));
-			this.patientStorage.mainChart = this.chart_mainchart;
+			this.patientStorage.MainChart = this.chart_mainchart;
 			this.chart_mainchart.Titles.Clear();
 			this.chart_mainchart.Titles.Add("Instant Power");
 			this.patientStorage.MainChartListening = true;
@@ -286,7 +286,7 @@ namespace DoktorApp
 
 		private void button_sendbutton_Click(object sender, EventArgs e)
 		{
-			this.SendToClient(this.patientStorage.ergoId, this.textbox_message.Text);
+			this.SendToClient(this.patientStorage.ErgoId, this.textbox_message.Text);
 			this.textbox_message.Clear();
 		}
 
@@ -301,7 +301,7 @@ namespace DoktorApp
 		{
 			if (e.KeyCode == Keys.Enter)
 			{
-				this.SendToClient(this.patientStorage.ergoId, this.textbox_message.Text);
+				this.SendToClient(this.patientStorage.ErgoId, this.textbox_message.Text);
 				this.textbox_message.Clear();
 			}
 
@@ -310,12 +310,12 @@ namespace DoktorApp
 
 		private void Button_Stop_Click(object sender, EventArgs e)
 		{
-			this.EmergencyBrake(this.patientStorage.ergoId);
+			this.EmergencyBrake(this.patientStorage.ErgoId);
 		}
 
 		private void button_endsession_click(object sender, EventArgs e)
 		{
-			this.StopSession(this.patientStorage.ergoId);
+			this.StopSession(this.patientStorage.ErgoId);
 		}
 
 		private void EmergencyBrake(string ergoID)
@@ -356,7 +356,7 @@ namespace DoktorApp
 				return;
 			}
 
-			this.SetResistance(this.patientStorage.ergoId, value);
+			this.SetResistance(this.patientStorage.ErgoId, value);
 			this.resistanceTextBox.Clear();
 		}
 

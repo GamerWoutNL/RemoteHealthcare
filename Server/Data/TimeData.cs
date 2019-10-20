@@ -2,18 +2,18 @@
 {
 	public class TimeData
 	{
-		public string time { get; }
-		public string data { get; }
+		public string Time { get; }
+		public string Data { get; }
 
 		public TimeData(string data, string time)
 		{
-			this.time = time;
-			this.data = data;
+			this.Time = time;
+			this.Data = data;
 		}
 
 		public override string ToString()
 		{
-			return this.data;
+			return this.Data;
 		}
 	}
 }

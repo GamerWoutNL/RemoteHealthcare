@@ -9,10 +9,10 @@ namespace ErgoConnect
 	[Serializable]
 	public class BLEDataPage16 : BLEData
 	{
-		public double elapsedTime { get; }
-		public double distanceTravelled { get; }
-		public double speed { get; }
-		public double heartRate { get; }
+		public double ElapsedTime { get; }
+		public double DistanceTravelled { get; }
+		public double Speed { get; }
+		public double HeartRate { get; }
 
 		/// <summary>
 		/// Receives data upon constructing, and saves this for later purpose by calling its base class.
@@ -20,10 +20,10 @@ namespace ErgoConnect
 		/// <param name="data"></param>
 		public BLEDataPage16(double[] data) : base(data)
 		{
-			this.elapsedTime = data[0];
-			this.distanceTravelled = data[1];
-			this.speed = data[2];
-			this.heartRate = data[3];
+			this.ElapsedTime = data[0];
+			this.DistanceTravelled = data[1];
+			this.Speed = data[2];
+			this.HeartRate = data[3];
 		}
 
 		/// <summary>
@@ -31,12 +31,12 @@ namespace ErgoConnect
 		/// </summary>
 		public override void PrintData()
 		{
-			Console.WriteLine($"Elapsed Time: {Math.Round(this.elapsedTime)} sec\t\t Distance: {this.distanceTravelled} m\t\t Speed: {Math.Round(this.speed)} kmph\t\t Heart rate: {this.heartRate} bpm");
+			Console.WriteLine($"Elapsed Time: {Math.Round(this.ElapsedTime)} sec\t\t Distance: {this.DistanceTravelled} m\t\t Speed: {Math.Round(this.Speed)} kmph\t\t Heart rate: {this.HeartRate} bpm");
 		}
 
 		public override string GetData()
 		{
-			return $"<{Tag.ET.ToString()}>{this.elapsedTime}<{Tag.DT.ToString()}>{this.distanceTravelled}<{Tag.SP.ToString()}>{this.speed}<{Tag.HR.ToString()}>{this.heartRate}";
+			return $"<{Tag.ET.ToString()}>{this.ElapsedTime}<{Tag.DT.ToString()}>{this.DistanceTravelled}<{Tag.SP.ToString()}>{this.Speed}<{Tag.HR.ToString()}>{this.HeartRate}";
 		}
 	}
 }

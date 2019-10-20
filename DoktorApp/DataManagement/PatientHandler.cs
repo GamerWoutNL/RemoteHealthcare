@@ -8,16 +8,18 @@ namespace DoktorApp.Data_Management
 	public class PatientHandler
 	{
 
-		public ConcurrentBag<PatientStorage> patientStorages { get; set; }
-		public Dictionary<PatientStorage, SmallPatientView> views { get; set; }
+		public ConcurrentBag<PatientStorage> PatientStorages { get; set; }
+		public Dictionary<PatientStorage, SmallPatientView> Views { get; set; }
 
-		private MainView mainView = null;
-		private Client client = null;
+		private MainView mainView;
+		private Client client;
 
 		public PatientHandler()
 		{
-			this.patientStorages = new ConcurrentBag<PatientStorage>();
-			this.views = new Dictionary<PatientStorage, SmallPatientView>();
+			this.PatientStorages = new ConcurrentBag<PatientStorage>();
+			this.Views = new Dictionary<PatientStorage, SmallPatientView>();
+			this.mainView = null;
+			this.client = null;
 		}
 
 		public void AttachMainView(MainView mainView)
@@ -49,7 +51,7 @@ namespace DoktorApp.Data_Management
 			bool patientExists = false;
 			PatientStorage patientStorage = null;
 
-			foreach (PatientStorage storage in this.patientStorages)
+			foreach (PatientStorage storage in this.PatientStorages)
 			{
 				if (storage.PatientNumber == patientNumber)
 				{
@@ -62,7 +64,7 @@ namespace DoktorApp.Data_Management
 			{
 				if (!patientStorage.PatientHasDataAlready(eventCount))
 				{
-					this.addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
+					this.AddDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
 				}
 			}
 			else
@@ -71,19 +73,19 @@ namespace DoktorApp.Data_Management
 
 				if (patientStorage.PatientNumber != null)
 				{
-					this.addDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
+					this.AddDataToCorrectLists(patientStorage, timestamp, heartrate, speed, distance, accuPower, instPower, instCadence);
 
 					if (this.client != null)
 					{
 						this.mainView.NewClientConnects(patientName, patientNumber, this.client, patientStorage);
 					}
 
-					this.patientStorages.Add(patientStorage);
+					this.PatientStorages.Add(patientStorage);
 				}
 			}
 		}
 
-		public void addDataToCorrectLists(PatientStorage patientStorage, string timestamp, string heartrate, string speed, string distance, string accuPower, string instPower, string instCadence)
+		public void AddDataToCorrectLists(PatientStorage patientStorage, string timestamp, string heartrate, string speed, string distance, string accuPower, string instPower, string instCadence)
 		{
 			patientStorage.AddHeartrateDataPoint(timestamp, heartrate);
 			patientStorage.AddSpeedDataPoint(timestamp, speed);
@@ -95,12 +97,12 @@ namespace DoktorApp.Data_Management
 
 		public bool StorageHasView(PatientStorage storage)
 		{
-			return this.views.ContainsKey(storage);
+			return this.Views.ContainsKey(storage);
 		}
 
-		public void addView(PatientStorage storage, SmallPatientView view)
+		public void AddView(PatientStorage storage, SmallPatientView view)
 		{
-			this.views.Add(storage, view);
+			this.Views.Add(storage, view);
 		}
 
 	}

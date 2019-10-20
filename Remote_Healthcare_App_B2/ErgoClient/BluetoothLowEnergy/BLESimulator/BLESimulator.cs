@@ -146,7 +146,7 @@ namespace ErgoConnect
 					break;
 
 			}
-			writeToFileBinary(pathToFile, dataToWrite);
+			WriteToFileBinary(pathToFile, dataToWrite);
 		}
 		/// <summary>
 		/// Receive the Ergometer or Heart rate data path.
@@ -176,7 +176,7 @@ namespace ErgoConnect
 		/// <param name="pathToFile"></param>
 		/// <param name="objectToWrite"></param>
 		/// <param name="newFile"></param>
-		private static void writeToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
+		private static void WriteToFileBinary<T>(string pathToFile, T objectToWrite, bool newFile = false)
 		{
 			using (System.IO.Stream stream = System.IO.File.Open(pathToFile, newFile ? System.IO.FileMode.Create : System.IO.File.Exists(pathToFile) ? System.IO.FileMode.Truncate : System.IO.FileMode.Create))
 			{

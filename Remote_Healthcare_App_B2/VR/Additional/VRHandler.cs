@@ -37,12 +37,6 @@ namespace VREngine
 			this.Init();
 		}
 
-		//static void Main(string[] args)
-		//{
-		//    new VRHandler();
-		//    Console.Read();
-		//}
-
 		private void Init()
 		{
 			this.function.DynaSceneReset();
@@ -62,8 +56,8 @@ namespace VREngine
 
 			//Add panel and make vehicle parent.
 			string panelUuid = this.AddPanel();
-			this.vRData.uuidPanel = panelUuid;
-			this.PanelAddParent(panelUuid, this.vRData.uuidVehicle);
+			this.vRData.UuidPanel = panelUuid;
+			this.PanelAddParent(panelUuid, this.vRData.UuidVehicle);
 			//PutTextOnPanel("Speed");
 			//  SwapPanel(panelUuid);
 
@@ -122,9 +116,9 @@ namespace VREngine
 				if (data != null)
 				{
 					this.doctorMessage = this.program.ergo.doctorMessage;
-					this.RefreshAndDraw(data.speed.ToString(), data.heartRate.ToString(), this.doctorMessage);
-					this.speedBike = (int)data.speed / 2.0;
-					this.UpdateSpeedBike((int)(data.speed / 3.0));
+					this.RefreshAndDraw(data.Speed.ToString(), data.HeartRate.ToString(), this.doctorMessage);
+					this.speedBike = (int)data.Speed / 2.0;
+					this.UpdateSpeedBike((int)(data.Speed / 3.0));
 					// UpdateSpeedBike(10);
 				}
 				else
@@ -191,7 +185,7 @@ namespace VREngine
 			dynamic responseVehicleNode = this.client.SearchResponses(IDOperations.sceneNodeAdd);
 			string vehicleUuid = responseVehicleNode.data.data.data.uuid;
 			Console.WriteLine(responseVehicleNode);
-			this.vRData.uuidVehicle = vehicleUuid;
+			this.vRData.UuidVehicle = vehicleUuid;
 			//End of create cart.
 
 			//Find standard pane, and DELETE it!
@@ -215,7 +209,7 @@ namespace VREngine
 
 			//Saving the uuid of the camera node.
 			dynamic uuidCamera = responseCamera.data.data.data[0].uuid;
-			this.vRData.uuidCamera = uuidCamera;
+			this.vRData.UuidCamera = uuidCamera;
 			//End of find camera action.
 
 			//Begin of find left hand action.
@@ -226,7 +220,7 @@ namespace VREngine
 
 			//Saving the uuid of the left hand node.
 			dynamic uuidLeftHand = responseCamera.data.data.data[0].uuid;
-			this.vRData.uuidLeftHand = uuidLeftHand;
+			this.vRData.UuidLeftHand = uuidLeftHand;
 			//End of saving the uuid of the left hand node.
 			//End of find left hand action.
 
@@ -237,7 +231,7 @@ namespace VREngine
 			Console.WriteLine(responseRighthand);
 			//Saving the uuid of the right hand node.
 			dynamic uuidRightHand = responseCamera.data.data.data[0].uuid;
-			this.vRData.uuidRightHand = uuidRightHand;
+			this.vRData.UuidRightHand = uuidRightHand;
 			//End of saving the uuid of the right hand node.
 			//End of find right hand action.
 
@@ -249,7 +243,7 @@ namespace VREngine
 
 			//Saving the uuid of the right hand node.
 			dynamic uuidHead = responseCamera.data.data.data[0].uuid;
-			this.vRData.uuidHead = uuidHead;
+			this.vRData.UuidHead = uuidHead;
 			//End of saving the uuid of the right hand node.
 			//End of find head action.
 		}
@@ -277,7 +271,7 @@ namespace VREngine
 
 		public void UpdateSpeedBike(double speed)
 		{
-			this.function.DynaRouteFollowSpeed(this.vRData.uuidVehicle, speed);
+			this.function.DynaRouteFollowSpeed(this.vRData.UuidVehicle, speed);
 		}
 
 		public string AddPanel()
@@ -290,20 +284,20 @@ namespace VREngine
 
 		public void RefreshAndDraw(string speed, string heartrate, string doctorsmessage)
 		{
-			this.ClearPanel(this.vRData.uuidPanel);
+			this.ClearPanel(this.vRData.UuidPanel);
 			this.DisplayInformation(speed, heartrate, doctorsmessage);
-			this.SwapPanel(this.vRData.uuidPanel);
+			this.SwapPanel(this.vRData.UuidPanel);
 		}
 
 		public void PutTextOnPanel(string panelText, bool displayLow = false)
 		{
 			if (!displayLow)
 			{
-				this.function.DynaScenePanelDrawText(this.vRData.uuidPanel, panelText, new VRPoint2D(0, 25), 20, new VRColor(1f, 1f, 1f, 1f), "segoeui");
+				this.function.DynaScenePanelDrawText(this.vRData.UuidPanel, panelText, new VRPoint2D(0, 25), 20, new VRColor(1f, 1f, 1f, 1f), "segoeui");
 			}
 			else
 			{
-				this.function.DynaScenePanelDrawText(this.vRData.uuidPanel, panelText, new VRPoint2D(0, 125), 20, new VRColor(1f, 1f, 1f, 1f), "segoeui");
+				this.function.DynaScenePanelDrawText(this.vRData.UuidPanel, panelText, new VRPoint2D(0, 125), 20, new VRColor(1f, 1f, 1f, 1f), "segoeui");
 			}
 		}
 
@@ -333,11 +327,11 @@ namespace VREngine
 			rotation = new VRPoint3D(0, Math.PI * 1.5, 0); // was Math.PI/180*90 overal
 			if (rotation == null)
 			{
-				this.function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 0, 0, "XYZ", 0, false, new VRPoint3D(0, 0, 0), new VRPoint3D(0, 0, 0));
+				this.function.DynaRouteFollow(routeID, this.vRData.UuidVehicle, 0, 0, "XYZ", 0, false, new VRPoint3D(0, 0, 0), new VRPoint3D(0, 0, 0));
 			}
 			else
 			{
-				this.function.DynaRouteFollow(routeID, this.vRData.uuidVehicle, 0, 0, "XYZ", 1.0, false, rotation, new VRPoint3D(0, 0, 0));
+				this.function.DynaRouteFollow(routeID, this.vRData.UuidVehicle, 0, 0, "XYZ", 1.0, false, rotation, new VRPoint3D(0, 0, 0));
 			}
 		}
 
@@ -387,7 +381,7 @@ namespace VREngine
 		{
 			//Begin of moving the camera to a specific position.
 			VRTransform vRTransform = new VRTransform(posXYZ, rotXYZ, scale);
-			string id = this.vRData.uuidCamera;
+			string id = this.vRData.UuidCamera;
 			string parent = null;
 			this.function.DynaSceneNodeUpdate(id, parent, vRTransform, null);
 			//End of moving the camera to a specific position.
@@ -397,7 +391,7 @@ namespace VREngine
 		{
 			//Begin of moving the car to a specific position.
 			VRTransform vRTransform = new VRTransform(posXYZ, rotXYZ, scale);
-			string id = this.vRData.uuidVehicle;
+			string id = this.vRData.UuidVehicle;
 			string parent = null;
 			this.function.DynaSceneNodeUpdate(id, parent, vRTransform, null);
 			//End of moving the car to a specific position.
@@ -406,8 +400,8 @@ namespace VREngine
 		public void MakeErgoParent()
 		{
 			//Begin of making ergometer parent of camera.
-			string id = this.vRData.uuidCamera;
-			string parent = this.vRData.uuidVehicle;
+			string id = this.vRData.UuidCamera;
+			string parent = this.vRData.UuidVehicle;
 			this.function.DynaSceneNodeUpdate(id, parent, null, null);
 			//End of making ergometer parent of camera.
 		}

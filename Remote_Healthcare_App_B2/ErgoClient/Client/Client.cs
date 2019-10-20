@@ -13,7 +13,7 @@ namespace Client
 		private readonly byte[] _buffer;
 		private string totalBuffer;
 		private string _ergoID;
-		public BLEConnect bleConnect { get; set; }
+		public BLEConnect BleConnect { get; set; }
 
 		public Client()
 		{
@@ -86,27 +86,27 @@ namespace Client
 
 		private void HandleStopSession(string packet)
 		{
-			this.bleConnect.doctorMessage = "Session is over";
+			this.BleConnect.doctorMessage = "Session is over";
 		}
 
 		private void HandleDoctorsMessage(string packet)
 		{
 			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
-			this.bleConnect.doctorMessage = $"{message}";
+			this.BleConnect.doctorMessage = $"{message}";
 		}
 
 		private void HandleEmergencyBrake(string packet)
 		{
-			this.bleConnect.doctorMessage = "Get off the bike now!";
-			this.bleConnect.emergencyBrake = true;
+			this.BleConnect.doctorMessage = "Get off the bike now!";
+			this.BleConnect.emergencyBrake = true;
 		}
 
 		private void HandleSetResistance(string packet)
 		{
 			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.SR, packet));
 			Console.WriteLine(resistancePercentage);
-			this.bleConnect.doctorMessage = $"Resistance to {resistancePercentage}%";
-			this.bleConnect.SetResistance(resistancePercentage);
+			this.BleConnect.doctorMessage = $"Resistance to {resistancePercentage}%";
+			this.BleConnect.SetResistance(resistancePercentage);
 		}
 
 		public void Write(string message)

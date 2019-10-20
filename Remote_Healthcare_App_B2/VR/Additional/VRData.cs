@@ -2,11 +2,11 @@
 {
 	public class VRData
 	{
-		public string uuidCamera { get; set; }
-		public string uuidHead { get; set; }
-		public string uuidLeftHand { get; set; }
-		public string uuidRightHand { get; set; }
-		public string uuidVehicle { get; set; }
-		public string uuidPanel { get; set; }
+		public string UuidCamera { get; set; }
+		public string UuidHead { get; set; }
+		public string UuidLeftHand { get; set; }
+		public string UuidRightHand { get; set; }
+		public string UuidVehicle { get; set; }
+		public string UuidPanel { get; set; }
 	}
 }

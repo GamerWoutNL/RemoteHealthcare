@@ -5,14 +5,14 @@ namespace VREngine.Routes
 {
 	public class RouteHandler
 	{
-		public List<Route> routePath { get; set; }
+		public List<Route> RoutePath { get; set; }
 		private readonly VRHandler vRHandler;
 		private const double downwardsPenalty = 0.5;
 		private const double upwardsPenalty = 1.5;
 		public int currentRoute { get; set; }
 		public RouteHandler(VRHandler vRHandler)
 		{
-			this.routePath = new List<Route>();
+			this.RoutePath = new List<Route>();
 			this.vRHandler = vRHandler;
 		}
 

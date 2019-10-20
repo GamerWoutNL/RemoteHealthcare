@@ -9,10 +9,10 @@ namespace Server
 	public class Server
 	{
 		private readonly TcpListener listener;
-		public List<ServerClient> clients { get; set; }
-		public bool streaming { get; set; }
-		public ServerClient doctor { get; set; }
-		public Dictionary<string, ClientData> clientDatas { get; set; }
+		public List<ServerClient> Clients { get; set; }
+		public bool Streaming { get; set; }
+		public ServerClient Doctor { get; set; }
+		public Dictionary<string, ClientData> ClientDatas { get; set; }
 
 		private static void Main(string[] args)
 		{
@@ -22,8 +22,8 @@ namespace Server
 
 		public Server()
 		{
-			this.clients = new List<ServerClient>();
-			this.clientDatas = new Dictionary<string, ClientData>();
+			this.Clients = new List<ServerClient>();
+			this.ClientDatas = new Dictionary<string, ClientData>();
 			this.listener = new TcpListener(IPAddress.Any, 1717); // Was 1717
 			this.listener.Start();
 
@@ -34,7 +34,7 @@ namespace Server
 		private void OnConnect(IAsyncResult ar)
 		{
 			TcpClient newClient = this.listener.EndAcceptTcpClient(ar);
-			this.clients.Add(new ServerClient(newClient, this));
+			this.Clients.Add(new ServerClient(newClient, this));
 			Console.WriteLine("New client connected");
 
 			this.listener.BeginAcceptTcpClient(new AsyncCallback(this.OnConnect), null);
@@ -42,12 +42,12 @@ namespace Server
 
 		public void StartStreamingDataToDoctor()
 		{
-			while (this.streaming)
+			while (this.Streaming)
 			{
-				foreach (string key in this.clientDatas.Keys)
+				foreach (string key in this.ClientDatas.Keys)
 				{
-					string message = $"<{Tag.MT.ToString()}>data<{Tag.ID.ToString()}>{key}{this.clientDatas[key]}";
-					this.doctor.Write(message);
+					string message = $"<{Tag.MT.ToString()}>data<{Tag.ID.ToString()}>{key}{this.ClientDatas[key]}";
+					this.Doctor.Write(message);
 				}
 				Thread.Sleep(250);
 			}
@@ -55,9 +55,9 @@ namespace Server
 
 		public void WriteToSpecificErgo(string ergoID, string message)
 		{
-			foreach (ServerClient client in this.clients)
+			foreach (ServerClient client in this.Clients)
 			{
-				if (ergoID == client.ergoID)
+				if (ergoID == client.ErgoID)
 				{
 					client.Write(message);
 				}
@@ -66,9 +66,9 @@ namespace Server
 
 		public void BroadcastDoctorsMessage(string message)
 		{
-			foreach (ServerClient client in this.clients)
+			foreach (ServerClient client in this.Clients)
 			{
-				if (client != this.doctor)
+				if (client != this.Doctor)
 				{
 					client.Write(message);
 				}

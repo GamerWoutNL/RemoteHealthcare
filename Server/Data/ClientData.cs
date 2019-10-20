@@ -47,7 +47,7 @@ namespace Server
 			if (this._heartRate.Count > 0)
 			{
 				message += $"<HR>{this._heartRate.Last()}";
-				message += $"<TS>{this._heartRate.Last().time}";
+				message += $"<TS>{this._heartRate.Last().Time}";
 			}
 			if (this._eventCount.Count > 0)
 			{

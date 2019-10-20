@@ -33,7 +33,7 @@ namespace ErgoConnect
 					double speed = ((speedMSB << 8) | speedLSB) / 1000.0 * 3.6; //kmph
 
 					double[] data = { elapsedTime, distanceTraveled, speed, heartRate };
-					bLEDataHandler.addBLEDataForDataPage16(data);
+					bLEDataHandler.AddBLEDataForDataPage16(data);
 				}
 				else if (pageNumber == 25)
 				{
@@ -49,7 +49,7 @@ namespace ErgoConnect
 					int instanteousPower = (((instanteousPowerMSB | 0b11110000) ^ 0b11110000) << 8) | instanteousPowerLSB; //watt
 
 					double[] data = { updateEventCount, instanteousCadence, accumulatedPower, instanteousPower };
-					bLEDataHandler.addBLEDataForDataPage25(data);
+					bLEDataHandler.AddBLEDataForDataPage25(data);
 				}
 				//bLEDataHandler.printLastData();
 			}

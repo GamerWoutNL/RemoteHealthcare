@@ -66,12 +66,12 @@ namespace DoktorApp
 
 		private void StartSessionButton_Click(object sender, EventArgs e)
 		{
-			foreach (PatientStorage storage in this.patientHandler.patientStorages)
+			foreach (PatientStorage storage in this.patientHandler.PatientStorages)
 			{
 				if (!this.patientHandler.StorageHasView(storage))
 				{
 					SmallPatientView patientView = new SmallPatientView(storage.PatientName, storage.PatientNumber, this.client, storage);
-					this.patientHandler.addView(storage, patientView);
+					this.patientHandler.AddView(storage, patientView);
 					this.FlowPanelMainView.Controls.Add(patientView);
 				}
 			}

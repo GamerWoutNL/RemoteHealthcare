@@ -18,11 +18,11 @@ namespace VRCode
 			this._client = client;
 		}
 
-		public void DynaGet(Sprint2VR.VR.Type type, Button button, Hand hand)
+		public void DynaGet(Type type, Button button, Hand hand)
 		{
 			dynamic dynamicRequest = new JObject();
 			dynamicRequest.type = type;
-			if (type == Sprint2VR.VR.Type.button)
+			if (type == Type.button)
 			{
 				dynamicRequest.button = button;
 				dynamicRequest.hand = hand;
@@ -31,7 +31,7 @@ namespace VRCode
 			this._client.SendTunnel(IDOperations.get, dynamicRequest);
 		}
 
-		public void DynaSetCallback(Sprint2VR.VR.Type type, Button button, Hand hand)
+		public void DynaSetCallback(Type type, Button button, Hand hand)
 		{
 			dynamic dynamicRequest = new
 			{
@@ -368,8 +368,8 @@ namespace VRCode
 				dynamic dataValue;
 				dataValue = new
 				{
-					pos = route.endPos.GetDynamic().position,
-					dir = route.rotation.GetDynamic().position
+					pos = route.EndPos.GetDynamic().position,
+					dir = route.Rotation.GetDynamic().position
 				};
 				list.Add(JObject.FromObject(dataValue));
 			}

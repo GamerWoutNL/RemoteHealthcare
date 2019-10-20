@@ -39,7 +39,7 @@ namespace ErgoConnect
 			this.client.Connect("localhost", 1717, ergoID);
 			this.client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
 			this.ergo = new BLEConnect(ergoID, this.client, this, patientName, patientNumber);
-			this.client.bleConnect = this.ergo;
+			this.client.BleConnect = this.ergo;
 			this.ergo.Connect();
 			this.VRHandler = new VRHandler(this);
 			Console.Read();

@@ -9,32 +9,32 @@ namespace ErgoConnect
 	[Serializable]
 	public class BLEDataPage25 : BLEData
 	{
-		private double updateEventCount { get; }
-		private double instanteousCadence { get; }
-		private double accumulatedPower { get; }
-		private double instanteousPower { get; }
+		private double UpdateEventCount { get; }
+		private double InstanteousCadence { get; }
+		private double AccumulatedPower { get; }
+		private double InstanteousPower { get; }
 		/// <summary>
 		/// Receives data upon constructing, and saves this for later purpose by calling its base class.
 		/// </summary>
 		/// <param name="data"></param>
 		public BLEDataPage25(double[] data) : base(data)
 		{
-			this.updateEventCount = data[0];
-			this.instanteousCadence = data[1];
-			this.accumulatedPower = data[2];
-			this.instanteousPower = data[3];
+			this.UpdateEventCount = data[0];
+			this.InstanteousCadence = data[1];
+			this.AccumulatedPower = data[2];
+			this.InstanteousPower = data[3];
 		}
 		/// <summary>
 		/// Implementation of printing data to the console.
 		/// </summary>
 		public override void PrintData()
 		{
-			Console.WriteLine($"Count: {Math.Round(this.updateEventCount)}\t\t Cadence: {this.instanteousCadence} rpm\t\t Acc power: {Math.Round(this.accumulatedPower)} Watt\t\t Inst power: {this.instanteousPower} Watt");
+			Console.WriteLine($"Count: {Math.Round(this.UpdateEventCount)}\t\t Cadence: {this.InstanteousCadence} rpm\t\t Acc power: {Math.Round(this.AccumulatedPower)} Watt\t\t Inst power: {this.InstanteousPower} Watt");
 		}
 
 		public override string GetData()
 		{
-			return $"<{Tag.EC.ToString()}>{this.updateEventCount}<{Tag.IC.ToString()}>{this.instanteousCadence}<{Tag.AP.ToString()}>{this.accumulatedPower}<{Tag.IP.ToString()}>{this.instanteousPower}";
+			return $"<{Tag.EC.ToString()}>{this.UpdateEventCount}<{Tag.IC.ToString()}>{this.InstanteousCadence}<{Tag.AP.ToString()}>{this.AccumulatedPower}<{Tag.IP.ToString()}>{this.InstanteousPower}";
 		}
 	}
 }

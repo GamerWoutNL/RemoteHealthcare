@@ -9,7 +9,7 @@ namespace ErgoConnect
 	/// </summary>
 	public class BLEDataHandler
 	{
-		public List<BLEData> _bleData { get; set; }
+		public List<BLEData> BleData { get; set; }
 		private readonly string ergoID;
 		private readonly string patientName;
 		private readonly string patientNumber;
@@ -21,7 +21,7 @@ namespace ErgoConnect
 		/// <param name="ergometerSerialLastFiveNumbers"></param>
 		public BLEDataHandler(string ergometerSerialLastFiveNumbers, string patientName, string patientNumber) // Maybe add simulation interface here as parameter for callback in readData(); which adds data to List<BLEData>
 		{
-			this._bleData = new List<BLEData>();
+			this.BleData = new List<BLEData>();
 			this.patientName = patientName;
 			this.patientNumber = patientNumber;
 			this.ergoID = ergometerSerialLastFiveNumbers;
@@ -41,11 +41,11 @@ namespace ErgoConnect
 		/// Data page 16 contains specific data, just as data page 25 contains very different detailed data. A distinction must be made here.
 		/// </summary>
 		/// <param name="data"></param>
-		public void addBLEDataForDataPage16(double[] data)
+		public void AddBLEDataForDataPage16(double[] data)
 		{
 			data[3] = this.heartrate;
 			BLEDataPage16 bLEDataPage16 = new BLEDataPage16(data);
-			this._bleData.Add(bLEDataPage16);
+			this.BleData.Add(bLEDataPage16);
 		}
 
 		/// <summary>
@@ -53,17 +53,17 @@ namespace ErgoConnect
 		/// </summary>
 		/// <param name="data"></param>
 
-		public void addBLEDataForDataPage25(double[] data)
+		public void AddBLEDataForDataPage25(double[] data)
 		{
 			BLEDataPage25 bLEDataPage25 = new BLEDataPage25(data);
-			this._bleData.Add(bLEDataPage25);
+			this.BleData.Add(bLEDataPage25);
 		}
 		/// <summary>
 		/// Print the last data stored in the List (hence this is not the same as printing the last _received_ data!).
 		/// </summary>
-		public void printLastData()
+		public void PrintLastData()
 		{
-			this._bleData[this._bleData.Count - 1].PrintData();
+			this.BleData[this.BleData.Count - 1].PrintData();
 		}
 
 		/// <summary>
@@ -72,9 +72,9 @@ namespace ErgoConnect
 
 		public string ReadLastData()
 		{
-			if (this._bleData.Count > 0)
+			if (this.BleData.Count > 0)
 			{
-				BLEData data = this._bleData[this._bleData.Count - 1];
+				BLEData data = this.BleData[this.BleData.Count - 1];
 				return $"<{Tag.MT.ToString()}>{"data"}<{Tag.TS.ToString()}>{DateTime.Now.ToString("s")}<{Tag.PNA.ToString()}>{this.patientName}<{Tag.PNU.ToString()}>{this.patientNumber}<{Tag.ID.ToString()}>{this.ergoID}{data.GetData()}<{Tag.EOF.ToString()}>";
 			}
 			else
@@ -85,11 +85,11 @@ namespace ErgoConnect
 
 		public BLEDataPage16 GetDataForVR()
 		{
-			if (this._bleData != null)
+			if (this.BleData != null)
 			{
-				if (this._bleData.Count > 0)
+				if (this.BleData.Count > 0)
 				{
-					BLEData bleData = this._bleData[this._bleData.Count - 1];
+					BLEData bleData = this.BleData[this.BleData.Count - 1];
 					if (bleData is BLEDataPage16)
 					{
 						Console.WriteLine("UPDATING VR NOW");
