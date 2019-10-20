@@ -343,6 +343,33 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+			this.textBox1.Location = new System.Drawing.Point(862, 128);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+			this.textBox1.Size = new System.Drawing.Size(100, 22);
+			this.textBox1.TabIndex = 21;
+			// 
+			// textBox1
+			// 
+			// 
+			// button2
+			// 
+			this.button2.Location = new System.Drawing.Point(968, 127);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(75, 23);
+			this.button2.TabIndex = 22;
+			this.button2.Text = "Set";
+			this.button2.Click += new System.EventHandler(this.Button2_Click);
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(859, 108);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(78, 17);
+			this.label1.TabIndex = 23;
+			this.label1.Text = "Resistance";
 
         }
 
@@ -350,7 +377,6 @@
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_mainchart;
-        private System.Windows.Forms.Button button_file;
         private System.Windows.Forms.TextBox textbox_message;
         private System.Windows.Forms.Button button_sendmessage;
         private System.Windows.Forms.PictureBox pictureBox2;
@@ -364,5 +390,8 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart InstCadenceChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart AccPowerChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart InstPowerChart;
-    }
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Label label1;
+	}
 }

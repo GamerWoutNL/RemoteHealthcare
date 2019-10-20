@@ -91,27 +91,25 @@ namespace Client
 
 		private void HandleStopSession(string packet)
 		{
-			//TODO: stop session
-			Console.WriteLine("Please stop session");
+			bleConnect.doctorMessage = "Session is over";
 		}
 
 		private void HandleDoctorsMessage(string packet)
 		{
 			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
-			Console.WriteLine($"Got a message from the doctor: {message}");
-
-			//TODO: make this visual in the GUI
+			bleConnect.doctorMessage = $"{message}";
 		}
 
 		private void HandleEmergencyBrake(string packet)
 		{
-			// TODO: Set a emergency brake
-			Console.WriteLine("STOP!");
+			bleConnect.doctorMessage = "Get off the bike now!";
+			bleConnect.emergencyBrake = true;
 		}
 
 		private void HandleSetResistance(string packet)
 		{
 			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.SR, packet));
+			bleConnect.doctorMessage = $"Resistance to {resistancePercentage}%";
 			this.bleConnect.SetResistance(resistancePercentage);
 		}
 
