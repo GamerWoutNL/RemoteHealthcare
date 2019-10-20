@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Server.Data
 {
-	class FileWriter
+	internal class FileWriter
 	{
 		/*
         TO DO
@@ -21,7 +17,7 @@ namespace Server.Data
 
 			if (!File.Exists(path))
 			{
-				Directory.CreateDirectory(dir);
+				Directory.CreateDirectory(this.dir);
 				using (StreamWriter sw = File.CreateText(path))
 				{
 					sw.WriteLine(message);
@@ -38,7 +34,7 @@ namespace Server.Data
 		}
 
 		public static bool checkPassword(string us, string pw)
-        {
+		{
 			try
 			{
 				string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";

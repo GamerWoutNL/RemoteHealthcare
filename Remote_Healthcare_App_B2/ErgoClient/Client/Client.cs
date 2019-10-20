@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ErgoConnect;
 using Server;
 using Server.Data;
-using ErgoConnect;
+using System;
+using System.Net.Sockets;
 
 namespace Client
 {
-    class Client : IClient
-    {
-		private TcpClient _tcpClient;
-        private NetworkStream _stream;
-		private byte[] _buffer;
+	internal class Client : IClient
+	{
+		private readonly TcpClient _tcpClient;
+		private NetworkStream _stream;
+		private readonly byte[] _buffer;
 		private string totalBuffer;
 		private string _ergoID;
 		public BLEConnect bleConnect { get; set; }
@@ -33,7 +28,7 @@ namespace Client
 			this._stream = this._tcpClient.GetStream();
 			this._ergoID = ergoID;
 
-			this._stream.BeginRead(this._buffer, 0, this._buffer.Length, new AsyncCallback(OnRead), null);
+			this._stream.BeginRead(this._buffer, 0, this._buffer.Length, new AsyncCallback(this.OnRead), null);
 		}
 
 		public void Disconnect()
@@ -42,21 +37,21 @@ namespace Client
 			this._tcpClient.Close();
 		}
 
-        private void OnRead(IAsyncResult ar)
-        {
+		private void OnRead(IAsyncResult ar)
+		{
 			int count = this._stream.EndRead(ar);
 			this.totalBuffer += Encrypter.Decrypt(this._buffer.SubArray(0, count), "password123");
 
 			string eof = $"<{Tag.EOF.ToString()}>";
-			while (totalBuffer.Contains(eof))
+			while (this.totalBuffer.Contains(eof))
 			{
-				string packet = totalBuffer.Substring(0, totalBuffer.IndexOf(eof) + eof.Length);
-				totalBuffer = totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
+				string packet = this.totalBuffer.Substring(0, this.totalBuffer.IndexOf(eof) + eof.Length);
+				this.totalBuffer = this.totalBuffer.Substring(packet.IndexOf(eof) + eof.Length);
 
 				this.HandlePacket(packet);
 			}
 
-			this._stream.BeginRead(this._buffer, 0, this._buffer.Length, new AsyncCallback(OnRead), null);
+			this._stream.BeginRead(this._buffer, 0, this._buffer.Length, new AsyncCallback(this.OnRead), null);
 		}
 
 		private void HandlePacket(string packet)
@@ -91,32 +86,32 @@ namespace Client
 
 		private void HandleStopSession(string packet)
 		{
-			bleConnect.doctorMessage = "Session is over";
+			this.bleConnect.doctorMessage = "Session is over";
 		}
 
 		private void HandleDoctorsMessage(string packet)
 		{
 			string message = TagDecoder.GetValueByTag(Tag.DM, packet);
-			bleConnect.doctorMessage = $"{message}";
+			this.bleConnect.doctorMessage = $"{message}";
 		}
 
 		private void HandleEmergencyBrake(string packet)
 		{
-			bleConnect.doctorMessage = "Get off the bike now!";
-			bleConnect.emergencyBrake = true;
+			this.bleConnect.doctorMessage = "Get off the bike now!";
+			this.bleConnect.emergencyBrake = true;
 		}
 
 		private void HandleSetResistance(string packet)
 		{
 			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.SR, packet));
 			Console.WriteLine(resistancePercentage);
-			bleConnect.doctorMessage = $"Resistance to {resistancePercentage}%";
+			this.bleConnect.doctorMessage = $"Resistance to {resistancePercentage}%";
 			this.bleConnect.SetResistance(resistancePercentage);
 		}
 
 		public void Write(string message)
 		{
-            Console.WriteLine(message);
+			Console.WriteLine(message);
 			byte[] encrypted = Encrypter.Encrypt(message, "password123");
 			this._stream.Write(encrypted, 0, encrypted.Length);
 			this._stream.Flush();

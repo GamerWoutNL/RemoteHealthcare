@@ -2,7 +2,7 @@
 
 namespace VRCode
 {
-    static class ArrayHelper
+	internal static class ArrayHelper
 	{
 		public static T[] SubArray<T>(this T[] data, int index, int length)
 		{
