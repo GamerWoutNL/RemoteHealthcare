@@ -62,7 +62,7 @@ namespace Server
             }
             if(_accumulatedPower.Count > 0)
             {
-                message += $"<AC>{_accumulatedPower.Last()}";
+                message += $"<AP>{_accumulatedPower.Last()}";
             }
             if(_instanteousPower.Count > 0)
             {
