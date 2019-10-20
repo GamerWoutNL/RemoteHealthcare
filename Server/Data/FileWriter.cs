@@ -38,28 +38,30 @@ namespace Server.Data
 
 		public static bool checkPassword(string us, string pw)
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
-            string s;
-            using (StreamReader sr = File.OpenText(path))
-            {
-                s = sr.ReadLine();
-                while (s != null)
-                {
-                    if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
-                    {
-                        if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    s = sr.ReadLine();
-                }
-                return false;
-            }
+			//string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
+			//string s;
+			//using (StreamReader sr = File.OpenText(path))
+			//{
+			//    s = sr.ReadLine();
+			//    while (s != null)
+			//    {
+			//        if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
+			//        {
+			//            if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
+			//            {
+			//                return true;
+			//            }
+			//            else
+			//            {
+			//                return false;
+			//            }
+			//        }
+			//        s = sr.ReadLine();
+			//    }
+			//    return false;
+			//}
+
+			return us == "admin" && pw == "password123";
 
 		}
 
