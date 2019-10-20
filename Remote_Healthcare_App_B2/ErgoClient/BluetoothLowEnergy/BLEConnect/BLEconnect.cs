@@ -23,9 +23,10 @@ namespace ErgoConnect
         private IClient iClient;
         private ISim iSim;
         private bool isConnected = false;
-        public string doctorMessage = "";
+        public string doctorMessage = "Cycle!";
         public BLE ergometerBLE { get; set; }
         public BLE heartrateBLE { get; set; }
+        public bool usingSim = false;
 
 
         /// <summary>
@@ -101,7 +102,11 @@ namespace ErgoConnect
             string service2 = "6e40fec2-b5a3-f393-e0a9-e50e24dcca9e";
             errorCode = await ergometerBLE.SubscribeToCharacteristic(service2);
 
-            if (errorCode != 0) iSim.Create();
+            if (errorCode != 0)
+            {
+                usingSim = true;
+                iSim.Create();
+            }
             Console.WriteLine(errorCode); // Errorcode to check if is connected.
         }
 
