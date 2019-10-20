@@ -14,13 +14,14 @@ namespace Server.Data
         
         Objects wegschrijven doormiddel van Memorystream.ToArray()
         */
-		public string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\PatientData";
+		public string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\PatientData";
 		public void writeFile(string clientID, string message)
 		{
-			string path = this.path + @"\" + clientID + ".txt";
+			string path = this.dir + @"\" + clientID + ".txt";
 
 			if (!File.Exists(path))
 			{
+				Directory.CreateDirectory(dir);
 				using (StreamWriter sw = File.CreateText(path))
 				{
 					sw.WriteLine(message);
@@ -38,27 +39,34 @@ namespace Server.Data
 
 		public static bool checkPassword(string us, string pw)
         {
-			string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
-			string s;
-			using (StreamReader sr = File.OpenText(path))
+			try
 			{
-				s = sr.ReadLine();
-				while (s != null)
+				string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
+				string s;
+				using (StreamReader sr = File.OpenText(path))
 				{
-					if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
-					{
-						if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
-						{
-							return true;
-						}
-						else
-						{
-							return false;
-						}
-					}
 					s = sr.ReadLine();
+					while (s != null)
+					{
+						if (TagDecoder.GetValueByTag(Tag.UN, s) == us)
+						{
+							if (TagDecoder.GetValueByTag(Tag.PW, s) == pw)
+							{
+								return true;
+							}
+							else
+							{
+								return false;
+							}
+						}
+						s = sr.ReadLine();
+					}
+					return us == "admin" && pw == "admin";
 				}
-				return us == "admin" && pw == "password123";
+			}
+			catch (Exception)
+			{
+				return us == "admin" && pw == "admin";
 			}
 
 		}
@@ -66,7 +74,7 @@ namespace Server.Data
 		public string readFile(string clientID)
 		{
 
-			string path = this.path + @"\" + clientID + ".txt";
+			string path = this.dir + @"\" + clientID + ".txt";
 			string packet = "";
 
 			if (File.Exists(path))
