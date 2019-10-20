@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ergometer", "Remote_Healthcare_App_B2\Ergometer.csproj", "{FE90096F-274D-43E9-AE78-57665C500FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VREngine", "VREngine\VREngine.csproj", "{FDCE611C-A3B7-4287-AA9D-235EEFEAD72C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C291ECCB-D913-43BD-B2DF-3089F064957A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoktorApp", "DoktorApp\DoktorApp.csproj", "{D39E7F9E-7424-4957-8D73-A607574C31DC}"
