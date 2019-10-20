@@ -28,20 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.PatientNameLabel = new System.Windows.Forms.Label();
             this.PatientNumberLabel = new System.Windows.Forms.Label();
             this.HeartrateChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.SpeedChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ResistanceLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.bgHrChart = new System.ComponentModel.BackgroundWorker();
-            this.bgSpeedChart = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.HeartrateChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedChart)).BeginInit();
             this.SuspendLayout();
@@ -51,7 +49,7 @@
             this.PatientNameLabel.AutoSize = true;
             this.PatientNameLabel.Location = new System.Drawing.Point(13, 24);
             this.PatientNameLabel.Name = "PatientNameLabel";
-            this.PatientNameLabel.Size = new System.Drawing.Size(88, 15);
+            this.PatientNameLabel.Size = new System.Drawing.Size(77, 13);
             this.PatientNameLabel.TabIndex = 0;
             this.PatientNameLabel.Text = "Patient Name: ";
             this.PatientNameLabel.Click += new System.EventHandler(this.PatientNameLabel_Click);
@@ -61,50 +59,50 @@
             this.PatientNumberLabel.AutoSize = true;
             this.PatientNumberLabel.Location = new System.Drawing.Point(13, 49);
             this.PatientNumberLabel.Name = "PatientNumberLabel";
-            this.PatientNumberLabel.Size = new System.Drawing.Size(99, 15);
+            this.PatientNumberLabel.Size = new System.Drawing.Size(86, 13);
             this.PatientNumberLabel.TabIndex = 1;
             this.PatientNumberLabel.Text = "Patient Number: ";
             // 
             // HeartrateChart
             // 
-            chartArea13.AxisX.MajorGrid.Enabled = false;
-            chartArea13.AxisY.MajorGrid.Enabled = false;
-            chartArea13.Name = "ChartArea1";
-            this.HeartrateChart.ChartAreas.Add(chartArea13);
-            legend13.DockedToChartArea = "ChartArea1";
-            legend13.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend13.IsDockedInsideChartArea = false;
-            legend13.Name = "Legend1";
-            this.HeartrateChart.Legends.Add(legend13);
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            this.HeartrateChart.ChartAreas.Add(chartArea1);
+            legend1.DockedToChartArea = "ChartArea1";
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.IsDockedInsideChartArea = false;
+            legend1.Name = "Legend1";
+            this.HeartrateChart.Legends.Add(legend1);
             this.HeartrateChart.Location = new System.Drawing.Point(16, 75);
             this.HeartrateChart.Name = "HeartrateChart";
-            series13.ChartArea = "ChartArea1";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series13.Legend = "Legend1";
-            series13.Name = "Series1";
-            this.HeartrateChart.Series.Add(series13);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.HeartrateChart.Series.Add(series1);
             this.HeartrateChart.Size = new System.Drawing.Size(200, 200);
             this.HeartrateChart.TabIndex = 2;
             this.HeartrateChart.Text = "chart1";
             // 
             // SpeedChart
             // 
-            chartArea14.AxisX.MajorGrid.Enabled = false;
-            chartArea14.AxisY.MajorGrid.Enabled = false;
-            chartArea14.Name = "ChartArea1";
-            this.SpeedChart.ChartAreas.Add(chartArea14);
-            legend14.DockedToChartArea = "ChartArea1";
-            legend14.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend14.IsDockedInsideChartArea = false;
-            legend14.Name = "Legend1";
-            this.SpeedChart.Legends.Add(legend14);
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisY.MajorGrid.Enabled = false;
+            chartArea2.Name = "ChartArea1";
+            this.SpeedChart.ChartAreas.Add(chartArea2);
+            legend2.DockedToChartArea = "ChartArea1";
+            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend2.IsDockedInsideChartArea = false;
+            legend2.Name = "Legend1";
+            this.SpeedChart.Legends.Add(legend2);
             this.SpeedChart.Location = new System.Drawing.Point(16, 297);
             this.SpeedChart.Name = "SpeedChart";
-            series14.ChartArea = "ChartArea1";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series14.Legend = "Legend1";
-            series14.Name = "Series1";
-            this.SpeedChart.Series.Add(series14);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.SpeedChart.Series.Add(series2);
             this.SpeedChart.Size = new System.Drawing.Size(200, 200);
             this.SpeedChart.TabIndex = 3;
             this.SpeedChart.Text = "chart1";
@@ -114,7 +112,7 @@
             this.ResistanceLabel.AutoSize = true;
             this.ResistanceLabel.Location = new System.Drawing.Point(13, 517);
             this.ResistanceLabel.Name = "ResistanceLabel";
-            this.ResistanceLabel.Size = new System.Drawing.Size(85, 15);
+            this.ResistanceLabel.Size = new System.Drawing.Size(74, 13);
             this.ResistanceLabel.TabIndex = 4;
             this.ResistanceLabel.Text = "Resistance: %";
             // 
@@ -128,20 +126,6 @@
             this.button1.Text = "See Details";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // bgHrChart
-            // 
-            this.bgHrChart.WorkerReportsProgress = true;
-            this.bgHrChart.WorkerSupportsCancellation = true;
-            this.bgHrChart.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgHrChart_DoWork);
-            this.bgHrChart.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgHrChart_ProgressChanged);
-            this.bgHrChart.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgHrChart_RunWorkerCompleted);
-            // 
-            // bgSpeedChart
-            // 
-            this.bgSpeedChart.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgSpeedChart_DoWork);
-            this.bgSpeedChart.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgSpeedChart_ProgressChanged);
-            this.bgSpeedChart.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgSpeedChart_RunWorkerCompleted);
             // 
             // SmallPatientView
             // 
@@ -172,7 +156,5 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart SpeedChart;
         private System.Windows.Forms.Label ResistanceLabel;
         private System.Windows.Forms.Button button1;
-        private System.ComponentModel.BackgroundWorker bgHrChart;
-        private System.ComponentModel.BackgroundWorker bgSpeedChart;
     }
 }

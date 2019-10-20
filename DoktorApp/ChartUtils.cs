@@ -57,15 +57,52 @@ namespace DoktorApp
                     counter++;
                 }
             }
-
-            if (chart.InvokeRequired)
+            try
             {
+                if (chart.InvokeRequired)
+                {
                 chart.Invoke(new MethodInvoker(delegate { updateChart(chart, datapoints); }));
                 return;
-            }
-            chart.Series.Clear();
-            chart.Series.Add(series1);
+                }
             
+                chart.Series.Clear();
+                chart.Series.Add(series1);
+            }
+            catch (Exception e)
+            {
+
+            }
+            
+        }
+
+        public static Series GettSeriesFromDatapoints(List<CustomDatapoint> datapoints)
+        {
+            datapoints.Sort((x, y) => x.timestamp.CompareTo(y.timestamp));
+
+
+
+            Series series1 = new Series();
+            series1.ChartType = SeriesChartType.Line;
+
+            int counter = 1;
+            if (datapoints.Count > 240)
+            {
+                foreach (CustomDatapoint datapoint1 in datapoints.GetRange(datapoints.Count - 240, 240))
+                {
+                    series1.Points.Add(new DataPoint(counter, datapoint1.data));
+                    counter++;
+                }
+            }
+            else
+            {
+                foreach (CustomDatapoint datapoint in datapoints)
+                {
+                    series1.Points.Add(new DataPoint(counter, datapoint.data));
+                    counter++;
+                }
+            }
+
+            return series1;
         }
     }
 }

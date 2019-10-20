@@ -57,12 +57,10 @@
             this.InstPowerChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button_sendmessage = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.label_patientname = new System.Windows.Forms.Label();
             this.label_patientnumber = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.doctorID1 = new User_Controlls.DoctorID(this.client);
             ((System.ComponentModel.ISupportInitialize)(this.chart_mainchart)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeartrateChart)).BeginInit();
@@ -72,13 +70,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.InstPowerChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // doctorID1
-            // 
-            this.doctorID1.Location = new System.Drawing.Point(997, 7);
-            this.doctorID1.Name = "doctorID1";
-            this.doctorID1.Size = new System.Drawing.Size(373, 127);
-            this.doctorID1.TabIndex = 2;
             // 
             // chart_mainchart
             // 
@@ -150,6 +141,7 @@
             this.HeartrateChart.Name = "HeartrateChart";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.IsXValueIndexed = true;
             series2.Name = "Series1";
             this.HeartrateChart.Series.Add(series2);
             this.HeartrateChart.Size = new System.Drawing.Size(222, 99);
@@ -159,7 +151,7 @@
             title1.Name = "Title1";
             title1.Text = "Heartrate";
             this.HeartrateChart.Titles.Add(title1);
-            this.HeartrateChart.Click += new System.EventHandler(this.ChartOnClick);
+            this.HeartrateChart.Click += new System.EventHandler(this.HeartrateChartClick);
             // 
             // SpeedChart
             // 
@@ -175,6 +167,7 @@
             this.SpeedChart.Name = "SpeedChart";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.IsXValueIndexed = true;
             series3.Name = "Series1";
             this.SpeedChart.Series.Add(series3);
             this.SpeedChart.Size = new System.Drawing.Size(222, 99);
@@ -184,7 +177,7 @@
             title2.Name = "Title1";
             title2.Text = "Speed";
             this.SpeedChart.Titles.Add(title2);
-            this.SpeedChart.Click += new System.EventHandler(this.ChartOnClick);
+            this.SpeedChart.Click += new System.EventHandler(this.SpeedChartClick);
             // 
             // InstCadenceChart
             // 
@@ -209,7 +202,7 @@
             title3.Name = "Title1";
             title3.Text = "Instant Cadence";
             this.InstCadenceChart.Titles.Add(title3);
-            this.InstCadenceChart.Click += new System.EventHandler(this.ChartOnClick);
+            this.InstCadenceChart.Click += new System.EventHandler(this.InstantCadenceChartClick);
             // 
             // AccPowerChart
             // 
@@ -232,9 +225,9 @@
             this.AccPowerChart.Text = "chart4";
             title4.Alignment = System.Drawing.ContentAlignment.TopRight;
             title4.Name = "Title1";
-            title4.Text = "Acc. Power";
+            title4.Text = "Accumulated Power";
             this.AccPowerChart.Titles.Add(title4);
-            this.AccPowerChart.Click += new System.EventHandler(this.ChartOnClick);
+            this.AccPowerChart.Click += new System.EventHandler(this.AccumulatedPowerChartClick);
             // 
             // InstPowerChart
             // 
@@ -259,7 +252,7 @@
             title5.Name = "Title1";
             title5.Text = "Instant Power";
             this.InstPowerChart.Titles.Add(title5);
-            this.InstPowerChart.Click += new System.EventHandler(this.ChartOnClick);
+            this.InstPowerChart.Click += new System.EventHandler(this.InstantPowerChartClick);
             // 
             // button_sendmessage
             // 
@@ -327,7 +320,6 @@
             this.BackgroundImage = global::DoktorApp.Properties.Resources.Hospital3;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1040, 620);
-            this.Controls.Add(this.doctorID1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label_patientnumber);
             this.Controls.Add(this.label_patientname);
@@ -337,7 +329,6 @@
             this.Controls.Add(this.button_file);
             this.Controls.Add(this.chart_mainchart);
             this.Controls.Add(this.flowLayoutPanel1);
-            
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "DetailedPatientView";
@@ -364,7 +355,6 @@
         private System.Windows.Forms.Button button_sendmessage;
         private System.Windows.Forms.PictureBox pictureBox2;
         private User_Controlls.DoctorID doctorID1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.Label label_patientname;
         private System.Windows.Forms.Label label_patientnumber;

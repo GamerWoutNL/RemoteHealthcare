@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
+using static DoktorApp.DetailedPatientView;
 
 namespace DoktorApp.Data_Management
 {
@@ -15,24 +17,30 @@ namespace DoktorApp.Data_Management
 
         public string ergoId { get; set; }
         public List<CustomDatapoint> HeartrateDataPoints { get; set; }
-        public List<Chart> HeartrateChartsListeningForUpdates { get; set; }
+        public ConcurrentBag<Chart> HeartrateChartsListeningForUpdates { get; set; }
         public List<CustomDatapoint> SpeedDataPoints { get; set; }
-        public List<Chart> SpeedChartsListeningForUpdates { get; set; }
+        public ConcurrentBag<Chart> SpeedChartsListeningForUpdates { get; set; }
         public List<CustomDatapoint> DistanceDataPoints { get; set; }
-        public List<Chart> DistanceChartsListeningForUpdates { get; set; }
+        public ConcurrentBag<Chart> DistanceChartsListeningForUpdates { get; set; }
         public List<CustomDatapoint> InstantaniousCadenceDataPoints { get; set; }
-        public List<Chart> InstantaniousCadenceChartsListeningForUpdates { get; set; }
+        public ConcurrentBag<Chart> InstantaniousCadenceChartsListeningForUpdates { get; set; }
         public List<CustomDatapoint> AccumulatedPowerDataPoints { get; set; }
-        public List<Chart> AccumulatedPowerChartsListeningForUpdates { get; set; }
+        public ConcurrentBag<Chart> AccumulatedPowerChartsListeningForUpdates { get; set; }
         public List<CustomDatapoint> InstantaniousPowerDataPoints { get; set; }
-        public List<Chart> InstantaniousPowerChartsListeningForUpdates { get; set; }
+        public ConcurrentBag<Chart> InstantaniousPowerChartsListeningForUpdates { get; set; }
         public List<double> EventCountDatapoints { get; set; }
+        public bool MainChartListening { get; set; }
+        public string MainChartListeningToData { get; set; }
+        public Chart mainChart { get; set; }
 
         public PatientStorage(string patientName, string patientNumber, string ergoId)
         {
             this.PatientName = patientName;
             this.PatientNumber = patientNumber;
             this.ergoId = ergoId;
+            this.MainChartListening = false;
+            this.MainChartListeningToData = "";
+            this.mainChart = null;
 
             this.HeartrateDataPoints = new List<CustomDatapoint>();
             this.SpeedDataPoints = new List<CustomDatapoint>();
@@ -42,12 +50,12 @@ namespace DoktorApp.Data_Management
             this.InstantaniousPowerDataPoints = new List<CustomDatapoint>();
             this.EventCountDatapoints = new List<double>();
 
-            this.HeartrateChartsListeningForUpdates = new List<Chart>();
-            this.SpeedChartsListeningForUpdates = new List<Chart>();
-            this.DistanceChartsListeningForUpdates = new List<Chart>();
-            this.InstantaniousCadenceChartsListeningForUpdates = new List<Chart>();
-            this.AccumulatedPowerChartsListeningForUpdates = new List<Chart>();
-            this.InstantaniousPowerChartsListeningForUpdates = new List<Chart>();
+            this.HeartrateChartsListeningForUpdates = new ConcurrentBag<Chart>();
+            this.SpeedChartsListeningForUpdates = new ConcurrentBag<Chart>();
+            this.DistanceChartsListeningForUpdates = new ConcurrentBag<Chart>();
+            this.InstantaniousCadenceChartsListeningForUpdates = new ConcurrentBag<Chart>();
+            this.AccumulatedPowerChartsListeningForUpdates = new ConcurrentBag<Chart>();
+            this.InstantaniousPowerChartsListeningForUpdates = new ConcurrentBag<Chart>();
         }
 
         private void addData(string timestamp, string data, List<CustomDatapoint> list)
@@ -70,6 +78,11 @@ namespace DoktorApp.Data_Management
             {
                 ChartUtils.updateChart(chart, this.HeartrateDataPoints);
             }
+            if (MainChartListening == true && MainChartListeningToData == DataTag.HR.ToString() && mainChart != null)
+            {
+                ChartUtils.updateChart(mainChart, this.HeartrateDataPoints);
+            }
+
         }
 
         public void AddSpeedDataPoint(string timestamp, string data)
@@ -83,6 +96,10 @@ namespace DoktorApp.Data_Management
             {
                 ChartUtils.updateChart(chart, this.SpeedDataPoints);
             }
+            if(MainChartListening == true && MainChartListeningToData == DataTag.SP.ToString() && mainChart != null)
+            {
+                ChartUtils.updateChart(mainChart, this.SpeedDataPoints);
+            }
         }
 
         public void AddDistanceDataPoint(string timestamp, string data)
@@ -92,6 +109,8 @@ namespace DoktorApp.Data_Management
             {
                 ChartUtils.updateChart(chart, this.DistanceDataPoints);
             }
+
+            
         }
 
         public void AddInstantaniousCadenceDataPoint(string timestamp, string data)
@@ -100,6 +119,10 @@ namespace DoktorApp.Data_Management
             foreach (Chart chart in this.InstantaniousCadenceChartsListeningForUpdates)
             {
                 ChartUtils.updateChart(chart, this.InstantaniousCadenceDataPoints);
+            }
+            if (MainChartListening == true && MainChartListeningToData == DataTag.IC.ToString() && mainChart != null)
+            {
+                ChartUtils.updateChart(mainChart, this.InstantaniousCadenceDataPoints);
             }
         }
 
@@ -110,6 +133,10 @@ namespace DoktorApp.Data_Management
             {
                 ChartUtils.updateChart(chart, this.AccumulatedPowerDataPoints);
             }
+            if (MainChartListening == true && MainChartListeningToData == DataTag.AP.ToString() && mainChart != null)
+            {
+                ChartUtils.updateChart(mainChart, this.AccumulatedPowerDataPoints);
+            }
         }
 
         public void AddInstantaniousPowerDataPoint(string timestamp, string data)
@@ -118,6 +145,10 @@ namespace DoktorApp.Data_Management
             foreach (Chart chart in this.InstantaniousPowerChartsListeningForUpdates)
             {
                 ChartUtils.updateChart(chart, this.InstantaniousPowerDataPoints);
+            }
+            if (MainChartListening == true && MainChartListeningToData == DataTag.IP.ToString() && mainChart != null)
+            {
+                ChartUtils.updateChart(mainChart, this.InstantaniousPowerDataPoints);
             }
         }
 
@@ -131,7 +162,7 @@ namespace DoktorApp.Data_Management
             return this.EventCountDatapoints.Contains(Double.Parse(eventCount));
         }
         
-        private void AddListeningChart(Chart chart, List<Chart> charts)
+        private void AddListeningChart(Chart chart, ConcurrentBag<Chart> charts)
         {
             charts.Add(chart);
         }
@@ -164,6 +195,28 @@ namespace DoktorApp.Data_Management
         public void AddListeningInstantaniousPowerChart(Chart chart)
         {
             AddListeningChart(chart, this.InstantaniousPowerChartsListeningForUpdates);
+        }
+
+        public void SetListeningData(DataTag tag)
+        {
+            switch (tag)
+            {
+                case DataTag.HR:
+                    this.MainChartListeningToData = DataTag.HR.ToString();
+                    break;
+                case DataTag.SP:
+                    this.MainChartListeningToData = DataTag.SP.ToString();
+                    break;
+                case DataTag.IC:
+                    this.MainChartListeningToData = DataTag.IC.ToString();
+                    break;
+                case DataTag.AP:
+                    this.MainChartListeningToData = DataTag.AP.ToString();
+                    break;
+                case DataTag.IP:
+                    this.MainChartListeningToData = DataTag.IP.ToString();
+                    break;
+            }
         }
     }
 }

@@ -47,7 +47,12 @@ namespace DoktorApp
 
             //Set placeholders for textboxes
             SetPlaceHolder(textbox_message, "Type message:");
-            
+
+            this.patientStorage.AddListeningHeartrateChart(this.HeartrateChart);
+            this.patientStorage.AddListeningSpeedChart(this.SpeedChart);
+            this.patientStorage.AddListeningInstantaniousCadenceChart(this.InstCadenceChart);
+            this.patientStorage.AddListeningAccumulatedPowerChart(this.AccPowerChart);
+            this.patientStorage.AddListeningInstantaniousPowerChart(this.InstPowerChart);
 
             /////Creates Charts for every DataTag
             chartlist = new Dictionary<DataTag, Chart>();
@@ -99,6 +104,93 @@ namespace DoktorApp
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+        public void HeartrateChartClick(object sender, EventArgs e)
+        {
+            this.chart_mainchart.Series.Clear();
+            this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.HeartrateDataPoints));
+            this.patientStorage.mainChart = this.chart_mainchart;
+            this.chart_mainchart.Titles.Clear();
+            this.chart_mainchart.Titles.Add("Heartrate");
+            this.patientStorage.MainChartListening = true;
+            this.patientStorage.MainChartListeningToData = DataTag.HR.ToString();
+        }
+
+        public void SpeedChartClick(object sender, EventArgs e)
+        {
+            //Chart chart = getChartForMainChart();
+            //this.chart_mainchart = chart;
+            //this.patientStorage.AddListeningSpeedChart(this.chart_mainchart);
+            this.chart_mainchart.Series.Clear();
+            this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.SpeedDataPoints));
+            this.patientStorage.mainChart = this.chart_mainchart;
+            this.chart_mainchart.Titles.Clear();
+            this.chart_mainchart.Titles.Add("Speed");
+            this.patientStorage.MainChartListening = true;
+            this.patientStorage.MainChartListeningToData = DataTag.SP.ToString();
+        }
+
+        public void InstantCadenceChartClick(object sender, EventArgs e)
+        {
+            this.chart_mainchart.Series.Clear();
+            this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.InstantaniousCadenceDataPoints));
+            this.patientStorage.mainChart = this.chart_mainchart;
+            this.chart_mainchart.Titles.Clear();
+            this.chart_mainchart.Titles.Add("Instant Cadence");
+            this.patientStorage.MainChartListening = true;
+            this.patientStorage.MainChartListeningToData = DataTag.IC.ToString();
+        }
+
+        public void AccumulatedPowerChartClick(object sender, EventArgs e)
+        {
+            this.chart_mainchart.Series.Clear();
+            this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.AccumulatedPowerDataPoints));
+            this.patientStorage.mainChart = this.chart_mainchart;
+            this.chart_mainchart.Titles.Clear();
+            this.chart_mainchart.Titles.Add("Accumulated Power");
+            this.patientStorage.MainChartListening = true;
+            this.patientStorage.MainChartListeningToData = DataTag.AP.ToString();
+        }
+
+        public void InstantPowerChartClick(object sender, EventArgs e)
+        {
+            this.chart_mainchart.Series.Clear();
+            this.chart_mainchart.Series.Add(ChartUtils.GettSeriesFromDatapoints(this.patientStorage.InstantaniousPowerDataPoints));
+            this.patientStorage.mainChart = this.chart_mainchart;
+            this.chart_mainchart.Titles.Clear();
+            this.chart_mainchart.Titles.Add("Instant Power");
+            this.patientStorage.MainChartListening = true;
+            this.patientStorage.MainChartListeningToData = DataTag.IP.ToString();
+        }
+
+        public Chart getChartForMainChart()
+        {
+            Chart chart = new Chart();
+            chart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            chart.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
+
+            ChartArea area = new ChartArea();
+            area.Name = "ChartArea1";
+            chart.ChartAreas.Add(area);
+
+            chart.Location = new System.Drawing.Point(285, 143);
+            chart.Margin = new System.Windows.Forms.Padding(2);
+            chart.Name = "chart_mainchart";
+
+            Series series1 = new Series();
+
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Name = "Series1";
+
+            chart.Series.Add(series1);
+            chart.Size = new System.Drawing.Size(613, 390);
+            chart.TabIndex = 7;
+            chart.Text = "chart1";
+
+            return chart;
+        }
+
         public void ChartOnClick(object sender, EventArgs e)
         {
             ChangeMainChart(sender as Chart);
@@ -111,14 +203,16 @@ namespace DoktorApp
         /// <param name="chart"></param>
         public void ChangeMainChart(Chart chart)
         {
-            for(int i = 0; i< chart_mainchart.Series.Count; i++)
+            
+            for (int i = 0; i< chart_mainchart.Series.Count; i++)
             {
                 chart_mainchart.Series.RemoveAt(0);
             }
 
+            
             for (int i = 0; i < chart_mainchart.Titles.Count; i++)
             {
-                chart_mainchart.Titles.RemoveAt(0);
+                chart_mainchart.Series.RemoveAt(0);
             }
 
             chart_mainchart.Series.Add(chart.Series.ElementAt(0));
@@ -246,7 +340,9 @@ namespace DoktorApp
             NotImplementedDialogForm nid = new NotImplementedDialogForm();
             nid.ShowDialog(this);
         }
-        
+
+       
+
 
         // /// // /// // /// // /// 
         //
