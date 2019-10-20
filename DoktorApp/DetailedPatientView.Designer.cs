@@ -47,7 +47,6 @@
             System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailedPatientView));
             this.chart_mainchart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.button_file = new System.Windows.Forms.Button();
             this.textbox_message = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.HeartrateChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -87,17 +86,6 @@
             this.chart_mainchart.Size = new System.Drawing.Size(613, 390);
             this.chart_mainchart.TabIndex = 7;
             this.chart_mainchart.Text = "chart1";
-            // 
-            // button_file
-            // 
-            this.button_file.Location = new System.Drawing.Point(824, 567);
-            this.button_file.Margin = new System.Windows.Forms.Padding(2);
-            this.button_file.Name = "button_file";
-            this.button_file.Size = new System.Drawing.Size(74, 21);
-            this.button_file.TabIndex = 8;
-            this.button_file.Text = "Open File";
-            this.button_file.UseVisualStyleBackColor = true;
-            this.button_file.Click += new System.EventHandler(this.button_file_Click);
             // 
             // textbox_message
             // 
@@ -326,7 +314,6 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.button_sendmessage);
             this.Controls.Add(this.textbox_message);
-            this.Controls.Add(this.button_file);
             this.Controls.Add(this.chart_mainchart);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -343,33 +330,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-			this.textBox1.Location = new System.Drawing.Point(862, 128);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-			this.textBox1.Size = new System.Drawing.Size(100, 22);
-			this.textBox1.TabIndex = 21;
-			// 
-			// textBox1
-			// 
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(968, 127);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 22;
-			this.button2.Text = "Set";
-			this.button2.Click += new System.EventHandler(this.Button2_Click);
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(859, 108);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(78, 17);
-			this.label1.TabIndex = 23;
-			this.label1.Text = "Resistance";
 
         }
 
