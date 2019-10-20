@@ -96,22 +96,40 @@ namespace VREngine
                 if (resistanceChange == -1)
                     if (this.oldResistance != -1)
                         program.ergo.SetResistance(100);
+                if (this.program.ergo.emergencyBrake)
+                {
+                    RefreshAndDraw("Stop!", "Stop!", "STOP");
+                    EmergencyStop();
+                }
                 BLEDataHandler handler = program.ergo.dataHandler;
-                if (handler == null)
+                if (program.ergo.usingSim)
                     handler = program.bLESimulator.bLEDataHandler;
 
                 BLEDataPage16 data = handler.GetDataForVR();
                 if (data != null)
                 {
                     this.doctorMessage = program.ergo.doctorMessage;
-                    RefreshAndDraw(data.speed.ToString(), data.heartRate.ToString(), "");
-                    this.speedBike = (int)data.speed;
+                    RefreshAndDraw(data.speed.ToString(), data.heartRate.ToString(), doctorMessage);
+                    this.speedBike = (int)data.speed/2.0;
                     UpdateSpeedBike((int)(data.speed/3.0));
-                    
+                    // UpdateSpeedBike(10);
+                }
+                else
+                {
+                    //this.doctorMessage = "a message";
+                    //this.speedBike = 10;
+                    //RefreshAndDraw(this.speedBike.ToString(), "Nope", doctorMessage);
+                    //UpdateSpeedBike(this.speedBike);
                 }
                 this.oldResistance = GetResistanceChange();
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(75);
             }
+        }
+
+        public void EmergencyStop()
+        {
+            this.doctorMessage = "STOP";
+            function.DynaPause();
         }
 
         //Organized code start:

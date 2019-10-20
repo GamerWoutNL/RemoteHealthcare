@@ -32,7 +32,6 @@ namespace ErgoConnect
             string patientNumber = Console.ReadLine();
             Console.WriteLine("Ergo ID: ");
             string ergoId = Console.ReadLine();
-
             Program program = new Program(ergoId, patientName, patientNumber); 
         }
 
@@ -47,7 +46,7 @@ namespace ErgoConnect
 			this.ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
 			client.bleConnect = ergo;
 			this.ergo.Connect();
-            //this.VRHandler = new VRHandler(this);
+            this.VRHandler = new VRHandler(this);
             Console.Read();
 			client.Disconnect();
 		}
