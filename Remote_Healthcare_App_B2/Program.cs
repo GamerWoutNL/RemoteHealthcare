@@ -1,61 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client;
-using ErgoConnect.BluetoothLowEnergy;
+﻿using ErgoConnect.BluetoothLowEnergy;
 using Server;
-using VREngine;
+using System;
 using System.Threading;
+using VREngine;
 
 namespace ErgoConnect
 {
-    /// <summary>
-    /// The Program class starts up the application. You can use the simulator to receive data without having physical access to an Ergometer / HR-sensor.
-    /// </summary>
-    public class Program : ISim
-    {
-		private Client.Client client;
-		private string ergoID;
-        private string patientName;
-        private string patientNumber;
-        public VRHandler VRHandler;
-        public BLEConnect ergo;
-        public BLESimulator bLESimulator;
+	/// <summary>
+	/// The Program class starts up the application. You can use the simulator to receive data without having physical access to an Ergometer / HR-sensor.
+	/// </summary>
+	public class Program : ISim
+	{
+		private readonly Client.Client client;
+		private readonly string ergoID;
+		private readonly string patientName;
+		private readonly string patientNumber;
+		public VRHandler VRHandler;
+		public BLEConnect ergo;
+		public BLESimulator bLESimulator;
 
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Patient name: ");
-            string patientName = Console.ReadLine();
-            Console.WriteLine("Patient number: ");
-            string patientNumber = Console.ReadLine();
-            Console.WriteLine("Ergo ID: ");
-            string ergoId = Console.ReadLine();
-            Program program = new Program(ergoId, patientName, patientNumber); 
-        }
+		public static void Main(string[] args)
+		{
+			Console.WriteLine("Patient name: ");
+			string patientName = Console.ReadLine();
+			Console.WriteLine("Patient number: ");
+			string patientNumber = Console.ReadLine();
+			Console.WriteLine("Ergo ID: ");
+			string ergoId = Console.ReadLine();
+			Program program = new Program(ergoId, patientName, patientNumber);
+		}
 
 		public Program(string ergoID, string patientName, string patientNumber)
 		{
-            this.patientName = patientName;
-            this.patientNumber = patientNumber;
+			this.patientName = patientName;
+			this.patientNumber = patientNumber;
 			this.ergoID = ergoID;
 			this.client = new Client.Client();
-			client.Connect("localhost", 1717, ergoID);
-			client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
-			this.ergo = new BLEConnect(ergoID, client, this, patientName, patientNumber);
-			client.bleConnect = ergo;
+			this.client.Connect("localhost", 1717, ergoID);
+			this.client.Write($"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>setid<{Tag.ID.ToString()}>{this.ergoID}<{Tag.EOF.ToString()}>");
+			this.ergo = new BLEConnect(ergoID, this.client, this, patientName, patientNumber);
+			this.client.BleConnect = this.ergo;
 			this.ergo.Connect();
-            this.VRHandler = new VRHandler(this);
-            Console.Read();
-			client.Disconnect();
+			this.VRHandler = new VRHandler(this);
+			Console.Read();
+			this.client.Disconnect();
 		}
 
-        public void Create()
+		public void Create()
 		{
 			Console.WriteLine("No connection with bike, using simulator.");
-			bLESimulator = new BLESimulator(ergoID, client, patientName, patientNumber);
-            new Thread(new ThreadStart(bLESimulator.RunSimulator)).Start();
+			this.bLESimulator = new BLESimulator(this.ergoID, this.client, this.patientName, this.patientNumber);
+			new Thread(new ThreadStart(this.bLESimulator.RunSimulator)).Start();
 		}
 	}
 }

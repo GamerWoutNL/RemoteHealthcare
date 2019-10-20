@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Server.Data
 {
-	class FileWriter
+	internal class FileWriter
 	{
 		/*
         TO DO
@@ -15,30 +11,36 @@ namespace Server.Data
         Objects wegschrijven doormiddel van Memorystream.ToArray()
         */
 		public string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\PatientData";
-		public void writeFile(string clientID, string message)
+		public void WriteFile(string clientID, string message)
 		{
-			string path = this.dir + @"\" + clientID + ".txt";
-
-			if (!File.Exists(path))
+			try
 			{
-				Directory.CreateDirectory(dir);
-				using (StreamWriter sw = File.CreateText(path))
+				string path = this.dir + @"\" + clientID + ".txt";
+
+				if (!File.Exists(path))
 				{
-					sw.WriteLine(message);
+					Directory.CreateDirectory(this.dir);
+					using (StreamWriter sw = File.CreateText(path))
+					{
+						sw.WriteLine(message);
+					}
+				}
+				else
+				{
+					using (StreamWriter sw = File.AppendText(path))
+					{
+						sw.WriteLine(message);
+					}
 				}
 			}
-			else
+			catch (Exception)
 			{
-				using (StreamWriter sw = File.AppendText(path))
-				{
-					sw.WriteLine(message);
-				}
-			}
 
+			}
 		}
 
-		public static bool checkPassword(string us, string pw)
-        {
+		public static bool CheckPassword(string us, string pw)
+		{
 			try
 			{
 				string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\DoctorLogin.txt";
@@ -71,7 +73,7 @@ namespace Server.Data
 
 		}
 
-		public string readFile(string clientID)
+		public string ReadFile(string clientID)
 		{
 
 			string path = this.dir + @"\" + clientID + ".txt";

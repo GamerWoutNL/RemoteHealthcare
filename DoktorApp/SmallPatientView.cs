@@ -1,119 +1,117 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using DoktorApp.Communication;
 using DoktorApp.Data_Management;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace DoktorApp
 {
-    public partial class SmallPatientView : UserControl
-    {
-		private Client client;
+	public partial class SmallPatientView : UserControl
+	{
+		private readonly Client client;
 
-        
-        public string patientName { get; set; }
-        public string patientNumber { get; set; }
-        public int resistance { get; set; }
-        public string doctorID { get; set; }
-        internal List<CustomDatapoint> HeartrateDatapoints { get => heartrateDatapoints; set => heartrateDatapoints = value; }
 
-        private List<CustomDatapoint> heartrateDatapoints = new List<CustomDatapoint>();
-        
-        internal List<CustomDatapoint> SpeedDataPoints { get => speedDataPoints; set => speedDataPoints = value; }
-        internal PatientStorage Storage { get => storage; set => storage = value; }
+		public string patientName { get; set; }
+		public string patientNumber { get; set; }
+		public int resistance { get; set; }
+		public string doctorID { get; set; }
+		internal List<CustomDatapoint> HeartrateDatapoints { get => this.heartrateDatapoints; set => this.heartrateDatapoints = value; }
 
-        private PatientStorage storage;
-        private List<CustomDatapoint> speedDataPoints = new List<CustomDatapoint>();
+		private List<CustomDatapoint> heartrateDatapoints = new List<CustomDatapoint>();
 
-        public SmallPatientView(string PatientName, string PatientNumber, Client client, PatientStorage storage)
-        {
+		internal List<CustomDatapoint> SpeedDataPoints { get => this.speedDataPoints; set => this.speedDataPoints = value; }
+		internal PatientStorage Storage { get => this.storage; set => this.storage = value; }
+
+		private PatientStorage storage;
+		private List<CustomDatapoint> speedDataPoints = new List<CustomDatapoint>();
+
+		public SmallPatientView(string PatientName, string PatientNumber, Client client, PatientStorage storage)
+		{
 			this.client = client;
-            this.Storage = storage;
-            InitializeComponent();
-            this.PatientNameLabel.Text = $"Patient naam: {PatientName}";
-            this.PatientNumberLabel.Text = $"Patient nummer: {PatientNumber}";
-            //this.doctorID = doctorID;
+			this.Storage = storage;
+			this.InitializeComponent();
+			this.PatientNameLabel.Text = $"Patient naam: {PatientName}";
+			this.PatientNumberLabel.Text = $"Patient nummer: {PatientNumber}";
+			//this.doctorID = doctorID;
 
-            this.patientName = PatientName;
-            this.patientNumber = PatientNumber;
-            
-            this.HeartrateChart.Series.Clear();
+			this.patientName = PatientName;
+			this.patientNumber = PatientNumber;
 
-            // AddHeartrateDataPoint(new HeartrateDatapoint(new DateTime(2017, 05, 17, 12, 12, 12), 89));
-            //AddHeartrateDataPoint(new HeartrateDatapoint(DateTime.Now, 78));
+			this.HeartrateChart.Series.Clear();
 
-           // bgHrChart_DoWork(this.bgHrChart, new DoWorkEventArgs(""));
+			// AddHeartrateDataPoint(new HeartrateDatapoint(new DateTime(2017, 05, 17, 12, 12, 12), 89));
+			//AddHeartrateDataPoint(new HeartrateDatapoint(DateTime.Now, 78));
 
-            this.storage.AddListeningHeartrateChart(this.HeartrateChart);
-            this.storage.AddListeningSpeedChart(this.SpeedChart);
-            
-        }
+			// bgHrChart_DoWork(this.bgHrChart, new DoWorkEventArgs(""));
 
-        
+			this.storage.AddListeningHeartrateChart(this.HeartrateChart);
+			this.storage.AddListeningSpeedChart(this.SpeedChart);
 
-        private void PatientNameLabel_Click(object sender, EventArgs e)
-        {
-            DetailedPatientView patientView = new DetailedPatientView(patientName, patientNumber, client, storage);
-            patientView.Show();
-        }
-
-        private void AddHeartrateDataPoint(CustomDatapoint hrPoint)
-        {
-            this.heartrateDatapoints.Add(hrPoint);
-            //this.heartrateDatapoints.OrderByDescending(heartrateDatapoint => heartrateDatapoint.timestamp);
-            this.heartrateDatapoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
-
-            this.HeartrateChart.Series.Clear();
-
-            Series heartrateSeries = new Series();
-            heartrateSeries.ChartType = SeriesChartType.Line;
-            heartrateSeries.Name = "Heartrate";
-            
-            int counter = 1;
-            foreach(CustomDatapoint hrPoint1 in HeartrateDatapoints)
-            {
-                
-                heartrateSeries.Points.Add(new DataPoint(counter, hrPoint1.data));
-                counter++;
-            }
-
-            this.HeartrateChart.Series.Add(heartrateSeries);
-        }
-
-        private void AddSpeedDataPoint(CustomDatapoint speedDataPoint)
-        {
-            this.speedDataPoints.Add(speedDataPoint);
-            this.speedDataPoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
-
-            this.SpeedChart.Series.Clear();
-
-            Series speedSeries = new Series();
-            speedSeries.ChartType = SeriesChartType.Line;
-            speedSeries.Name = "Speed";
-
-            int counter = 1;
-            foreach(CustomDatapoint spPoint1 in SpeedDataPoints)
-            {
-                speedSeries.Points.Add(new DataPoint(counter, spPoint1.data));
-                counter++;
-            }
-
-            this.SpeedChart.Series.Add(speedSeries);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DetailedPatientView patientView = new DetailedPatientView(patientName, patientNumber, client, storage);
-            patientView.Show();
-        }
+		}
 
 
-    }
+
+		private void PatientNameLabel_Click(object sender, EventArgs e)
+		{
+			DetailedPatientView patientView = new DetailedPatientView(this.patientName, this.patientNumber, this.client, this.storage);
+			patientView.Show();
+		}
+
+		private void AddHeartrateDataPoint(CustomDatapoint hrPoint)
+		{
+			this.heartrateDatapoints.Add(hrPoint);
+			//this.heartrateDatapoints.OrderByDescending(heartrateDatapoint => heartrateDatapoint.timestamp);
+			this.heartrateDatapoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
+
+			this.HeartrateChart.Series.Clear();
+
+			Series heartrateSeries = new Series
+			{
+				ChartType = SeriesChartType.Line,
+				Name = "Heartrate"
+			};
+
+			int counter = 1;
+			foreach (CustomDatapoint hrPoint1 in this.HeartrateDatapoints)
+			{
+
+				heartrateSeries.Points.Add(new DataPoint(counter, hrPoint1.data));
+				counter++;
+			}
+
+			this.HeartrateChart.Series.Add(heartrateSeries);
+		}
+
+		private void AddSpeedDataPoint(CustomDatapoint speedDataPoint)
+		{
+			this.speedDataPoints.Add(speedDataPoint);
+			this.speedDataPoints.Sort((x, y) => y.timestamp.CompareTo(x.timestamp));
+
+			this.SpeedChart.Series.Clear();
+
+			Series speedSeries = new Series
+			{
+				ChartType = SeriesChartType.Line,
+				Name = "Speed"
+			};
+
+			int counter = 1;
+			foreach (CustomDatapoint spPoint1 in this.SpeedDataPoints)
+			{
+				speedSeries.Points.Add(new DataPoint(counter, spPoint1.data));
+				counter++;
+			}
+
+			this.SpeedChart.Series.Add(speedSeries);
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			DetailedPatientView patientView = new DetailedPatientView(this.patientName, this.patientNumber, this.client, this.storage);
+			patientView.Show();
+		}
+
+
+	}
 }

@@ -1,44 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO;
-using System.Threading;
-using VRCode;
 using Sprint2VR.VR;
-using System.Collections.Concurrent;
+using System;
+using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using VRCode;
 
 namespace Sprint2VR
 {
-    public class VRClient
-    {
-        private TcpClient client;
-        private NetworkStream stream;
-		private byte[] buffer;
+	public class VRClient
+	{
+		private readonly TcpClient client;
+		private NetworkStream stream;
+		private readonly byte[] buffer;
 		private byte[] totalBuffer;
 		private string tunnelID;
-		public List<JObject> responses { get; }
+		public List<JObject> Responses { get; set; }
 
-		private static object lockingObject = new object();
+		private static readonly object lockingObject = new object();
 
 		public VRClient()
-        {
-            this.client = new TcpClient();
+		{
+			this.client = new TcpClient();
 			this.buffer = new byte[1024];
 			this.totalBuffer = new byte[0];
-			this.responses = new List<JObject>();
+			this.Responses = new List<JObject>();
 		}
 
-        public async Task Connect(string server, int port)
-        {
-			await client.ConnectAsync(server, port);
+		public async Task Connect(string server, int port)
+		{
+			await this.client.ConnectAsync(server, port);
 			Console.WriteLine($"Connected to {server} on port {port}");
 			this.stream = this.client.GetStream();
-			stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(this.OnRead), null);
 		}
 
 		private void OnRead(IAsyncResult ar)
@@ -46,20 +43,20 @@ namespace Sprint2VR
 			int receivedByte = this.stream.EndRead(ar);
 			this.totalBuffer = this.Concat(this.totalBuffer, this.buffer, receivedByte);
 
-			while (totalBuffer.Length >= 4)
+			while (this.totalBuffer.Length >= 4)
 			{
-				int packetSize = BitConverter.ToInt32(totalBuffer, 0);
-				if (totalBuffer.Length >= packetSize + 4)
+				int packetSize = BitConverter.ToInt32(this.totalBuffer, 0);
+				if (this.totalBuffer.Length >= packetSize + 4)
 				{
-					string data = Encoding.UTF8.GetString(totalBuffer, 4, packetSize);
+					string data = Encoding.UTF8.GetString(this.totalBuffer, 4, packetSize);
 					JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
 					lock (lockingObject)
 					{
-						responses.Add(json);
+						this.Responses.Add(json);
 					}
 
-					this.totalBuffer = totalBuffer.SubArray(4 + packetSize, totalBuffer.Length - packetSize - 4);
+					this.totalBuffer = this.totalBuffer.SubArray(4 + packetSize, this.totalBuffer.Length - packetSize - 4);
 				}
 				else
 				{
@@ -67,17 +64,17 @@ namespace Sprint2VR
 				}
 			}
 
-			stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(this.OnRead), null);
 		}
 
 		public void Disconnect()
-        {
-            this.stream.Close();
-            this.client.Close();
-        }
+		{
+			this.stream.Close();
+			this.client.Close();
+		}
 
-        private void SendMessage(dynamic message)
-        {
+		private void SendMessage(dynamic message)
+		{
 			byte[] bytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(message));
 			this.stream.WriteAsync(BitConverter.GetBytes(bytes.Length), 0, 4).Wait();
 			this.stream.WriteAsync(bytes, 0, bytes.Length).Wait();
@@ -87,9 +84,9 @@ namespace Sprint2VR
 
 		public void OpenTunnel(string _key)
 		{
-			SendMessage(new { id = IDOperations.tunnelCreate, data = new { session = GetSessionID(), key = _key } });
+			this.SendMessage(new { id = IDOperations.tunnelCreate, data = new { session = this.GetSessionID(), key = _key } });
 
-			JObject response = SearchResponses(IDOperations.tunnelCreate);
+			JObject response = this.SearchResponses(IDOperations.tunnelCreate);
 			JObject data = (JObject)response.GetValue("data");
 
 			this.tunnelID = data.GetValue("id").ToString();
@@ -97,20 +94,20 @@ namespace Sprint2VR
 
 		public void SendTunnel(string _id, dynamic _data)
 		{
-			SendMessage(new { id = IDOperations.tunnelSend, data = new { dest = tunnelID, data = new { id = _id, data = _data } } });
+			this.SendMessage(new { id = IDOperations.tunnelSend, data = new { dest = this.tunnelID, data = new { id = _id, data = _data } } });
 		}
 
 		public JObject SearchResponses(string id)
 		{
 			for (int i = 0; i < 10000; i++)
 			{
-				for (int j = responses.Count - 1; j >= 0; j--)
+				for (int j = this.Responses.Count - 1; j >= 0; j--)
 				{
-					JObject json = responses[j];
+					JObject json = this.Responses[j];
 
 					if (json.GetValue("id").ToString() == id)
 					{
-						responses.Remove(json);
+						this.Responses.Remove(json);
 						return json;
 					}
 
@@ -121,7 +118,7 @@ namespace Sprint2VR
 
 						if (data2.GetValue("id").ToString() == id)
 						{
-							responses.Remove(json);
+							this.Responses.Remove(json);
 							return json;
 						}
 					}
@@ -138,17 +135,18 @@ namespace Sprint2VR
 
 		private string GetSessionID()
 		{
-			SendMessage(new { id = IDOperations.sessionList });
+			this.SendMessage(new { id = IDOperations.sessionList });
 
-			JObject json = SearchResponses(IDOperations.sessionList);
+			JObject json = this.SearchResponses(IDOperations.sessionList);
 
 			if (json != null)
 			{
 				foreach (JObject session in json.GetValue("data"))
 				{
 					JObject sessionInfo = (JObject)session.GetValue("clientinfo");
-                    Console.WriteLine(sessionInfo.GetValue("user"));
-					if (sessionInfo.GetValue("user").ToString() == Environment.UserName) { // was Environment.Username // Kan CavePC_1 zijn
+					Console.WriteLine(sessionInfo.GetValue("user"));
+					if (sessionInfo.GetValue("user").ToString() == Environment.UserName)
+					{ // was Environment.Username // Kan CavePC_1 zijn
 						return session.GetValue("id").ToString();
 					}
 				}

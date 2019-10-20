@@ -1,32 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sprint2VR.VR.Components
+﻿namespace Sprint2VR.VR.Components
 {
-    public class VRAnimation : VRComponent
-    {
-        public string name;
-        public double speed;
+	public class VRAnimation : VRComponent
+	{
+		public string name;
+		public double speed;
 
-        public VRAnimation(string name, double speed)
-        {
-            this.name = name;
-            this.speed = speed;
-        }
+		public VRAnimation(string name, double speed)
+		{
+			this.name = name;
+			this.speed = speed;
+		}
 
-        public override dynamic GetDynamic()
-        {
-            return new
-            {
-                animation = new
-                {
-                    name,
-                    speed
-                }
-            };
-        }
-    }
+		public override dynamic GetDynamic()
+		{
+			return new
+			{
+				animation = new
+				{
+					this.name,
+					this.speed
+				}
+			};
+		}
+	}
 }

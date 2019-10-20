@@ -1,47 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Threading;
-using Server;
-using Server.Data;
-using System.Net;
+﻿using Server.Data;
+using System;
 using System.IO;
+using System.Net.Sockets;
+using System.Threading;
 
 
 namespace Server
 {
-    public class ServerClient
-    {
-        private TcpClient client;
-		private Server server;
-        private NetworkStream stream;
-        private byte[] buffer;
+	public class ServerClient
+	{
+		private readonly TcpClient client;
+		private readonly Server server;
+		private readonly NetworkStream stream;
+		private readonly byte[] buffer;
 		private bool running = true;
 		private string totalBuffer;
-		public string ergoID { get; set; }
-        public string patientName { get; set; }
-        public string patienNumber { get; set; }
+		public string ErgoID { get; set; }
+		public string PatientName { get; set; }
+		public string PatienNumber { get; set; }
 
-        public ServerClient(TcpClient client, Server server)
-        {
-            this.client = client;
-            this.stream = this.client.GetStream();
+		public ServerClient(TcpClient client, Server server)
+		{
+			this.client = client;
+			this.stream = this.client.GetStream();
 			this.server = server;
-            this.buffer = new byte[1024];
-            this.totalBuffer = string.Empty;
-			this.ergoID = string.Empty;
-            this.patientName = string.Empty;
-            this.patienNumber = string.Empty;
+			this.buffer = new byte[1024];
+			this.totalBuffer = string.Empty;
+			this.ErgoID = string.Empty;
+			this.PatientName = string.Empty;
+			this.PatienNumber = string.Empty;
 
-			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
-        }
+			this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(this.OnRead), null);
+		}
 
-        private void OnRead(IAsyncResult ar)
-        {
+		private void OnRead(IAsyncResult ar)
+		{
 			try
 			{
 				int count = this.stream.EndRead(ar);
@@ -55,13 +48,13 @@ namespace Server
 
 					this.HandlePacket(packet);
 				}
-				this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+				this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(this.OnRead), null);
 			}
 			catch (IOException)
 			{
 				this.stream.Close();
 				this.client.Close();
-				this.server.clients.Remove(this);
+				this.server.Clients.Remove(this);
 				Console.WriteLine("Client disconnected");
 			}
 		}
@@ -99,7 +92,7 @@ namespace Server
 						string pnuValue = TagDecoder.GetValueByTag(Tag.PNU, packet);
 						this.HandleInputErgo(tag, TagDecoder.GetValueByTag(tag, packet), idValue, tsValue, pnuValue);
 						break;
-					// Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
+						// Default case should be changed to a real case x:, Will the value of mt also be an enum? >> If not should be a string / integer.
 				}
 			}
 		}
@@ -115,59 +108,58 @@ namespace Server
 
 		private void HandleSetErgoID(string packet)
 		{
-			this.ergoID = TagDecoder.GetValueByTag(Tag.ID, packet);
-        }
+			this.ErgoID = TagDecoder.GetValueByTag(Tag.ID, packet);
+		}
 
 		private void HandleInputErgo(Tag tag, string value, string ergoID, string timestamp, string pnu)
-        {
-            if (value != null)
-            {
-                ClientData clientData;
-                if (!this.server.clientDatas.TryGetValue(ergoID, out clientData))
-                {
-                    clientData = new ClientData();
-                    this.server.clientDatas.Add(ergoID, clientData);
-                    //if (pnu != null)
-                    //    boundData.Add(pnu, ergoID);
-                }
-                switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
-                {
-                    case Tag.ET:
-                        clientData.AddET(value, timestamp);
-                        break;
-                    case Tag.DT:
-                        clientData.AddDT(value, timestamp);
-                        break;
-                    case Tag.SP:
-                        clientData.AddSP(value, timestamp);
-                        break;
-                    case Tag.HR:
-                        clientData.AddHR(value, timestamp);
-                        break;
-                    case Tag.EC:
-                        clientData.AddEC(value, timestamp);
-                        break;
-                    case Tag.IC:
-                        clientData.AddIC(value, timestamp);
-                        break;
-                    case Tag.AP:
-                        clientData.AddAP(value, timestamp);
-                        break;
-                    case Tag.IP:
-                        clientData.AddIP(value, timestamp);
-                        break;
-                    case Tag.PNA:
-                        clientData.SetPNA(value);
-                        break;
-                    case Tag.PNU:
-                        clientData.SetPNU(value);
-                        break;
-                }
-            }
-        }
+		{
+			if (value != null)
+			{
+				if (!this.server.ClientDatas.TryGetValue(ergoID, out ClientData clientData))
+				{
+					clientData = new ClientData();
+					this.server.ClientDatas.Add(ergoID, clientData);
+					//if (pnu != null)
+					//    boundData.Add(pnu, ergoID);
+				}
+				switch (tag) // Timestamp should also be injected below! Adding it seperate is basically useless.
+				{
+					case Tag.ET:
+						clientData.AddET(value, timestamp);
+						break;
+					case Tag.DT:
+						clientData.AddDT(value, timestamp);
+						break;
+					case Tag.SP:
+						clientData.AddSP(value, timestamp);
+						break;
+					case Tag.HR:
+						clientData.AddHR(value, timestamp);
+						break;
+					case Tag.EC:
+						clientData.AddEC(value, timestamp);
+						break;
+					case Tag.IC:
+						clientData.AddIC(value, timestamp);
+						break;
+					case Tag.AP:
+						clientData.AddAP(value, timestamp);
+						break;
+					case Tag.IP:
+						clientData.AddIP(value, timestamp);
+						break;
+					case Tag.PNA:
+						clientData.SetPNA(value);
+						break;
+					case Tag.PNU:
+						clientData.SetPNU(value);
+						break;
+				}
+			}
+		}
 
-        private void HandleInputDoctor(string packet)
-        {
+		private void HandleInputDoctor(string packet)
+		{
 			string action = TagDecoder.GetValueByTag(Tag.AC, packet);
 
 			if (action == "login")
@@ -218,16 +210,16 @@ namespace Server
 			string username = TagDecoder.GetValueByTag(Tag.UN, packet);
 			string password = TagDecoder.GetValueByTag(Tag.PW, packet);
 
-            if (FileWriter.checkPassword(username, password))
-            {
-                this.server.doctor = this;
-                this.server.streaming = true;
+			if (FileWriter.CheckPassword(username, password))
+			{
+				this.server.Doctor = this;
+				this.server.Streaming = true;
 
-                this.Write($"<{Tag.LR.ToString()}>true<{Tag.EOF.ToString()}>");
-                new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
-            }
+				this.Write($"<{Tag.LR.ToString()}>true<{Tag.EOF.ToString()}>");
+				new Thread(new ThreadStart(this.server.StartStreamingDataToDoctor)).Start();
+			}
 
-			
+
 		}
 
 		private void HandleEmergencyBrake(string packet)
@@ -244,14 +236,9 @@ namespace Server
 			this.server.WriteToSpecificErgo(bikeID, $"<{Tag.MT.ToString()}>ergo<{Tag.AC.ToString()}>resistance<{Tag.SR}>{resistance}<{Tag.EOF.ToString()}>");
 		}
 
-		private void HandleInputVR()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Stop()
-        {
-            running = false;
-        }
-    }
+		public void Stop()
+		{
+			this.running = false;
+		}
+	}
 }

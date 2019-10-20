@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.Data
 {
 	public static class Encrypter
 	{
-		private static byte[] IV = { 187, 165, 69, 255, 230, 174, 56, 74, 46, 87, 255, 203, 93, 21, 168, 114 };
-        
+		private static readonly byte[] IV = { 187, 165, 69, 255, 230, 174, 56, 74, 46, 87, 255, 203, 93, 21, 168, 114 };
+
 
 		public static byte[] Encrypt(string plainText, string key)
 		{
 			byte[] encrypted;
 			byte[] keyBytes = GetKeyBytes(key);
-            FileWriter fileWriter = new FileWriter();
+			FileWriter fileWriter = new FileWriter();
 
 			using (AesManaged aes = new AesManaged())
-			{ 
+			{
 				ICryptoTransform encryptor = aes.CreateEncryptor(keyBytes, IV);
 				using (MemoryStream ms = new MemoryStream())
 				{
@@ -35,18 +32,18 @@ namespace Server.Data
 				}
 			}
 
-            if (TagDecoder.GetValueByTag(Tag.PNU, plainText) != null)
-            {
-                string s = "";
-                foreach(byte encryptedByte in encrypted)
-                {
-                    s += encryptedByte.ToString();
-                }
-                fileWriter.writeFile(TagDecoder.GetValueByTag(Tag.PNU, plainText), s);
-            }
+			if (TagDecoder.GetValueByTag(Tag.PNU, plainText) != null)
+			{
+				string s = "";
+				foreach (byte encryptedByte in encrypted)
+				{
+					s += encryptedByte.ToString();
+				}
+				fileWriter.WriteFile(TagDecoder.GetValueByTag(Tag.PNU, plainText), s);
+			}
 
 
-            return encrypted;
+			return encrypted;
 		}
 
 		public static string Decrypt(byte[] cipherText, string key)
