@@ -112,6 +112,7 @@ namespace Client
 		private void HandleSetResistance(string packet)
 		{
 			int resistancePercentage = int.Parse(TagDecoder.GetValueByTag(Tag.SR, packet));
+			Console.WriteLine(resistancePercentage);
 			this.bleConnect.SetResistance(resistancePercentage);
 		}
 

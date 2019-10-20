@@ -226,7 +226,7 @@ namespace DoktorApp
 			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>brake<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.EOF.ToString()}>");
 		}
 
-		private void SetResistance(string ergoID, int percentage)
+		private void SetResistance(string ergoID, string percentage)
 		{
 			this.client.Write($"<{Server.Tag.MT.ToString()}>doctor<{Server.Tag.AC.ToString()}>resistance<{Server.Tag.ID.ToString()}>{ergoID}<{Server.Tag.SR.ToString()}>{percentage}<{Server.Tag.EOF.ToString()}>");
 		}
@@ -246,19 +246,26 @@ namespace DoktorApp
             NotImplementedDialogForm nid = new NotImplementedDialogForm();
             nid.ShowDialog(this);
         }
-        
 
-        // /// // /// // /// // /// 
-        //
-        // /// // /// // /// // /// 
-    }
+		private void Button2_Click(object sender, EventArgs e)
+		{
+			this.SetResistance(patientStorage.ergoId, textBox1.Text);
+			textBox1.Clear();
+		}
 
 
 
-    /// <summary>
-    /// Basic info class for dummy data
-    /// </summary>
-    public class ClientInfo
+		// /// // /// // /// // /// 
+		//
+		// /// // /// // /// // /// 
+	}
+
+
+
+	/// <summary>
+	/// Basic info class for dummy data
+	/// </summary>
+	public class ClientInfo
     {
         public ClientInfo() { }
         public string Name { get; set; }
