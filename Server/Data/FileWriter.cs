@@ -13,24 +13,30 @@ namespace Server.Data
 		public string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\RemoteHealthcare\PatientData";
 		public void WriteFile(string clientID, string message)
 		{
-			string path = this.dir + @"\" + clientID + ".txt";
-
-			if (!File.Exists(path))
+			try
 			{
-				Directory.CreateDirectory(this.dir);
-				using (StreamWriter sw = File.CreateText(path))
+				string path = this.dir + @"\" + clientID + ".txt";
+
+				if (!File.Exists(path))
 				{
-					sw.WriteLine(message);
+					Directory.CreateDirectory(this.dir);
+					using (StreamWriter sw = File.CreateText(path))
+					{
+						sw.WriteLine(message);
+					}
+				}
+				else
+				{
+					using (StreamWriter sw = File.AppendText(path))
+					{
+						sw.WriteLine(message);
+					}
 				}
 			}
-			else
+			catch (Exception)
 			{
-				using (StreamWriter sw = File.AppendText(path))
-				{
-					sw.WriteLine(message);
-				}
-			}
 
+			}
 		}
 
 		public static bool CheckPassword(string us, string pw)
