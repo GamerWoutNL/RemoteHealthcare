@@ -24,6 +24,7 @@ namespace ErgoConnect
         private ISim iSim;
         private bool isConnected = false;
         public string doctorMessage = "";
+		public bool emergencyBrake = false;
         public BLE ergometerBLE { get; set; }
         public BLE heartrateBLE { get; set; }
 
