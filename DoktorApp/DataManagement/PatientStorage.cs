@@ -89,7 +89,8 @@ namespace DoktorApp.Data_Management
         {
             if(data != null)
             {
-                addSpeedData(timestamp, Double.Parse(data) * 3.6 , this.SpeedDataPoints);
+               // addSpeedData(timestamp, Double.Parse(data) * 3.6 , this.SpeedDataPoints);
+                addSpeedData(timestamp, Double.Parse(data), this.SpeedDataPoints);
             }
             
             foreach (Chart chart in this.SpeedChartsListeningForUpdates)

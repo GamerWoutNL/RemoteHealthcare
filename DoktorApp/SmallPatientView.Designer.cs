@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.PatientNameLabel = new System.Windows.Forms.Label();
             this.PatientNumberLabel = new System.Windows.Forms.Label();
             this.HeartrateChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -69,21 +69,18 @@
             chartArea1.AxisY.MajorGrid.Enabled = false;
             chartArea1.Name = "ChartArea1";
             this.HeartrateChart.ChartAreas.Add(chartArea1);
-            legend1.DockedToChartArea = "ChartArea1";
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.IsDockedInsideChartArea = false;
-            legend1.Name = "Legend1";
-            this.HeartrateChart.Legends.Add(legend1);
             this.HeartrateChart.Location = new System.Drawing.Point(16, 75);
             this.HeartrateChart.Name = "HeartrateChart";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.HeartrateChart.Series.Add(series1);
             this.HeartrateChart.Size = new System.Drawing.Size(200, 200);
             this.HeartrateChart.TabIndex = 2;
             this.HeartrateChart.Text = "chart1";
+            title1.Name = "Title1";
+            title1.Text = "Heartrate";
+            this.HeartrateChart.Titles.Add(title1);
             // 
             // SpeedChart
             // 
@@ -91,21 +88,18 @@
             chartArea2.AxisY.MajorGrid.Enabled = false;
             chartArea2.Name = "ChartArea1";
             this.SpeedChart.ChartAreas.Add(chartArea2);
-            legend2.DockedToChartArea = "ChartArea1";
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend2.IsDockedInsideChartArea = false;
-            legend2.Name = "Legend1";
-            this.SpeedChart.Legends.Add(legend2);
             this.SpeedChart.Location = new System.Drawing.Point(16, 297);
             this.SpeedChart.Name = "SpeedChart";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.SpeedChart.Series.Add(series2);
             this.SpeedChart.Size = new System.Drawing.Size(200, 200);
             this.SpeedChart.TabIndex = 3;
             this.SpeedChart.Text = "chart1";
+            title2.Name = "Title1";
+            title2.Text = "Speed";
+            this.SpeedChart.Titles.Add(title2);
             // 
             // ResistanceLabel
             // 

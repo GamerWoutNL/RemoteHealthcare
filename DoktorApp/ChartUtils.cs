@@ -57,6 +57,11 @@ namespace DoktorApp
                     counter++;
                 }
             }
+            ChartArea ca1 = new ChartArea();
+            ca1.AxisX.MajorGrid.Enabled = false;
+            ca1.AxisX.LabelStyle.Enabled = false;
+            ca1.AxisY.MajorGrid.Enabled = true;
+
             try
             {
                 if (chart.InvokeRequired)
@@ -64,7 +69,8 @@ namespace DoktorApp
                 chart.Invoke(new MethodInvoker(delegate { updateChart(chart, datapoints); }));
                 return;
                 }
-            
+                chart.ChartAreas.Clear();
+                chart.ChartAreas.Add(ca1);
                 chart.Series.Clear();
                 chart.Series.Add(series1);
             }
